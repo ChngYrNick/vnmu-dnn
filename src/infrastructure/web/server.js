@@ -10,23 +10,23 @@ const start = async () => {
   });
 
   fastify.register(fastifyStatic, {
-    root: path.join(process.cwd(), 'src/infrastructure/web/public'),
+    root: path.join(process.cwd(), 'dist/public'),
     prefix: '/public/',
   });
 
   fastify.register(fastifyView, {
     engine: { nunjucks },
-    root: path.join(process.cwd(), 'src/infrastructure/web/views'),
+    root: path.join(process.cwd(), 'dist/views'),
   });
 
   fastify.get('/', async (request, reply) => {
-    return reply.view('pages/home.html', {
+    return reply.view('pages/home/home.html', {
       title: 'Home Page',
     });
   });
 
   fastify.get('/about', async (request, reply) => {
-    return reply.view('pages/about.html', {
+    return reply.view('pages/about/about.html', {
       title: 'About Page',
     });
   });
