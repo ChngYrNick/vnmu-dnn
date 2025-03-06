@@ -21,7 +21,6 @@ export default defineConfig({
         chunkFileNames: 'public/scripts/[name]-[hash].js',
       },
     },
-    emptyOutDir: true,
     minify: true,
   },
 });

@@ -4,12 +4,18 @@
   "main": "src/main.js",
   "type": "module",
   "scripts": {
+    "start": "node src/main.js",
+    "dev": "npm run web:ui:build && concurrently \"npm run web:ui:dev\" \"npm run web:server:dev\"",
+    "web:server:dev": "node --inspect --watch-path=./dist --watch src/main.js",
+    "web:ui:build": "vite build",
+    "web:ui:dev": "vite build --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Serhii Moskovko",
   "devDependencies": {
     "@types/node": "^22.13.8",
     "@types/nunjucks": "^3.2.6",
+    "concurrently": "^9.1.2",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-html": "^8.1.2",
