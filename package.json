@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/main.js",
-    "dev": "npm run web:ui:build && concurrently \"npm run web:ui:dev\" \"npm run web:server:dev\"",
+    "dev": "npm run web:ui:build && concurrently -n \"web:ui,web:server\" -c \"blue,green\" -k \"npm run web:ui:dev\" \"npm run web:server:dev\"",
     "web:server:dev": "node --inspect --watch-path=./dist --watch src/main.js",
     "web:ui:build": "vite build",
     "web:ui:dev": "vite build --watch",
