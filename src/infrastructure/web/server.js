@@ -20,13 +20,13 @@ const start = async () => {
   });
 
   fastify.get('/', async (request, reply) => {
-    return reply.view('pages/home/home.html', {
+    return reply.view('pages/home.html', {
       title: 'Home Page',
     });
   });
 
   fastify.get('/about', async (request, reply) => {
-    return reply.view('pages/about/about.html', {
+    return reply.view('pages/about.html', {
       title: 'About Page',
     });
   });

@@ -4,10 +4,10 @@
     <title>{{ title }}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script type="module" src="base.js"></script>
+    <script type="module" src="../../scripts/main.js"></script>
   </head>
   <body>
-    {% include "partials/header/header.html" %}
+    {% include "partials/header.html" %}
 
     <main>{% block content %}{% endblock %}</main>
   </body>
