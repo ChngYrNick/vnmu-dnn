@@ -12,8 +12,7 @@ COPY package*.json .
 RUN npm ci --only=production
 COPY . .
 COPY --from=build /usr/src/app/dist ./dist
-RUN mkdir -p ./data ./uploads
-RUN chown -R app:app .
+RUN mkdir -p ./data ./uploads && chown app:app ./data ./uploads
 USER app
 EXPOSE 3000
 CMD ["npm", "start"]
