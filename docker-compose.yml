@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - /srv/app/data:/usr/src/app/data
+      - /srv/app/uploads:/usr/src/app/uploads
+    environment:
+      - NODE_ENV=production

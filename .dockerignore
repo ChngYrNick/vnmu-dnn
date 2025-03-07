@@ -1,0 +1,11 @@
+.git
+.github
+.gitignore
+.editorconfig
+.DS_Store
+node_modules
+npm-debug.log
+eslint.config.js
+prettier.config.js
+data/
+uploads/
