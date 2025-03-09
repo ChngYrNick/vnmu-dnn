@@ -1,3 +1,3 @@
-import { start } from "./infrastructure/web/server.js";
+import { start } from './infrastructure/web/server.js';
 
 start();

@@ -11,8 +11,6 @@ class AuthService {
       .then(() => true)
       .catch(() => false);
   }
-
-
 }
 
 export { AuthService };

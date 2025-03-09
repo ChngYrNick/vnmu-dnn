@@ -11,12 +11,28 @@ const config = [
         ...globals.node,
       },
     },
+    plugins: { prettier: pluginPrettier },
+    files: ['**/*.js'],
+    ignores: ['node_modules/*', 'src/infrastructure/web/ui/**/*'],
+    rules: {
+      ...eslint.configs.recommended.rules,
+      ...configPrettier.rules,
+      'prettier/prettier': 'error',
+    },
+  },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
     plugins: { prettier: pluginPrettier, html: pluginHTML },
-    files: ['**/*.html'],
+    files: ['**/*.html', 'src/infrastructure/web/ui/**/*.js'],
     ignores: ['node_modules/*'],
     rules: {
       ...eslint.configs.recommended.rules,
       ...configPrettier.rules,
+      'prettier/prettier': 'error',
     },
   },
 ];

@@ -16,6 +16,6 @@ const setupRepos = async (fastify) => {
   const setupRepo = new SetupRepo(db, sqlLoader);
 
   await setupRepo.init();
-}
+};
 
 export { setupRepos };
