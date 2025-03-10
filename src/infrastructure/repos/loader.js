@@ -1,8 +1,8 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
-class SQLLoaderService {
-  #store = {};
+class QueryLoaderService {
+  #store = new Map();
   #rootPath = '';
 
   constructor(rootPath) {
@@ -20,19 +20,20 @@ class SQLLoaderService {
       const fullPath = path.join(dirPath, entry.name);
 
       if (entry.isDirectory()) {
-        return this.#load(fullPath);
+        await this.#load(fullPath);
       }
 
       if (entry.isFile() && path.extname(entry.name).toLowerCase() === '.sql') {
         const content = await fs.readFile(fullPath, 'utf8');
-        this.#store[fullPath] = content;
+        const relativePath = path.relative(this.#rootPath, fullPath);
+        this.#store.set(relativePath, content);
       }
     }
   }
 
   get(filePath) {
-    return this.#store[path.join(this.#rootPath, filePath)];
+    return this.#store.get(filePath);
   }
 }
 
-export { SQLLoaderService };
+export { QueryLoaderService };
