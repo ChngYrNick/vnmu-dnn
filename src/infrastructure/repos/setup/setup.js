@@ -7,9 +7,11 @@ class SetupRepo {
     this.#loader = loader;
   }
 
-  async init() {
-    const sql = this.#loader.get('setup/setup.sql');
-    this.#db.exec(sql);
+  async exec() {
+    const schema = this.#loader.get('setup/schema.sql');
+    const data = this.#loader.get('setup/data.sql');
+    this.#db.exec(schema);
+    this.#db.exec(data);
   }
 }
 

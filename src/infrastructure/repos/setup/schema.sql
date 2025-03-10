@@ -18,6 +18,3 @@ CREATE TABLE IF NOT EXISTS user_roles (
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE
 );
-
-INSERT OR IGNORE INTO roles (name) VALUES ('admin');
-INSERT OR IGNORE INTO roles (name) VALUES ('user');
