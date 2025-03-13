@@ -4,6 +4,8 @@ import { setupRoutes } from './setup/routes.js';
 import { setupRepos } from './setup/repos.js';
 import { setupServices } from './setup/services.js';
 import { setupDI } from './setup/di.js';
+import { init } from './setup/init.js';
+import { setupDB } from './setup/db.js';
 
 const start = async () => {
   const fastify = Fastify({
@@ -12,13 +14,17 @@ const start = async () => {
 
   await setupDI(fastify);
 
-  await setupPlugins(fastify);
+  await setupDB(fastify);
 
   await setupServices(fastify);
 
   await setupRepos(fastify);
 
+  await setupPlugins(fastify);
+
   await setupRoutes(fastify);
+
+  await init(fastify);
 
   fastify.listen({ port: 3000, host: '0.0.0.0' }, (err) => {
     if (err) {
