@@ -1,10 +1,12 @@
 const DI = {
+  db: null,
   passwordSerivce: null,
-  queryLoader: null,
+  queryLoaderService: null,
   rolesRepo: null,
   userRepo: null,
   setupRepo: null,
-  db: null,
+  sessionsRepo: null,
+  sessionsSyncRepo: null,
 };
 
 export { DI };
