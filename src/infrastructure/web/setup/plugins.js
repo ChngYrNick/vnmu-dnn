@@ -1,8 +1,7 @@
 import path from 'node:path';
+import nunjucks from 'nunjucks';
 import fastifyStatic from '@fastify/static';
 import fastifyView from '@fastify/view';
-import fastifyJwt from '@fastify/jwt';
-import nunjucks from 'nunjucks';
 
 const setupPlugins = async (fastify) => {
   fastify.register(fastifyStatic, {
@@ -13,13 +12,6 @@ const setupPlugins = async (fastify) => {
   fastify.register(fastifyView, {
     engine: { nunjucks },
     root: path.join(process.cwd(), 'dist/views'),
-  });
-
-  fastify.register(fastifyJwt, {
-    secret: process.env.JWT_SECRET || 'secret',
-    sign: {
-      expiresIn: '1h',
-    },
   });
 };
 
