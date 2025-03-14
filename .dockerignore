@@ -9,3 +9,4 @@ eslint.config.js
 prettier.config.js
 data/*
 uploads/*
+.env.keys

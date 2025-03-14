@@ -8,9 +8,9 @@ import { init } from './setup/init.js';
 import { setupDB } from './setup/db.js';
 
 const start = async () => {
-  const fastify = Fastify({
-    logger: true,
-  });
+  const fastify = Fastify({ logger: true });
+  const port = process.env.PORT || 3000;
+  const host = process.env.HOST || '127.0.0.1';
 
   await setupDI(fastify);
 
@@ -26,7 +26,7 @@ const start = async () => {
 
   await init(fastify);
 
-  fastify.listen({ port: 3000, host: '0.0.0.0' }, (err) => {
+  fastify.listen({ port, host }, (err) => {
     if (err) {
       fastify.log.error(err);
       process.exit(1);

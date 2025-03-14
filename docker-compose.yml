@@ -8,4 +8,4 @@ services:
       - /srv/app/data:/usr/src/app/data
       - /srv/app/uploads:/usr/src/app/uploads
     environment:
-      - NODE_ENV=production
+      - DOTENV_PRIVATE_KEY_PRODUCTION=${DOTENV_PRIVATE_KEY_PRODUCTION}
