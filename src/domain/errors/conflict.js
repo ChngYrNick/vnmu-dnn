@@ -1,9 +1,9 @@
-import { Errors } from './base.js';
+import { DomainError } from './errors.js';
 
 class ConflictError extends Error {
   constructor(message, options) {
     super(message, options);
-    this.name = Errors.CONFLICT;
+    this.name = DomainError.CONFLICT;
   }
 }
 
