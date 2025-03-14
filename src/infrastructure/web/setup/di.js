@@ -1,4 +1,4 @@
-import { DI } from '../di/base.js';
+import { DI } from '../di/di.js';
 import { REQ_DI } from '../di/request.js';
 
 const setupDI = async (fastify) => {

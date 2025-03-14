@@ -1,4 +1,4 @@
-import { DI } from './base.js';
+import { DI } from './di.js';
 
 const REQ_DI = { ...DI, authService: null };
 
