@@ -7,7 +7,7 @@ class SessionsRepo {
     this.#loader = loader;
   }
 
-  get(sessionId) {
+  async get(sessionId) {
     const query = this.#loader.get('sessions/select-by-sid.sql');
     const row = this.#db.prepare(query).get(sessionId);
 
@@ -20,14 +20,14 @@ class SessionsRepo {
     };
   }
 
-  set(sessionId, session) {
+  async set(sessionId, session) {
     const query = this.#loader.get('sessions/insert-or-replace.sql');
     const expires = session.expires ? session.expires.getTime() : Date.now();
     const data = JSON.stringify(session.data);
     this.#db.prepare(query).run(sessionId, expires, data);
   }
 
-  destroy(sessionId) {
+  async destroy(sessionId) {
     const query = this.#loader.get('sessions/delete-by-sid.sql');
     this.#db.prepare(query).run(sessionId);
   }
