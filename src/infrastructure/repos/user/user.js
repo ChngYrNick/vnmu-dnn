@@ -7,6 +7,11 @@ class UserRepo {
     this.#loader = loader;
   }
 
+  async readByInfo({ username, email }) {
+    const query = this.#loader.get('user/select-by-info.sql');
+    return this.#db.prepare(query).get(username, email);
+  }
+
   async exists({ username, email }) {
     const query = this.#loader.get('user/exists.sql');
     const result = this.#db.prepare(query).get(username, email);
