@@ -7,6 +7,12 @@ class SessionsRepo {
     this.#loader = loader;
   }
 
+  async touch(sessionId, session) {
+    const query = this.#loader.get('sessions/update-by-sid.sql');
+    const expires = session.expires ? session.expires.getTime() : Date.now();
+    this.#db.prepare(query).run(expires, sessionId);
+  }
+
   async get(sessionId) {
     const query = this.#loader.get('sessions/select-by-sid.sql');
     const row = this.#db.prepare(query).get(sessionId);

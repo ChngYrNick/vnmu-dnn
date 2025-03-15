@@ -7,6 +7,13 @@ class SessionsSyncRepo {
     this.#sessionsRepo = new SessionsRepo(db, loader);
   }
 
+  touch(sessionId, session, callback) {
+    this.#sessionsRepo
+      .touch(sessionId, session)
+      .then(() => callback(null))
+      .catch((err) => callback(err));
+  }
+
   get(sessionId, callback) {
     this.#sessionsRepo
       .get(sessionId)

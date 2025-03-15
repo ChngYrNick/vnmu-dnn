@@ -27,6 +27,8 @@ const setupPlugins = async (fastify) => {
       maxAge: 86400000,
     },
     store: fastify.di.sessionsSyncRepo,
+    rolling: true,
+    saveUninitialized: false,
   });
 };
 
