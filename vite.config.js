@@ -6,6 +6,18 @@ const rootPath = resolve(process.cwd(), 'src/infrastructure/web/ui');
 
 export default defineConfig({
   root: rootPath,
+  resolve: {
+    alias: {
+      '~bootstrap': resolve(process.cwd(), 'node_modules/bootstrap'),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true,
+      },
+    },
+  },
   build: {
     outDir: resolve(process.cwd(), 'dist'),
     rollupOptions: {
