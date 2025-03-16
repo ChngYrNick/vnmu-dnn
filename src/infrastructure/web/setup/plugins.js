@@ -4,8 +4,33 @@ import fastifyStatic from '@fastify/static';
 import fastifyView from '@fastify/view';
 import { fastifySession } from '@fastify/session';
 import { fastifyCookie } from '@fastify/cookie';
+import i18next from 'i18next';
+import i18nextFSBackend from 'i18next-fs-backend';
+import {
+  LanguageDetector,
+  plugin as fastifyI18next,
+} from 'i18next-http-middleware';
 
 const setupPlugins = async (fastify) => {
+  i18next
+    .use(i18nextFSBackend)
+    .use(LanguageDetector)
+    .init({
+      backend: {
+        loadPath: path.join(
+          process.cwd(),
+          'src/infrastructure/web/locales/{{lng}}/{{ns}}.json',
+        ),
+      },
+      fallbackLng: 'en',
+      preload: ['en', 'uk'],
+      detection: {
+        order: ['cookie', 'querystring', 'header'],
+        lookupCookie: 'language',
+        cookieExpirationDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+      },
+    });
+
   fastify.register(fastifyStatic, {
     root: path.join(process.cwd(), 'dist/public'),
     prefix: '/public/',
@@ -15,6 +40,7 @@ const setupPlugins = async (fastify) => {
   fastify.register(fastifyView, {
     engine: { nunjucks },
     root: path.join(process.cwd(), 'dist/views'),
+    production: process.env.NODE_ENV === 'production',
   });
 
   fastify.register(fastifyCookie);
@@ -30,6 +56,11 @@ const setupPlugins = async (fastify) => {
     store: fastify.di.sessionsSyncRepo,
     rolling: true,
     saveUninitialized: false,
+  });
+
+  fastify.register(fastifyI18next, {
+    i18next,
+    ignoreRoutes: ['/public/'],
   });
 };
 
