@@ -8,7 +8,7 @@
     "build": "npm run web:ui:build",
     "dev": "npm run web:ui:build && concurrently -n \"web:ui,web:server\" -c \"blue,green\" -k \"npm run web:ui:dev\" \"npm run web:server:dev\"",
     "web:server:dev": "dotenvx run -- node --inspect --watch-path=./dist --watch src/main.js",
-    "web:ui:build": "vite build",
+    "web:ui:build": "vite build --emptyOutDir",
     "web:ui:dev": "vite build --watch",
     "postbuild": "node ./scripts/compress.js",
     "test": "echo \"Error: no test specified\" && exit 1"
