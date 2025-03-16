@@ -10,6 +10,7 @@
     "web:server:dev": "dotenvx run -- node --inspect --watch-path=./dist --watch src/main.js",
     "web:ui:build": "vite build",
     "web:ui:dev": "vite build --watch",
+    "postbuild": "node ./scripts/compress.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Serhii Moskovko",

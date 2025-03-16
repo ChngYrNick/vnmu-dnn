@@ -9,6 +9,7 @@ const setupPlugins = async (fastify) => {
   fastify.register(fastifyStatic, {
     root: path.join(process.cwd(), 'dist/public'),
     prefix: '/public/',
+    preCompressed: true,
   });
 
   fastify.register(fastifyView, {
