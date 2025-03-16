@@ -1,6 +1,7 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import { sync } from 'glob';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 const rootPath = resolve(process.cwd(), 'src/infrastructure/web/ui');
 
@@ -35,4 +36,14 @@ export default defineConfig({
     },
     minify: true,
   },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: resolve(rootPath, 'assets', '*'),
+          dest: 'public/assets',
+        },
+      ],
+    }),
+  ],
 });
