@@ -3,7 +3,9 @@
   "nav": {
     "home": "Home",
     "about": "About",
-    "signup": "Sign Up",
+    "signin": "Log In",
+    "signup": "Create Account",
+    "logout": "Log Out",
     "profile": "Profile",
     "staff": "Staff",
     "news": "News",

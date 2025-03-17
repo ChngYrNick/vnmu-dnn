@@ -28,12 +28,18 @@
           hx-target="body"
           hx-push-url="true"
         >
-          <img class="d-block" height="50" src="public/assets/images/logo.svg" alt="Logo" />
+          <img
+            class="d-block"
+            height="50"
+            src="public/assets/images/logo.svg"
+            alt="Logo"
+          />
         </a>
       </div>
       <div
         class="col-5 d-flex justify-content-end align-items-center d-none d-md-flex"
       >
+        {% if session.user %}
         <a
           class="btn btn-sm btn-outline-secondary me-3"
           href="#"
@@ -45,11 +51,29 @@
         <a
           class="btn btn-sm btn-outline-secondary"
           href="#"
+          hx-get="/log-out"
+          hx-target="body"
+          hx-push-url="true"
+          >{{ t('nav.logout') }}</a
+        >
+        {% else %}
+        <a
+          class="btn btn-sm btn-outline-secondary me-3"
+          href="#"
+          hx-get="/sign-in"
+          hx-target="body"
+          hx-push-url="true"
+          >{{ t('nav.signin') }}</a
+        >
+        <a
+          class="btn btn-sm btn-outline-secondary"
+          href="#"
           hx-get="/sign-up"
           hx-target="body"
           hx-push-url="true"
           >{{ t('nav.signup') }}</a
         >
+        {% endif %}
       </div>
 
       <div class="col-5 d-sm-flex d-md-none"></div>
