@@ -2,6 +2,7 @@ import path from 'node:path';
 import nunjucks from 'nunjucks';
 import fastifyStatic from '@fastify/static';
 import fastifyView from '@fastify/view';
+import { fastifyFormbody } from '@fastify/formbody';
 import { fastifySession } from '@fastify/session';
 import { fastifyCookie } from '@fastify/cookie';
 import i18next from 'i18next';
@@ -11,6 +12,7 @@ import {
   plugin as fastifyI18next,
 } from 'i18next-http-middleware';
 import { ctx } from '../plugins/view/ctx.js';
+import { getDefaultLang, getLangCodes } from '../../../domain/langs.js';
 
 const setupPlugins = async (fastify) => {
   i18next
@@ -23,8 +25,9 @@ const setupPlugins = async (fastify) => {
           'src/infrastructure/web/locales/{{lng}}/{{ns}}.json',
         ),
       },
-      fallbackLng: 'en',
-      preload: ['en', 'uk'],
+      fallbackLng: getDefaultLang().code,
+      preload: getLangCodes(),
+      load: 'languageOnly',
       detection: {
         order: ['cookie', 'querystring', 'header'],
         lookupCookie: 'language',
@@ -44,6 +47,8 @@ const setupPlugins = async (fastify) => {
     production: process.env.NODE_ENV === 'production',
     defaultContext: ctx,
   });
+
+  fastify.register(fastifyFormbody);
 
   fastify.register(fastifyCookie);
 

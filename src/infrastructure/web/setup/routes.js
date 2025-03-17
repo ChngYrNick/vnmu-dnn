@@ -8,6 +8,20 @@ const setupRoutes = async (fastify) => {
   fastify.get('/about', async (request, reply) => {
     return reply.view('pages/about.html', { page: PAGES.About });
   });
+
+  fastify.post('/change-language', async (request, reply) => {
+    const { language } = request.body;
+
+    reply.setCookie('language', language, {
+      path: '/',
+      maxAge: 365 * 24 * 60 * 60,
+      httpOnly: true,
+      signed: false,
+    });
+
+    const referer = request.headers.referer || '/';
+    return reply.redirect(referer);
+  });
 };
 
 export { setupRoutes };

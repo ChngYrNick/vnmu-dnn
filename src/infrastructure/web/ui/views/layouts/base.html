@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ language }}">
+<html lang="{{ i18n.resolvedLanguage }}">
   <head>
     <title>{{ t('title') }}</title>
     <meta charset="UTF-8" />
@@ -9,6 +9,6 @@
   <body>
     {% include "partials/header.html" %}
 
-    <main class="container">{% block content %}{% endblock %}</main>
+    <main class="container mt-3">{% block content %}{% endblock %}</main>
   </body>
 </html>

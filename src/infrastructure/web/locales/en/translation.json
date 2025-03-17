@@ -1,9 +1,10 @@
 {
   "title": "Department of Neurology and Neurosurgery",
-  "header": {
+  "nav": {
     "home": "Home",
     "about": "About",
     "signup": "Sign Up",
+    "profile": "Profile",
     "staff": "Staff",
     "news": "News",
     "student": "Student",
