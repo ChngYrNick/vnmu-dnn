@@ -1,3 +1,3 @@
-const Roles = { USER: 'user', ADMIN: 'admin' };
+const Roles = Object.freeze({ USER: 'user', ADMIN: 'admin' });
 
 export { Roles };
