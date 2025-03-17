@@ -23,6 +23,7 @@
       <div class="col-2 text-center d-flex justify-content-center">
         <a
           class="blog-header-logo text-body-emphasis text-decoration-none"
+          href="#"
           hx-get="/"
           hx-target="body"
           hx-push-url="true"
@@ -35,6 +36,7 @@
       >
         <a
           class="btn btn-sm btn-outline-secondary me-3"
+          href="#"
           hx-get="/profile"
           hx-target="body"
           hx-push-url="true"
@@ -42,6 +44,7 @@
         >
         <a
           class="btn btn-sm btn-outline-secondary"
+          href="#"
           hx-get="/sign-up"
           hx-target="body"
           hx-push-url="true"
@@ -58,6 +61,7 @@
       {% for item in nav %}
       <a
         class="nav-item nav-link link-body-emphasis {% if item.name === page %}active{% endif %}"
+        href="#"
         hx-get="{{ item.nav }}"
         hx-target="body"
         hx-push-url="true"
