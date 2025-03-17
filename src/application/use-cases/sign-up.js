@@ -26,7 +26,7 @@ class SignUpUseCase {
       username,
       email,
       password: hashedPassword,
-      roleId: Roles.USER,
+      role: Roles.USER,
     };
     await this.#userRepo.create(user);
     await this.#sessionsService.startSession(user);

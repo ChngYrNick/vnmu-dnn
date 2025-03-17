@@ -1,3 +1,3 @@
-const Roles = { USER: 1, ADMIN: 2 };
+const Roles = { USER: 'user', ADMIN: 'admin' };
 
 export { Roles };

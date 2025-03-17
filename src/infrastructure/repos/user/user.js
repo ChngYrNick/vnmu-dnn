@@ -23,9 +23,9 @@ class UserRepo {
     return this.#db.prepare(query).get(userId);
   }
 
-  async create({ username, email, password, roleId }) {
+  async create({ username, email, password, role }) {
     const query = this.#loader.get('user/insert.sql');
-    return this.#db.prepare(query).run(username, email, password, roleId);
+    return this.#db.prepare(query).run(username, email, password, role);
   }
 
   async delete(userId) {
