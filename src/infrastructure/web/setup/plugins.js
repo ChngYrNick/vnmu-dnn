@@ -10,6 +10,7 @@ import {
   LanguageDetector,
   plugin as fastifyI18next,
 } from 'i18next-http-middleware';
+import { ctx } from '../plugins/view/ctx.js';
 
 const setupPlugins = async (fastify) => {
   i18next
@@ -41,6 +42,7 @@ const setupPlugins = async (fastify) => {
     engine: { nunjucks },
     root: path.join(process.cwd(), 'dist/views'),
     production: process.env.NODE_ENV === 'production',
+    defaultContext: ctx,
   });
 
   fastify.register(fastifyCookie);

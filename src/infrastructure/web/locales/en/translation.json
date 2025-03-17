@@ -1,7 +1,15 @@
 {
-  "title": "Department of Neurology and neurosurgery",
+  "title": "Department of Neurology and Neurosurgery",
   "header": {
     "home": "Home",
-    "about": "About"
+    "about": "About",
+    "signup": "Sign Up",
+    "staff": "Staff",
+    "news": "News",
+    "student": "Student",
+    "intern": "Intern",
+    "listener": "Listener",
+    "syllabus": "Syllabus",
+    "literature": "Literature"
   }
 }

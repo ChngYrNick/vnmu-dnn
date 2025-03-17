@@ -1,9 +1,37 @@
-<header>
-  <h1>This is header</h1>
-  <nav>
-    <ul>
-      <li><a href="/">{{ t('header.home') }}</a></li>
-      <li><a href="/about">{{ t('header.about') }}</a></li>
-    </ul>
-  </nav>
-</header>
+<div class="container">
+  <header class="border-bottom lh-1 py-3">
+    <div class="row flex-nowrap justify-content-between align-items-center">
+      <div class="col-4 pt-1">
+        <a class="link-secondary" href="/profile">Profile</a>
+      </div>
+      <div class="col-4 text-center">
+        <a
+          class="blog-header-logo text-body-emphasis text-decoration-none"
+          href="/"
+        >
+          <img
+            height="50"
+            width="50"
+            src="public/assets/images/logo.svg"
+            alt="Logo"
+          />
+        </a>
+      </div>
+      <div class="col-4 d-flex justify-content-end align-items-center">
+        <a class="btn btn-sm btn-outline-secondary" href="/sign-up"
+          >{{ t('header.signup') }}</a
+        >
+      </div>
+    </div>
+  </header>
+
+  <div class="nav-scroller py-1 mb-3 border-bottom">
+    <nav class="nav nav-underline justify-content-between">
+      {% for item in header %}
+      <a class="nav-item nav-link link-body-emphasis {% if item.name === page %}active{% endif %}" href="{{ item.nav }}"
+        >{{ t(item.translation) }}</a
+      >
+      {% endfor %}
+    </nav>
+  </div>
+</div>
