@@ -1,4 +1,3 @@
-import { getSupportedLangs } from '../../../../domain/langs.js';
 import { PAGES } from './pages.js';
 
 const nav = [
@@ -17,6 +16,6 @@ const nav = [
   },
 ];
 
-const ctx = { nav, supportedLangs: getSupportedLangs() };
+const ctx = { nav };
 
 export { ctx };
