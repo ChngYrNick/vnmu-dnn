@@ -27,6 +27,8 @@
           hx-get="/"
           hx-target="body"
           hx-push-url="true"
+          preload
+          preload-images="true"
         >
           <img
             class="d-block"
@@ -46,6 +48,8 @@
           hx-get="/profile"
           hx-target="body"
           hx-push-url="true"
+          preload
+          preload-images="true"
           >{{ t('nav.profile') }}</a
         >
         <a
@@ -54,6 +58,8 @@
           hx-get="/log-out"
           hx-target="body"
           hx-push-url="true"
+          preload
+          preload-images="true"
           >{{ t('nav.logout') }}</a
         >
         {% else %}
@@ -63,6 +69,8 @@
           hx-get="/sign-in"
           hx-target="body"
           hx-push-url="true"
+          preload
+          preload-images="true"
           >{{ t('nav.signin') }}</a
         >
         <a
@@ -71,6 +79,8 @@
           hx-get="/sign-up"
           hx-target="body"
           hx-push-url="true"
+          preload
+          preload-images="true"
           >{{ t('nav.signup') }}</a
         >
         {% endif %}
@@ -89,6 +99,8 @@
         hx-get="{{ item.nav }}"
         hx-target="body"
         hx-push-url="true"
+        preload
+        preload-images="true"
         >{{ t(item.translation) }}</a
       >
       {% endfor %}
