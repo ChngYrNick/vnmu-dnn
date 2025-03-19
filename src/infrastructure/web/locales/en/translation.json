@@ -13,6 +13,9 @@
     "intern": "Intern",
     "listener": "Listener",
     "syllabus": "Syllabus",
-    "literature": "Literature"
+    "literature": "Literature",
+    "sidebar": "Sidebar",
+    "sidebarOpen": "Sidebar Open",
+    "sidebarClose": "Sidebar Close"
   }
 }

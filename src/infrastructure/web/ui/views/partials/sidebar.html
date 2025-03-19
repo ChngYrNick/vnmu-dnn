@@ -1,0 +1,101 @@
+<div
+  class="offcanvas offcanvas-start"
+  tabindex="-1"
+  id="sidebar"
+  aria-label="{{ t('nav.sidebar') }}"
+>
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary flex-fill">
+    <div class="d-flex justify-content-between">
+      <select
+        class="form-select form-select-sm w-auto"
+        hx-trigger="change"
+        hx-post="/change-language"
+        hx-target="body"
+        name="language"
+      >
+        {% for item in supportedLangs %} {% if item.code ===
+        i18n.resolvedLanguage %}
+        <option value="{{ item.code }}" selected>{{ item.name }}</option>
+        {% else %}
+        <option value="{{ item.code }}">{{ item.name }}</option>
+        {% endif %} {% endfor %}
+      </select>
+      <a
+        href="#"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar"
+        aria-controls="sidebar"
+        aria-label="{{ t('nav.sidebarClose')}}"
+      >
+        <img
+          height="35"
+          src="public/assets/icons/x.svg"
+          alt="{{ t('nav.sidebarClose') }}"
+        />
+      </a>
+    </div>
+    <hr />
+    <ul class="nav nav-pills flex-column">
+      {% for item in nav %}
+      <li class="nav-item">
+        <a
+          class="nav-link {% if item.name === page %}active{% else %}link-body-emphasis{% endif %}"
+          href="#"
+          hx-get="{{ item.nav }}"
+          hx-target="body"
+          hx-push-url="true"
+          preload
+          preload-images="true"
+          >{{ t(item.translation) }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <div class="d-flex justify-content-end">
+      {% if session.user %}
+      <a
+        class="btn btn-sm btn-outline-secondary me-3"
+        href="#"
+        hx-get="/profile"
+        hx-target="body"
+        hx-push-url="true"
+        preload
+        preload-images="true"
+        >{{ t('nav.profile') }}</a
+      >
+      <a
+        class="btn btn-sm btn-outline-secondary"
+        href="#"
+        hx-get="/log-out"
+        hx-target="body"
+        hx-push-url="true"
+        preload
+        preload-images="true"
+        >{{ t('nav.logout') }}</a
+      >
+      {% else %}
+      <a
+        class="btn btn-sm btn-outline-secondary me-3"
+        href="#"
+        hx-get="/sign-in"
+        hx-target="body"
+        hx-push-url="true"
+        preload
+        preload-images="true"
+        >{{ t('nav.signin') }}</a
+      >
+      <a
+        class="btn btn-sm btn-outline-secondary"
+        href="#"
+        hx-get="/sign-up"
+        hx-target="body"
+        hx-push-url="true"
+        preload
+        preload-images="true"
+        >{{ t('nav.signup') }}</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
