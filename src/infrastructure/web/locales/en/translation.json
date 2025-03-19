@@ -17,5 +17,14 @@
     "sidebar": "Sidebar",
     "sidebarOpen": "Sidebar Open",
     "sidebarClose": "Sidebar Close"
+  },
+  "pages": {
+    "home": {
+      "featured": {
+        "title": "Department of Neurology and neurosurgery of postgraduate education faculty",
+        "description": "The Neurosurgery Department provides a full range of neurosurgical procedures for adult patients with brain and spinal cord pathology.",
+        "continue": "Continue reading..."
+      }
+    }
   }
 }

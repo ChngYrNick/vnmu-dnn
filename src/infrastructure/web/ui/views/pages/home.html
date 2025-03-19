@@ -1,7 +1,21 @@
-{% extends "layouts/base.html" %}
-
-{% block content %}
-    <section>
-        <h2>Home Page</h2>
-    </section>
+{% extends "layouts/base.html" %} {% block content %}
+<div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+  <div class="col-lg-7 px-0">
+    <h2 class="fst-italic">{{ t("pages.home.featured.title") }}</h2>
+    <p class="lead my-3">{{ t("pages.home.featured.description") }}</p>
+    <p class="lead mb-0">
+      <a
+        href="#"
+        hx-get="/about"
+        hx-target="body"
+        hx-push-url="true"
+        preload
+        preload-images="true"
+        class="text-body-emphasis fw-bold"
+      >
+        {{ t("pages.home.featured.continue") }}
+      </a>
+    </p>
+  </div>
+</div>
 {% endblock %}
