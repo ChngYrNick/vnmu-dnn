@@ -1,5 +1,5 @@
 {
-  "name": "DNN",
+  "name": "vnmu-dnn",
   "version": "1.0.0",
   "main": "src/main.js",
   "type": "module",
