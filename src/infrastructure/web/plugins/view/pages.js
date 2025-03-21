@@ -8,6 +8,8 @@ const PAGES = {
   Listener: 'listener',
   Syllabus: 'syllabus',
   Literature: 'literature',
+  SignUp: 'sign-up',
+  SignIn: 'sign-in',
 };
 
 export { PAGES };

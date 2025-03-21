@@ -15,6 +15,20 @@ const setupRoutes = async (fastify) => {
       .view('pages/about.html', { page: PAGES.About });
   });
 
+  fastify.get('/sign-up', async (request, reply) => {
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/sign-up.html', { page: PAGES.SignUp });
+  });
+
+  fastify.get('/sign-in', async (request, reply) => {
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/sign-in.html', { page: PAGES.SignIn });
+  });
+
   fastify.post('/change-language', async (request, reply) => {
     const { language } = request.body;
 

@@ -25,6 +25,33 @@
         "description": "The Neurosurgery Department provides a full range of neurosurgical procedures for adult patients with brain and spinal cord pathology.",
         "continue": "Continue reading..."
       }
+    },
+    "signUp": {
+      "createAccount": "Create Account",
+      "fillInfo": "Please fill in the information below",
+      "fullName": "Full Name",
+      "enterFullName": "Enter your full name",
+      "email": "Email Address",
+      "enterEmail": "Enter your email",
+      "password": "Password",
+      "enterPassword": "Create a password",
+      "passwordRequirements": "Password must be at least {{length}} characters long",
+      "passwordRepeat": "Repeat Password",
+      "enterPasswordRepeat": "Confirm your password",
+      "signUp": "Sign Up",
+      "signIn": "Sign In",
+      "goSignIn": "Already have an account?"
+    },
+    "signIn": {
+      "logIn": "Log In",
+      "fillInfo": "Please enter your credentials",
+      "email": "Email",
+      "enterEmail": "Enter your email",
+      "password": "Password",
+      "enterPassword": "Enter your password",
+      "signUp": "Sign Up",
+      "signIn": "Sign In",
+      "goSignUp": "Don't have an account?"
     }
   }
 }

@@ -1,0 +1,84 @@
+{% extends "layouts/base.html" %} {% block content %}
+
+<main class="container mt-3">
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
+      <div class="card shadow-sm border-0 mb-5">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex flex-column align-items-center">
+            <a
+              class="blog-header-logo text-body-emphasis text-decoration-none mb-2"
+              href="#"
+              hx-get="/"
+              hx-target="body"
+              hx-push-url="true"
+              preload
+              preload-images="true"
+            >
+              <img
+                class="d-block"
+                height="50"
+                src="public/assets/images/logo.svg"
+                alt="Logo"
+              />
+            </a>
+            <h2 class="fw-bold">{{ t('pages.signIn.logIn') }}</h2>
+            <p class="text-muted">{{ t('pages.signIn.fillInfo') }}</p>
+          </div>
+
+          <form id="signupForm" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >{{ t('pages.signIn.email') }}</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="{{ t('pages.signIn.enterEmail') }}"
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="repeatPassword" class="form-label"
+                >{{ t('pages.signIn.password') }}</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="{{ t('pages.signIn.enterPassword') }}"
+                required
+              />
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                {{ t('pages.signIn.signIn') }}
+              </button>
+            </div>
+
+            <div class="text-center mt-4">
+              <p class="mb-0">
+                {{ t('pages.signIn.goSignUp') }}
+                <a
+                  href="#"
+                  hx-get="/sign-up"
+                  hx-target="body"
+                  hx-push-url="true"
+                  preload
+                  preload-images="true"
+                  class="text-primary"
+                  >{{ t('pages.signIn.signUp') }}</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{% endblock %}
