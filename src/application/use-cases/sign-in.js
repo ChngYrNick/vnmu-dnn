@@ -11,12 +11,12 @@ class SignInUseCase {
     this.#sessionsService = sessionsService;
   }
 
-  async exec({ username, password, email }) {
+  async exec({ password, email }) {
     if (await this.#sessionsService.checkAuth()) {
       throw new UnauthError("Can't sign in while active session");
     }
 
-    const user = this.#userRepo.readByInfo({ username, email });
+    const user = this.#userRepo.readByInfo({ email });
 
     if (!user) {
       throw new UnauthError("The user with this credentials doesn't exists");

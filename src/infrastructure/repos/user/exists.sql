@@ -1,1 +1,1 @@
-SELECT EXISTS(SELECT 1 FROM users WHERE username = ? OR email = ?) AS userExists;
+SELECT EXISTS(SELECT 1 FROM users WHERE email = ?) AS userExists;

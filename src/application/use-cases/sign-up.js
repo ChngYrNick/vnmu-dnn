@@ -12,18 +12,15 @@ class SignUpUseCase {
     this.#sessionsService = sessionsService;
   }
 
-  async exec({ username, password, email }) {
+  async exec({ password, email }) {
     if (await this.#sessionsService.checkAuth()) {
       throw new ConflictError("Can't sign up while active session");
     }
-    if (await this.#userRepo.exists({ username, email })) {
-      throw new ConflictError(
-        'A user with this username or email already exists',
-      );
+    if (await this.#userRepo.exists({ email })) {
+      throw new ConflictError('A user with this email already exists');
     }
     const hashedPassword = await this.#passwordService.hash(password);
     const user = {
-      username,
       email,
       password: hashedPassword,
       role: Roles.USER,

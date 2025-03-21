@@ -7,14 +7,14 @@ class UserRepo {
     this.#loader = loader;
   }
 
-  async readByInfo({ username, email }) {
+  async readByInfo({ email }) {
     const query = this.#loader.get('user/select-by-info.sql');
-    return this.#db.prepare(query).get(username, email);
+    return this.#db.prepare(query).get(email);
   }
 
-  async exists({ username, email }) {
+  async exists({ email }) {
     const query = this.#loader.get('user/exists.sql');
-    const result = this.#db.prepare(query).get(username, email);
+    const result = this.#db.prepare(query).get(email);
     return result.userExists === 1;
   }
 
@@ -23,9 +23,9 @@ class UserRepo {
     return this.#db.prepare(query).get(userId);
   }
 
-  async create({ username, email, password, role }) {
+  async create({ email, password, role }) {
     const query = this.#loader.get('user/insert.sql');
-    return this.#db.prepare(query).run(username, email, password, role);
+    return this.#db.prepare(query).run(email, password, role);
   }
 
   async delete(userId) {
