@@ -5,34 +5,41 @@
   aria-label="{{ t('nav.sidebar') }}"
 >
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary flex-fill">
-    <div class="d-flex justify-content-between">
-      <select
-        class="form-select form-select-sm w-auto"
-        hx-trigger="change"
-        hx-post="/change-language"
-        hx-target="body"
-        name="language"
-      >
-        {% for item in supportedLangs %} {% if item.code ===
-        i18n.resolvedLanguage %}
-        <option value="{{ item.code }}" selected>{{ item.name }}</option>
-        {% else %}
-        <option value="{{ item.code }}">{{ item.name }}</option>
-        {% endif %} {% endfor %}
-      </select>
-      <a
-        href="#"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#sidebar"
-        aria-controls="sidebar"
-        aria-label="{{ t('nav.sidebarClose')}}"
-      >
-        <img
-          height="35"
-          src="public/assets/icons/x.svg"
-          alt="{{ t('nav.sidebarClose') }}"
-        />
-      </a>
+    <div class="row flex-nowrap">
+      <div class="col-3"></div>
+      <div class="col-6 d-flex justify-content-center">
+        <a
+          class="blog-header-logo text-body-emphasis text-decoration-none"
+          href="#"
+          hx-get="/"
+          hx-target="body"
+          hx-push-url="true"
+          preload
+          preload-images="true"
+        >
+          <img
+            class="d-block"
+            height="50"
+            src="public/assets/images/logo.svg"
+            alt="Logo"
+          />
+        </a>
+      </div>
+      <div class="col-3 d-flex justify-content-center align-items-center">
+        <a
+          href="#"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebar"
+          aria-controls="sidebar"
+          aria-label="{{ t('nav.sidebarClose')}}"
+        >
+          <img
+            height="35"
+            src="public/assets/icons/x.svg"
+            alt="{{ t('nav.sidebarClose') }}"
+          />
+        </a>
+      </div>
     </div>
     <hr />
     <ul class="nav nav-pills flex-column">
@@ -52,10 +59,25 @@
       {% endfor %}
     </ul>
     <hr />
-    <div class="d-flex justify-content-end">
+    <select
+      class="form-select w-auto"
+      hx-trigger="change"
+      hx-post="/change-language"
+      hx-target="body"
+      name="language"
+    >
+      {% for item in supportedLangs %} {% if item.code === i18n.resolvedLanguage
+      %}
+      <option value="{{ item.code }}" selected>{{ item.name }}</option>
+      {% else %}
+      <option value="{{ item.code }}">{{ item.name }}</option>
+      {% endif %} {% endfor %}
+    </select>
+    <hr />
+    <div class="d-flex flex-column">
       {% if session.user %}
       <a
-        class="btn btn-sm btn-outline-secondary me-3"
+        class="btn btn-outline-secondary mb-3"
         href="#"
         hx-get="/profile"
         hx-target="body"
@@ -65,7 +87,7 @@
         >{{ t('nav.profile') }}</a
       >
       <a
-        class="btn btn-sm btn-outline-secondary"
+        class="btn btn-outline-secondary"
         href="#"
         hx-get="/log-out"
         hx-target="body"
@@ -76,7 +98,7 @@
       >
       {% else %}
       <a
-        class="btn btn-sm btn-outline-secondary me-3"
+        class="btn btn-outline-secondary mb-3"
         href="#"
         hx-get="/sign-in"
         hx-target="body"
@@ -86,7 +108,7 @@
         >{{ t('nav.signin') }}</a
       >
       <a
-        class="btn btn-sm btn-outline-secondary"
+        class="btn btn-outline-secondary"
         href="#"
         hx-get="/sign-up"
         hx-target="body"
