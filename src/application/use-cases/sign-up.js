@@ -14,10 +14,10 @@ class SignUpUseCase {
 
   async exec({ password, email }) {
     if (await this.#sessionsService.checkAuth()) {
-      throw new ConflictError("Can't sign up while active session");
+      throw new ConflictError(ConflictError.ACTIVE_SESSION);
     }
     if (await this.#userRepo.exists({ email })) {
-      throw new ConflictError('A user with this email already exists');
+      throw new ConflictError(ConflictError.USER_EXISTS);
     }
     const hashedPassword = await this.#passwordService.hash(password);
     const user = {

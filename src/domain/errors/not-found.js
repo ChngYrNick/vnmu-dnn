@@ -1,8 +1,9 @@
 import { DomainError } from './errors.js';
 
 class NotFoundError extends Error {
-  constructor(message, options) {
+  constructor(type, message, options) {
     super(message, options);
+    this.type = type;
     this.name = DomainError.NOT_FOUND;
   }
 }

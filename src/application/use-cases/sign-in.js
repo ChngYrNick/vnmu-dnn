@@ -13,19 +13,19 @@ class SignInUseCase {
 
   async exec({ password, email }) {
     if (await this.#sessionsService.checkAuth()) {
-      throw new UnauthError("Can't sign in while active session");
+      throw new UnauthError(UnauthError.ACTIVE_SESSION);
     }
 
     const user = this.#userRepo.readByInfo({ email });
 
     if (!user) {
-      throw new UnauthError("The user with this credentials doesn't exists");
+      throw new UnauthError(UnauthError.USER_NOT_FOUND);
     }
 
     const valid = await this.#passwordService.compare(user.password, password);
 
     if (!valid) {
-      throw new UnauthError('Provided password is not valid');
+      throw new UnauthError(UnauthError.INVALID_PASSWORD);
     }
 
     await this.#sessionsService.startSession(user);

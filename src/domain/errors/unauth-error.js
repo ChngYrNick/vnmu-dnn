@@ -1,10 +1,17 @@
 import { DomainError } from './errors.js';
 
 class UnauthError extends Error {
-  constructor(message, options) {
+  constructor(type, message, options) {
     super(message, options);
+    this.type = type;
     this.name = DomainError.UNAUTH_ERROR;
   }
+
+  static ACTIVE_SESSION = 'activeSession';
+
+  static USER_NOT_FOUND = 'userNotFound';
+
+  static INVALID_PASSWORD = 'inavlidPassword';
 }
 
 export { UnauthError };
