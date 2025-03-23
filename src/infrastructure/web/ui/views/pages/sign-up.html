@@ -28,7 +28,7 @@
                 <p class="text-muted">{{ t('pages.signUp.fillInfo') }}</p>
               </div>
 
-              <form id="signupForm">
+              <form id="signupForm" action="/sign-up" method="post">
                 <div class="mb-3">
                   <label for="fullName" class="form-label"
                     >{{ t('pages.signUp.fullName') }}</label
@@ -42,6 +42,7 @@
                     minlength="2"
                     maxlength="50"
                     autocomplete="name"
+                    name="fullName"
                   />
                   <div class="invalid-feedback">
                     {{ t('pages.signUp.errors.fullName') }}
@@ -58,6 +59,7 @@
                     id="email"
                     placeholder="{{ t('pages.signUp.enterEmail') }}"
                     required
+                    name="email"
                   />
                   <div class="invalid-feedback">
                     {{ t('pages.signUp.errors.email') }}
@@ -77,6 +79,7 @@
                     minlength="8"
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                     autocomplete="new-password"
+                    name="password"
                   />
                   <div class="invalid-feedback">
                     {{ t('pages.signUp.errors.password') }}
@@ -94,6 +97,7 @@
                     placeholder="{{ t('pages.signUp.enterPasswordRepeat') }}"
                     required
                     autocomplete="new-password"
+                    name="repeatPassword"
                   />
                   <div class="invalid-feedback">
                     {{ t('pages.signUp.errors.passwordRepeat') }}

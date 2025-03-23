@@ -12,7 +12,7 @@ class SignUpUseCase {
     this.#sessionsService = sessionsService;
   }
 
-  async exec({ password, email }) {
+  async exec({ email, fullName, password }) {
     if (await this.#sessionsService.checkAuth()) {
       throw new ConflictError(ConflictError.ACTIVE_SESSION);
     }
@@ -22,6 +22,7 @@ class SignUpUseCase {
     const hashedPassword = await this.#passwordService.hash(password);
     const user = {
       email,
+      fullName,
       password: hashedPassword,
       role: Roles.USER,
     };

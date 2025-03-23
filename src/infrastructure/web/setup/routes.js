@@ -1,3 +1,4 @@
+import { SignUpUseCase } from '../../../application/use-cases/sign-up.js';
 import { PAGES } from '../plugins/view/pages.js';
 
 const setupRoutes = async (fastify) => {
@@ -5,14 +6,20 @@ const setupRoutes = async (fastify) => {
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/home.html', { page: PAGES.Home });
+      .view('pages/home.html', {
+        page: PAGES.Home,
+        user: request.session.data,
+      });
   });
 
   fastify.get('/about', async (request, reply) => {
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/about.html', { page: PAGES.About });
+      .view('pages/about.html', {
+        page: PAGES.About,
+        user: request.session.data,
+      });
   });
 
   fastify.get('/sign-up', async (request, reply) => {
@@ -41,6 +48,12 @@ const setupRoutes = async (fastify) => {
 
     const referer = request.headers.referer || '/';
     return reply.redirect(referer);
+  });
+
+  fastify.post('/sign-up', async (request, reply) => {
+    const useCase = new SignUpUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/');
   });
 };
 

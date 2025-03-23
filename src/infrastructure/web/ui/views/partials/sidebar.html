@@ -68,11 +68,11 @@
     </select>
     <hr />
     <div class="d-flex flex-column">
-      {% if session.user %}
+      {% if user %}
       <a class="btn btn-outline-secondary mb-3" href="/profile"
         >{{ t('nav.profile') }}</a
       >
-      <a class="btn btn-outline-secondary" href="/logout"
+      <a class="btn btn-outline-secondary" hx-post="/logout" hx-target="body"
         >{{ t('nav.logout') }}</a
       >
       {% else %}

@@ -6,23 +6,21 @@ class SessionsService {
   }
 
   async checkAuth() {
-    return !!this.getCurrentUser();
+    const user = await this.getCurrentUser();
+    return !!user;
   }
 
   async getCurrentUser() {
-    return this.#request.session.user;
+    return this.#request.session.data;
   }
 
   async startSession(user) {
-    this.#request.session.user = user;
+    this.#request.session.data = user;
+    return this.#request.session.save();
   }
 
   async destroySession() {
-    return new Promise((resolve, reject) => {
-      this.#request.session.destroy((error) =>
-        error ? reject(error) : resolve(),
-      );
-    });
+    return this.#request.session.destroy();
   }
 }
 
