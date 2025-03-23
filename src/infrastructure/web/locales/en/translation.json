@@ -35,12 +35,17 @@
       "enterEmail": "Enter your email",
       "password": "Password",
       "enterPassword": "Create a password",
-      "passwordRequirements": "Password must be at least {{length}} characters long",
       "passwordRepeat": "Repeat Password",
       "enterPasswordRepeat": "Confirm your password",
       "signUp": "Sign Up",
       "signIn": "Sign In",
-      "goSignIn": "Already have an account?"
+      "goSignIn": "Already have an account?",
+      "errors": {
+        "fullName": "Please enter your full name",
+        "email":"Please enter valid email address",
+        "password": "Password must be at least 8 characters with at least one uppercase letter, one lowercase letter, and one number",
+        "passwordRepeat": "Passwords do not match"
+      }
     },
     "signIn": {
       "logIn": "Log In",

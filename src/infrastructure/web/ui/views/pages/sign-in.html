@@ -26,7 +26,7 @@
             <p class="text-muted">{{ t('pages.signIn.fillInfo') }}</p>
           </div>
 
-          <form id="signupForm" novalidate>
+          <form id="signupForm">
             <div class="mb-3">
               <label for="email" class="form-label"
                 >{{ t('pages.signIn.email') }}</label
@@ -80,5 +80,15 @@
     </div>
   </div>
 </main>
+
+<style>
+  form:invalid button[type='submit'] {
+    color: var(--bs-btn-disabled-color);
+    pointer-events: none;
+    background-color: var(--bs-btn-disabled-bg);
+    border-color: var(--bs-btn-disabled-border-color);
+    opacity: var(--bs-btn-disabled-opacity);
+  }
+</style>
 
 {% endblock %}
