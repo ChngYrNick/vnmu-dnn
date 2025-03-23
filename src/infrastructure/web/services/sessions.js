@@ -16,6 +16,14 @@ class SessionsService {
   async startSession(user) {
     this.#request.session.user = user;
   }
+
+  async destroySession() {
+    return new Promise((resolve, reject) => {
+      this.#request.session.destroy((error) =>
+        error ? reject(error) : resolve(),
+      );
+    });
+  }
 }
 
 export { SessionsService };
