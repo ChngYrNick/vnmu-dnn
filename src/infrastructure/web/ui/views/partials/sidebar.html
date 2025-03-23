@@ -3,6 +3,9 @@
   tabindex="-1"
   id="sidebar"
   aria-label="{{ t('nav.sidebar') }}"
+  hx-boost="true"
+  preload
+  preload-images="true"
 >
   <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary flex-fill">
     <div class="row flex-nowrap">
@@ -10,12 +13,7 @@
       <div class="col-6 d-flex justify-content-center">
         <a
           class="blog-header-logo text-body-emphasis text-decoration-none"
-          href="#"
-          hx-get="/"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/"
         >
           <img
             class="d-block"
@@ -47,12 +45,7 @@
       <li class="nav-item">
         <a
           class="nav-link {% if item.name === page %}active{% else %}link-body-emphasis{% endif %}"
-          href="#"
-          hx-get="{{ item.nav }}"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="{{ item.nav }}"
           >{{ t(item.translation) }}</a
         >
       </li>
@@ -76,45 +69,17 @@
     <hr />
     <div class="d-flex flex-column">
       {% if session.user %}
-      <a
-        class="btn btn-outline-secondary mb-3"
-        href="#"
-        hx-get="/profile"
-        hx-target="body"
-        hx-push-url="true"
-        preload
-        preload-images="true"
+      <a class="btn btn-outline-secondary mb-3" href="/profile"
         >{{ t('nav.profile') }}</a
       >
-      <a
-        class="btn btn-outline-secondary"
-        href="#"
-        hx-get="/log-out"
-        hx-target="body"
-        hx-push-url="true"
-        preload
-        preload-images="true"
+      <a class="btn btn-outline-secondary" href="/logout"
         >{{ t('nav.logout') }}</a
       >
       {% else %}
-      <a
-        class="btn btn-outline-secondary mb-3"
-        href="#"
-        hx-get="/sign-in"
-        hx-target="body"
-        hx-push-url="true"
-        preload
-        preload-images="true"
+      <a class="btn btn-outline-secondary mb-3" href="/sign-in"
         >{{ t('nav.signin') }}</a
       >
-      <a
-        class="btn btn-outline-secondary"
-        href="#"
-        hx-get="/sign-up"
-        hx-target="body"
-        hx-push-url="true"
-        preload
-        preload-images="true"
+      <a class="btn btn-outline-secondary" href="/sign-up"
         >{{ t('nav.signup') }}</a
       >
       {% endif %}

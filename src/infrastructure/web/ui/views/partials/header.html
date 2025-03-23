@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" hx-boost="true" preload preload-images="true">
   <header class="border-bottom lh-1 py-3">
     <div class="row flex-nowrap justify-content-between align-items-center">
       <div class="col-5 d-sm-flex d-md-none align-items-center">
@@ -9,7 +9,11 @@
           aria-controls="sidebar"
           aria-label="{{ t('nav.sidebarOpen')}}"
         >
-          <img height="35" src="public/assets/icons/menu.svg" alt="{{ t('nav.sidebarOpen') }}" />
+          <img
+            height="35"
+            src="public/assets/icons/menu.svg"
+            alt="{{ t('nav.sidebarOpen') }}"
+          />
         </a>
       </div>
 
@@ -32,12 +36,7 @@
       <div class="col-2 text-center d-flex justify-content-center">
         <a
           class="blog-header-logo text-body-emphasis text-decoration-none"
-          href="#"
-          hx-get="/"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/"
         >
           <img
             class="d-block"
@@ -53,43 +52,23 @@
         {% if session.user %}
         <a
           class="btn btn-sm btn-outline-secondary me-3"
-          href="#"
-          hx-get="/profile"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/profile"
           >{{ t('nav.profile') }}</a
         >
         <a
           class="btn btn-sm btn-outline-secondary"
-          href="#"
-          hx-get="/log-out"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/logout"
           >{{ t('nav.logout') }}</a
         >
         {% else %}
         <a
           class="btn btn-sm btn-outline-secondary me-3"
-          href="#"
-          hx-get="/sign-in"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/sign-in"
           >{{ t('nav.signin') }}</a
         >
         <a
           class="btn btn-sm btn-outline-secondary"
-          href="#"
-          hx-get="/sign-up"
-          hx-target="body"
-          hx-push-url="true"
-          preload
-          preload-images="true"
+          href="/sign-up"
           >{{ t('nav.signup') }}</a
         >
         {% endif %}
@@ -104,12 +83,7 @@
       {% for item in nav %}
       <a
         class="nav-item nav-link link-body-emphasis {% if item.name === page %}active{% endif %}"
-        href="#"
-        hx-get="{{ item.nav }}"
-        hx-target="body"
-        hx-push-url="true"
-        preload
-        preload-images="true"
+        href="{{ item.nav }}"
         >{{ t(item.translation) }}</a
       >
       {% endfor %}
