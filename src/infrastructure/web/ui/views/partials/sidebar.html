@@ -76,10 +76,10 @@
         >{{ t('nav.logout') }}</a
       >
       {% else %}
-      <a class="btn btn-outline-secondary mb-3" href="/sign-in"
+      <a class="btn btn-outline-secondary mb-3" href="/sign-in" hx-boost="false"
         >{{ t('nav.signin') }}</a
       >
-      <a class="btn btn-outline-secondary" href="/sign-up"
+      <a class="btn btn-outline-secondary" href="/sign-up" hx-boost="false"
         >{{ t('nav.signup') }}</a
       >
       {% endif %}

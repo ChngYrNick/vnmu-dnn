@@ -1,168 +1,124 @@
-{% extends "layouts/base.html" %} {% block content %}
-
-<main class="container mt-3" hx-boost="true" preload preload-images="true">
-  <div class="row justify-content-center">
-    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
-      <div class="card shadow-sm border-0 mb-5">
-        <div class="card-body p-4 p-md-5">
-          <div class="d-flex flex-column align-items-center">
-            <a
-              class="blog-header-logo text-body-emphasis text-decoration-none mb-2"
-              href="/"
-            >
-              <img
-                class="d-block"
-                height="50"
-                src="public/assets/images/logo.svg"
-                alt="Logo"
-              />
-            </a>
-            <h2 class="fw-bold">{{ t('pages.signUp.createAccount') }}</h2>
-            <p class="text-muted">{{ t('pages.signUp.fillInfo') }}</p>
-          </div>
-
-          <form id="signupForm">
-            <div class="mb-3">
-              <label for="fullName" class="form-label"
-                >{{ t('pages.signUp.fullName') }}</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="fullName"
-                placeholder="{{ t('pages.signUp.enterFullName') }}"
-                required
-                minlength="2"
-                maxlength="50"
-                autocomplete="name"
-              />
-              <div class="invalid-feedback">
-                {{ t('pages.signUp.errors.fullName') }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="email" class="form-label"
-                >{{ t('pages.signUp.email') }}</label
-              >
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="{{ t('pages.signUp.enterEmail') }}"
-                required
-              />
-              <div class="invalid-feedback">
-                {{ t('pages.signUp.errors.email') }}
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label"
-                >{{ t('pages.signUp.password') }}</label
-              >
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                placeholder="{{ t('pages.signUp.enterPassword') }}"
-                required
-                minlength="8"
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                autocomplete="new-password"
-              />
-              <div class="invalid-feedback">
-                {{ t('pages.signUp.errors.password') }}
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="repeatPassword" class="form-label"
-                >{{ t('pages.signUp.passwordRepeat') }}</label
-              >
-              <input
-                type="password"
-                class="form-control"
-                id="repeatPassword"
-                placeholder="{{ t('pages.signUp.enterPasswordRepeat') }}"
-                required
-                autocomplete="new-password"
-              />
-              <div class="invalid-feedback">
-                {{ t('pages.signUp.errors.passwordRepeat') }}
-              </div>
-            </div>
-
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">
-                {{ t('pages.signUp.signUp') }}
-              </button>
-            </div>
-
-            <div class="text-center mt-4">
-              <p class="mb-0">
-                {{ t('pages.signUp.goSignIn') }}
-                <a href="/sign-in" class="text-primary"
-                  >{{ t('pages.signUp.signIn') }}</a
+<!doctype html>
+<html lang="{{ i18n.resolvedLanguage }}">
+  <head>
+    <title>{{ t('title') }}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="module" src="../../scripts/sign-up.js"></script>
+  </head>
+  <body>
+    <main class="container mt-3">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
+          <div class="card shadow-sm border-0 mb-5">
+            <div class="card-body p-4 p-md-5">
+              <div class="d-flex flex-column align-items-center">
+                <a
+                  class="blog-header-logo text-body-emphasis text-decoration-none mb-2"
+                  href="/"
                 >
-              </p>
+                  <img
+                    class="d-block"
+                    height="50"
+                    src="public/assets/images/logo.svg"
+                    alt="Logo"
+                  />
+                </a>
+                <h2 class="fw-bold">{{ t('pages.signUp.createAccount') }}</h2>
+                <p class="text-muted">{{ t('pages.signUp.fillInfo') }}</p>
+              </div>
+
+              <form id="signupForm">
+                <div class="mb-3">
+                  <label for="fullName" class="form-label"
+                    >{{ t('pages.signUp.fullName') }}</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="fullName"
+                    placeholder="{{ t('pages.signUp.enterFullName') }}"
+                    required
+                    minlength="2"
+                    maxlength="50"
+                    autocomplete="name"
+                  />
+                  <div class="invalid-feedback">
+                    {{ t('pages.signUp.errors.fullName') }}
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label"
+                    >{{ t('pages.signUp.email') }}</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="{{ t('pages.signUp.enterEmail') }}"
+                    required
+                  />
+                  <div class="invalid-feedback">
+                    {{ t('pages.signUp.errors.email') }}
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="password" class="form-label"
+                    >{{ t('pages.signUp.password') }}</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="{{ t('pages.signUp.enterPassword') }}"
+                    required
+                    minlength="8"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    autocomplete="new-password"
+                  />
+                  <div class="invalid-feedback">
+                    {{ t('pages.signUp.errors.password') }}
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="repeatPassword" class="form-label"
+                    >{{ t('pages.signUp.passwordRepeat') }}</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="repeatPassword"
+                    placeholder="{{ t('pages.signUp.enterPasswordRepeat') }}"
+                    required
+                    autocomplete="new-password"
+                  />
+                  <div class="invalid-feedback">
+                    {{ t('pages.signUp.errors.passwordRepeat') }}
+                  </div>
+                </div>
+
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    {{ t('pages.signUp.signUp') }}
+                  </button>
+                </div>
+
+                <div class="text-center mt-4">
+                  <p class="mb-0">
+                    {{ t('pages.signUp.goSignIn') }}
+                    <a href="/sign-in" class="text-primary"
+                      >{{ t('pages.signUp.signIn') }}</a
+                    >
+                  </p>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</main>
-
-<style>
-  input:invalid:not(:placeholder-shown) + .invalid-feedback {
-    display: block;
-  }
-
-  form:invalid button[type='submit'] {
-    color: var(--bs-btn-disabled-color);
-    pointer-events: none;
-    background-color: var(--bs-btn-disabled-bg);
-    border-color: var(--bs-btn-disabled-border-color);
-    opacity: var(--bs-btn-disabled-opacity);
-  }
-</style>
-
-<script>
-  (() => {
-    const controller = new AbortController();
-
-    document.getElementById('repeatPassword').addEventListener(
-      'input',
-      () => {
-        const password = document.getElementById('password').value;
-        const confirmPassword = this.value;
-
-        if (password !== confirmPassword) {
-          this.setCustomValidity('Passwords do not match');
-        } else {
-          this.setCustomValidity('');
-        }
-      },
-      { signal: controller.signal },
-    );
-
-    document.addEventListener(
-      'beforeunload',
-      () => {
-        controller.abort();
-      },
-      { signal: controller.signal },
-    );
-
-    document.body.addEventListener(
-      'htmx:beforeSwap',
-      () => {
-        controller.abort();
-      },
-      { signal: controller.signal },
-    );
-  })();
-</script>
-
-{% endblock %}
+    </main>
+  </body>
+</html>
