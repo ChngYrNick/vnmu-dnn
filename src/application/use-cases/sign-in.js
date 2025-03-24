@@ -1,4 +1,4 @@
-import { UnauthError } from 'src/domain/errors/unauth-error.js';
+import { UnauthError } from '../../domain/errors/unauth-error.js';
 
 class SignInUseCase {
   #userRepo = null;
@@ -16,7 +16,7 @@ class SignInUseCase {
       throw new UnauthError(UnauthError.ACTIVE_SESSION);
     }
 
-    const user = this.#userRepo.readByInfo({ email });
+    const user = await this.#userRepo.readByInfo({ email });
 
     if (!user) {
       throw new UnauthError(UnauthError.USER_NOT_FOUND);
