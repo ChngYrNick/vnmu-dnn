@@ -57,6 +57,13 @@
       "signUp": "Sign Up",
       "signIn": "Sign In",
       "goSignUp": "Don't have an account?"
+    },
+    "message": {
+      "goHome": "To Home Page",
+      "signUpSuccess": {
+        "title": "Registration Success",
+        "description": "You successfully created an account"
+      }
     }
   }
 }

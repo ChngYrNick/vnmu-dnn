@@ -38,6 +38,17 @@ const setupRoutes = async (fastify) => {
       .view('pages/sign-in.html', { page: PAGES.SignIn });
   });
 
+  fastify.get('/sign-up-success', async (request, reply) => {
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/message.html', {
+        page: PAGES.Message,
+        title: request.t('pages.message.signUpSuccess.title'),
+        description: request.t('pages.message.signUpSuccess.description'),
+      });
+  });
+
   fastify.post('/change-language', async (request, reply) => {
     const { language } = request.body;
 
@@ -61,7 +72,7 @@ const setupRoutes = async (fastify) => {
   fastify.post('/sign-up', async (request, reply) => {
     const useCase = new SignUpUseCase(request.di);
     await useCase.exec(request.body);
-    return reply.redirect('/');
+    return reply.redirect('/sign-up-success');
   });
 
   fastify.post('/logout', async (request, reply) => {

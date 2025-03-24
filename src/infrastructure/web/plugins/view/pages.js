@@ -10,6 +10,7 @@ const PAGES = {
   Literature: 'literature',
   SignUp: 'sign-up',
   SignIn: 'sign-in',
+  Message: 'message',
 };
 
 export { PAGES };
