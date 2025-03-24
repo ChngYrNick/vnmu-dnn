@@ -4,8 +4,7 @@ import '../styles/sign-up.scss';
 addEventListener('load', () => {
   const passwordElem = document.getElementById('password');
   const repeatPasswordElem = document.getElementById('repeatPassword');
-
-  repeatPasswordElem.addEventListener('input', () => {
+  const validateRepeatPassword = () => {
     const password = passwordElem.value;
     const confirmPassword = repeatPasswordElem.value;
 
@@ -14,5 +13,8 @@ addEventListener('load', () => {
     } else {
       repeatPasswordElem.setCustomValidity('');
     }
-  });
+  };
+
+  repeatPasswordElem.addEventListener('input', validateRepeatPassword);
+  passwordElem.addEventListener('input', validateRepeatPassword);
 });
