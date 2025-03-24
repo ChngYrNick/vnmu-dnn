@@ -28,7 +28,7 @@
                 <p class="text-muted">{{ t('pages.signIn.fillInfo') }}</p>
               </div>
 
-              <form id="signupForm">
+              <form id="signupForm" action="/sign-in" method="post">
                 <div class="mb-3">
                   <label for="email" class="form-label"
                     >{{ t('pages.signIn.email') }}</label
@@ -39,6 +39,7 @@
                     id="email"
                     placeholder="{{ t('pages.signIn.enterEmail') }}"
                     required
+                    name="email"
                   />
                 </div>
 
@@ -50,6 +51,7 @@
                     type="password"
                     class="form-control"
                     id="password"
+                    name="password"
                     placeholder="{{ t('pages.signIn.enterPassword') }}"
                     required
                   />
