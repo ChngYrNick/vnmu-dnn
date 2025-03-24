@@ -9,6 +9,8 @@ class ConflictError extends Error {
 
   static ACTIVE_SESSION = 'activeSession';
 
+  static NO_SESSION = 'noSession';
+
   static USER_EXISTS = 'userExists';
 }
 
