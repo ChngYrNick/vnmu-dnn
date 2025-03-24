@@ -1,3 +1,5 @@
+import { SignInUseCase } from '../../../application/use-cases/sign-in.js';
+import { LogoutUseCase } from '../../../application/use-cases/logout.js';
 import { SignUpUseCase } from '../../../application/use-cases/sign-up.js';
 import { PAGES } from '../plugins/view/pages.js';
 
@@ -50,10 +52,23 @@ const setupRoutes = async (fastify) => {
     return reply.redirect(referer);
   });
 
+  fastify.post('/sign-in', async (request, reply) => {
+    const useCase = new SignInUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/');
+  });
+
   fastify.post('/sign-up', async (request, reply) => {
     const useCase = new SignUpUseCase(request.di);
     await useCase.exec(request.body);
     return reply.redirect('/');
+  });
+
+  fastify.post('/logout', async (request, reply) => {
+    const useCase = new LogoutUseCase(request.di);
+    await useCase.exec();
+    const referer = request.headers.referer || '/';
+    return reply.redirect(referer);
   });
 };
 
