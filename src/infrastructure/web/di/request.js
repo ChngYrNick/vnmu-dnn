@@ -1,5 +1,5 @@
 import { DI } from './di.js';
 
-const REQ_DI = { ...DI, sessionsService: null };
+const REQ_DI = { ...DI, sessionsService: null, languageService: null };
 
 export { REQ_DI };

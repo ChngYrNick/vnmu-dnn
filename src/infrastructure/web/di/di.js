@@ -6,7 +6,6 @@ const DI = {
   setupRepo: null,
   sessionsRepo: null,
   sessionsSyncRepo: null,
-  languageService: null,
 };
 
 export { DI };

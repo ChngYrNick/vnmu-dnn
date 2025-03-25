@@ -12,6 +12,7 @@ import {
   plugin as fastifyI18next,
 } from 'i18next-http-middleware';
 import { ctx } from '../plugins/view/ctx.js';
+import { LanguageService } from '../services/language.js';
 
 const setupPlugins = async (fastify) => {
   i18next
@@ -24,8 +25,8 @@ const setupPlugins = async (fastify) => {
           'src/infrastructure/web/locales/{{lng}}/{{ns}}.json',
         ),
       },
-      fallbackLng: fastify.di.languageService.readDefault().code,
-      preload: fastify.di.languageService.readCodes(),
+      fallbackLng: LanguageService.readDefault().code,
+      preload: LanguageService.readCodes(),
       load: 'languageOnly',
       detection: {
         order: ['cookie', 'querystring', 'header'],
@@ -46,7 +47,7 @@ const setupPlugins = async (fastify) => {
     production: process.env.NODE_ENV === 'production',
     defaultContext: {
       ...ctx,
-      supportedLangs: fastify.di.languageService.read(),
+      supportedLangs: LanguageService.read(),
     },
   });
 
