@@ -1,4 +1,4 @@
-import { ConflictError } from '../../domain/errors/conflict.js';
+import { UnauthError } from '../../domain/errors/unauth-error.js';
 
 class LogoutUseCase {
   #sessionsService = null;
@@ -9,7 +9,7 @@ class LogoutUseCase {
 
   async exec() {
     if (!(await this.#sessionsService.checkAuth())) {
-      throw new ConflictError(ConflictError.NO_SESSION);
+      throw new UnauthError(UnauthError.NO_SESSION);
     }
     return this.#sessionsService.destroySession();
   }

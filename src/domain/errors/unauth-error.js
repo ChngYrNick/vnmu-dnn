@@ -11,7 +11,9 @@ class UnauthError extends Error {
 
   static USER_NOT_FOUND = 'userNotFound';
 
-  static INVALID_PASSWORD = 'inavlidPassword';
+  static INVALID_PASSWORD = 'invalidPassword';
+
+  static NO_SESSION = 'noSession';
 }
 
 export { UnauthError };
