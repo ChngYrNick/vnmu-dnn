@@ -1,10 +1,9 @@
-import { DomainError } from './errors.js';
+import { DomainError } from './domain.js';
 
-class ConflictError extends Error {
+class ConflictError extends DomainError {
   constructor(type, message, options) {
     super(message, options);
     this.type = type;
-    this.name = DomainError.CONFLICT;
   }
 
   static ACTIVE_SESSION = 'activeSession';

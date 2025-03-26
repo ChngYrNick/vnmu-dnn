@@ -1,10 +1,9 @@
-import { DomainError } from './errors.js';
+import { DomainError } from './domain.js';
 
-class UnauthError extends Error {
+class UnauthError extends DomainError {
   constructor(type, message, options) {
     super(message, options);
     this.type = type;
-    this.name = DomainError.UNAUTH_ERROR;
   }
 
   static ACTIVE_SESSION = 'activeSession';
