@@ -18,6 +18,36 @@
     "sidebarOpen": "Sidebar Open",
     "sidebarClose": "Sidebar Close"
   },
+  "errors": {
+    "conflict": {
+      "title": "Conflict",
+      "description": {
+        "activeSession": "Can't perform operation while active session",
+        "userExists": "This user already exists"
+      }
+    },
+    "notFound": {
+      "title": "Not Found",
+      "description": {
+        "default": "Can't find this resource"
+      }
+    },
+    "unauthorized": {
+      "title": "Unauthorized",
+      "description": {
+        "activeSession": "Can't perform operation while active session",
+        "userNotFound": "Couldn't find user with this credentials",
+        "noSession": "Can't perform operation with no active session",
+        "invalidPassword": "Provided password is not valid"
+      }
+    },
+    "internal": {
+      "title": "Internal Server Error",
+      "description": {
+        "default": "The server encountered an error and could not complete your request"
+      }
+    }
+  },
   "pages": {
     "home": {
       "featured": {
@@ -42,7 +72,7 @@
       "goSignIn": "Already have an account?",
       "errors": {
         "fullName": "Please enter your full name",
-        "email":"Please enter valid email address",
+        "email": "Please enter valid email address",
         "password": "Password must be at least 8 characters with at least one uppercase letter, one lowercase letter, and one number",
         "passwordRepeat": "Passwords do not match"
       }
@@ -64,6 +94,9 @@
         "title": "Registration Success",
         "description": "You successfully created an account"
       }
+    },
+    "error": {
+      "goHome": "To Home Page"
     }
   }
 }

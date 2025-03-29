@@ -4,6 +4,7 @@ import { setupServices } from './services.js';
 import { setupRepos } from './repos.js';
 import { setupPlugins } from './plugins.js';
 import { setupRoutes } from './routes.js';
+import { setupErrorHandling } from './error.js';
 
 const init = async (fastify) => {
   await setupDI(fastify);
@@ -17,6 +18,8 @@ const init = async (fastify) => {
   await setupPlugins(fastify);
 
   await setupRoutes(fastify);
+
+  await setupErrorHandling(fastify);
 
   const { queryLoaderService, setupRepo } = fastify.di;
 

@@ -11,6 +11,7 @@ const PAGES = {
   SignUp: 'sign-up',
   SignIn: 'sign-in',
   Message: 'message',
+  Error: 'error',
 };
 
 export { PAGES };

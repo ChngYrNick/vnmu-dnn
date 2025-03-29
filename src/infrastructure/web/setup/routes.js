@@ -38,6 +38,19 @@ const setupRoutes = async (fastify) => {
       .view('pages/sign-in.html', { page: PAGES.SignIn });
   });
 
+  fastify.get('/error', async (request, reply) => {
+    const { code, title, description } = request.query;
+
+    return reply
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/error.html', {
+        page: PAGES.Error,
+        code,
+        title,
+        description,
+      });
+  });
+
   fastify.get('/sign-up-success', async (request, reply) => {
     return reply
       .header('Vary', 'Cookie')
