@@ -2,6 +2,7 @@ import { SignInUseCase } from '../../../application/use-cases/sign-in.js';
 import { LogoutUseCase } from '../../../application/use-cases/logout.js';
 import { SignUpUseCase } from '../../../application/use-cases/sign-up.js';
 import { PAGES } from '../plugins/view/pages.js';
+import { tryCatch } from '../../../common/utils.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -25,17 +26,21 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.get('/sign-up', async (request, reply) => {
+    const { error } = request.query;
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/sign-up.html', { page: PAGES.SignUp });
+      .view('pages/sign-up.html', { page: PAGES.SignUp, error });
   });
 
   fastify.get('/sign-in', async (request, reply) => {
+    const { error } = request.query;
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/sign-in.html', { page: PAGES.SignIn });
+      .view('pages/sign-in.html', { page: PAGES.SignIn, error });
   });
 
   fastify.get('/error', async (request, reply) => {
@@ -78,14 +83,24 @@ const setupRoutes = async (fastify) => {
 
   fastify.post('/sign-in', async (request, reply) => {
     const useCase = new SignInUseCase(request.di);
-    await useCase.exec(request.body);
-    return reply.redirect('/');
+    const { error } = await tryCatch(useCase.exec(request.body));
+    if (!error) {
+      return reply.redirect('/');
+    }
+    const { description } = request.di.errorService.handle(error);
+    const params = new URLSearchParams({ error: description });
+    return reply.redirect(`/sign-in?${params.toString()}`);
   });
 
   fastify.post('/sign-up', async (request, reply) => {
     const useCase = new SignUpUseCase(request.di);
-    await useCase.exec(request.body);
-    return reply.redirect('/sign-up-success');
+    const { error } = await tryCatch(useCase.exec(request.body));
+    if (!error) {
+      return reply.redirect('/sign-up-success');
+    }
+    const { description } = request.di.errorService.handle(error);
+    const params = new URLSearchParams({ error: description });
+    return reply.redirect(`/sign-in?${params.toString()}`);
   });
 
   fastify.post('/logout', async (request, reply) => {
