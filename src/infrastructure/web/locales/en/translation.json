@@ -16,7 +16,8 @@
     "literature": "Literature",
     "sidebar": "Sidebar",
     "sidebarOpen": "Sidebar Open",
-    "sidebarClose": "Sidebar Close"
+    "sidebarClose": "Sidebar Close",
+    "admin": "Admin"
   },
   "errors": {
     "conflict": {

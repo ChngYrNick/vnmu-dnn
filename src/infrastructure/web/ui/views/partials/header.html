@@ -33,6 +33,15 @@
           <option value="{{ item.code }}">{{ item.name }}</option>
           {% endif %} {% endfor %}
         </select>
+
+
+        {% if user.role === Roles.ADMIN %}
+        <a
+          class="btn btn-sm btn-outline-danger ms-3"
+          href="/admin"
+          >{{ t('nav.admin') }}</a
+        >
+        {% endif %}
       </div>
       <div class="col-2 text-center d-flex justify-content-center">
         <a

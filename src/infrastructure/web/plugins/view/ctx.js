@@ -1,3 +1,4 @@
+import { Roles } from '../../../../domain/roles.js';
 import { PAGES } from './pages.js';
 
 const nav = [
@@ -16,6 +17,6 @@ const nav = [
   },
 ];
 
-const ctx = { nav };
+const ctx = { nav, Roles };
 
 export { ctx };
