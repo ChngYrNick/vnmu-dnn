@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Admin Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      href="../public/assets/images/logo.svg"
+      type="image/svg+xml"
+    />
+    <script type="module" src="../../scripts/admin.js"></script>
+  </head>
+  <body>
+    <div class="alert alert-warning d-xs-flex d-sm-none" role="alert">
+      Not supported for mobile view
+    </div>
+
+    <header
+      class="d-none d-sm-flex navbar sticky-top bg-dark flex-sm-nowrap p-0 shadow"
+    >
+      <div class="navbar-brand py-2 px-3 col-sm-3 col-xl-2">
+        <a class="btn btn-sm btn-outline-secondary" href="/">Home</a>
+
+        <a
+          class="btn btn-sm btn-outline-secondary"
+          hx-post="/logout?redirect={{ encodeURIComponent('/') }}"
+          hx-target="body"
+          >Sign Out</a
+        >
+      </div>
+    </header>
+
+    <div class="container-fluid d-none d-sm-block">
+      <div class="row">
+        <div
+          class="sidebar border border-right col-sm-3 col-xl-2 p-0 bg-body-tertiary"
+        >
+          <ul class="nav flex-column sidebar__sticky">
+            {% for item in adminNav %}
+
+            <li class="nav-item">
+              <a
+                class="nav-link gap-2 {% if item.name === page %}active{% endif %}"
+                href="{{ item.nav }}"
+              >
+                {{ item.name }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <main class="col-sm-9 col-xl-10 p-4 pb-0">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

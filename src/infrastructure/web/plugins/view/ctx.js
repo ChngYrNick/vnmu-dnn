@@ -1,5 +1,5 @@
 import { Roles } from '../../../../domain/roles.js';
-import { PAGES } from './pages.js';
+import { ADMIN_PAGES, PAGES } from './pages.js';
 
 const nav = [
   { name: PAGES.Home, nav: '/', translation: 'nav.home' },
@@ -17,6 +17,14 @@ const nav = [
   },
 ];
 
-const ctx = { nav, Roles };
+const adminNav = [
+  { name: ADMIN_PAGES.Content, nav: '/admin/content' },
+  { name: ADMIN_PAGES.News, nav: '/admin/news' },
+  { name: ADMIN_PAGES.Staff, nav: '/admin/staff' },
+  { name: ADMIN_PAGES.Materials, nav: '/admin/materials' },
+  { name: ADMIN_PAGES.Users, nav: '/admin/users' },
+];
+
+const ctx = { nav, adminNav, Roles, encodeURIComponent };
 
 export { ctx };

@@ -1,17 +1,25 @@
 const PAGES = {
-  Home: 'home',
-  About: 'about',
-  Staff: 'staff',
-  News: 'news',
-  Student: 'student',
-  Intern: 'intern',
-  Listener: 'listener',
-  Syllabus: 'syllabus',
-  Literature: 'literature',
-  SignUp: 'sign-up',
-  SignIn: 'sign-in',
-  Message: 'message',
-  Error: 'error',
+  Home: 'Home',
+  About: 'About',
+  Staff: 'Staff',
+  News: 'News',
+  Student: 'Student',
+  Intern: 'Intern',
+  Listener: 'Listener',
+  Syllabus: 'Syllabus',
+  Literature: 'Literature',
+  SignUp: 'SignUp',
+  SignIn: 'SignIn',
+  Message: 'Message',
+  Error: 'Error',
 };
 
-export { PAGES };
+const ADMIN_PAGES = {
+  Content: 'Content',
+  News: 'News',
+  Staff: 'Staff',
+  Materials: 'Materials',
+  Users: 'Users',
+};
+
+export { PAGES, ADMIN_PAGES };

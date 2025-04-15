@@ -1,8 +1,10 @@
 import { SignInUseCase } from '../../../application/use-cases/sign-in.js';
 import { LogoutUseCase } from '../../../application/use-cases/logout.js';
 import { SignUpUseCase } from '../../../application/use-cases/sign-up.js';
-import { PAGES } from '../plugins/view/pages.js';
+import { ADMIN_PAGES, PAGES } from '../plugins/view/pages.js';
 import { tryCatch } from '../../../common/utils.js';
+import { Roles } from '../../../domain/roles.js';
+import { ForbiddenError } from '../../../domain/errors/forbidden.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -104,10 +106,30 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/logout', async (request, reply) => {
+    const { redirect } = request.query;
     const useCase = new LogoutUseCase(request.di);
     await useCase.exec();
-    const referer = request.headers.referer || '/';
-    return reply.redirect(referer);
+    const href = redirect || request.headers.referer || '/';
+    return request.headers['hx-request']
+      ? reply.header('HX-Redirect', href).status(200).send()
+      : reply.redirect(href);
+  });
+
+  fastify.get('/admin', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    return reply.redirect('/admin/content');
+  });
+
+  fastify.get('/admin/content', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/admin/content.html', { page: ADMIN_PAGES.Content });
   });
 };
 
