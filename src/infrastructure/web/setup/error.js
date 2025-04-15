@@ -2,6 +2,7 @@ import { NotFoundError } from '../../../domain/errors/not-found.js';
 
 const setupErrorHandling = async (fastify) => {
   fastify.setErrorHandler((error, req, reply) => {
+    req.log.error(error);
     const result = req.di.errorService.handle(error);
     const params = new URLSearchParams(result);
     const url = `/error?${params.toString()}`;
