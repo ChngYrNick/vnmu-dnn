@@ -33,6 +33,12 @@
         "default": "Can't find this resource"
       }
     },
+    "forbidden": {
+      "title": "Forbidden",
+      "description": {
+        "default": "Can't perform this action"
+      }
+    },
     "unauthorized": {
       "title": "Unauthorized",
       "description": {

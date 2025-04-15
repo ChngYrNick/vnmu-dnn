@@ -1,6 +1,7 @@
 import { NotFoundError } from '../../../domain/errors/not-found.js';
 import { ConflictError } from '../../../domain/errors/conflict.js';
 import { UnauthError } from '../../../domain/errors/unauth-error.js';
+import { ForbiddenError } from '../../../domain/errors/forbidden.js';
 
 class ErrorService {
   #languageService = null;
@@ -27,6 +28,14 @@ class ErrorService {
             `errors.notFound.description.${error.type || 'default'}`,
           ),
         };
+      case ForbiddenError.name:
+        return {
+          code: 403,
+          title: this.#languageService.translate('errors.forbidden.title'),
+          description: this.#languageService.translate(
+            `errors.forbidden.description.${error.type || 'default'}`,
+          ),
+        };
       case UnauthError.name:
         return {
           code: 401,
@@ -40,7 +49,7 @@ class ErrorService {
           code: 500,
           title: this.#languageService.translate('errors.internal.title'),
           description: this.#languageService.translate(
-            'errors.internal.description.title',
+            'errors.internal.description.default',
           ),
         };
     }

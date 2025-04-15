@@ -33,6 +33,12 @@
         "default": "Неможливо знайти цей ресурс"
       }
     },
+    "forbidden": {
+      "title": "Заборонено",
+      "description": {
+        "default": "Неможливо виконати цю дію"
+      }
+    },
     "unauthorized": {
       "title": "Не авторизовано",
       "description": {
