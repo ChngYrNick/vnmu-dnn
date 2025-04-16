@@ -4,6 +4,7 @@ const DI = {
   queryLoaderService: null,
   userRepo: null,
   setupRepo: null,
+  pagesRepo: null,
   sessionsRepo: null,
   sessionsSyncRepo: null,
 };
