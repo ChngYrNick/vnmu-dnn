@@ -1,6 +1,8 @@
-# VNMU-DNN
+### **Web Application of the Department of Neurology and Neurosurgery**  
+*Vinnytsia National Pirogov Medical University*
 
-A web application built with Fastify, Bootstrap, and SQLite using clean architecture principles.
+An official online platform of the **Department of Neurology and Neurosurgery** at *Vinnytsia National Pirogov Medical University*.  
+Designed to provide students, faculty, and healthcare professionals with access to educational materials, research updates, and departmental resources.
 
 ## Features
 
