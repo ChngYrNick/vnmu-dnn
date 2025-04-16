@@ -1,5 +1,27 @@
 {% extends "layouts/admin.html" %} {% block content %}
 <section>
   <h2>Content Pages</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Slug</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for page in data %}
+        <tr>
+          <td>{{ page.id }}</td>
+          <td>{{ page.slug }}</td>
+          <td>
+            <a href="/admin/content/edit/{{ page.id }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 {% endblock %}

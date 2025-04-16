@@ -5,6 +5,7 @@ import { ADMIN_PAGES, PAGES } from '../plugins/view/pages.js';
 import { tryCatch } from '../../../common/utils.js';
 import { Roles } from '../../../domain/roles.js';
 import { ForbiddenError } from '../../../domain/errors/forbidden.js';
+import { GetPagesUseCase } from '../../../application/use-cases/get-pages.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -122,14 +123,26 @@ const setupRoutes = async (fastify) => {
     return reply.redirect('/admin/content');
   });
 
+  fastify.get('/admin/news', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    return reply.view('pages/admin/news.html', {
+      page: ADMIN_PAGES.News,
+    });
+  });
+
   fastify.get('/admin/content', async (request, reply) => {
     if (request.session.data?.role !== Roles.ADMIN) {
       throw new ForbiddenError();
     }
-    return reply
-      .header('Vary', 'Cookie')
-      .header('Cache-Control', 'private, max-age=300')
-      .view('pages/admin/content.html', { page: ADMIN_PAGES.Content });
+    const useCase = new GetPagesUseCase(request.di);
+    const data = await useCase.exec();
+
+    return reply.view('pages/admin/content.html', {
+      page: ADMIN_PAGES.Content,
+      data,
+    });
   });
 };
 
