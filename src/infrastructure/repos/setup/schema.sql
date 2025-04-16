@@ -23,8 +23,7 @@ CREATE TABLE IF NOT EXISTS pagesContent (
   pageId INTEGER NOT NULL,
   language TEXT NOT NULL,
   data TEXT NOT NULL,
-  FOREIGN KEY (pageId) REFERENCES pages(id) ON DELETE CASCADE,
-  UNIQUE (pageId)
+  FOREIGN KEY (pageId) REFERENCES pages(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS news (
@@ -40,8 +39,7 @@ CREATE TABLE IF NOT EXISTS newsContent (
   language TEXT NOT NULL,
   title TEXT NOT NULL,
   data TEXT NOT NULL,
-  FOREIGN KEY (newsId) REFERENCES news(id) ON DELETE CASCADE,
-  UNIQUE (newsId)
+  FOREIGN KEY (newsId) REFERENCES news(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS staff (
@@ -59,8 +57,7 @@ CREATE TABLE IF NOT EXISTS staffContent (
   name TEXT NOT NULL,
   position TEXT,
   data TEXT NOT NULL,
-  FOREIGN KEY (staffId) REFERENCES staff(id) ON DELETE CASCADE,
-  UNIQUE (staffId)
+  FOREIGN KEY (staffId) REFERENCES staff(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS specialties (
@@ -73,8 +70,7 @@ CREATE TABLE IF NOT EXISTS specialtyContent (
   specialtyId INTEGER NOT NULL,
   language TEXT NOT NULL,
   name TEXT NOT NULL,
-  FOREIGN KEY (specialtyId) REFERENCES specialties(id) ON DELETE CASCADE,
-  UNIQUE (specialtyId)
+  FOREIGN KEY (specialtyId) REFERENCES specialties(id) ON DELETE CASCADE
 );
 
 
@@ -82,8 +78,7 @@ CREATE TABLE IF NOT EXISTS studentMaterials (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   specialtyId INTEGER NOT NULL,
   course INTEGER NOT NULL,
-  FOREIGN KEY (specialtyId) REFERENCES specialties(id) ON DELETE CASCADE,
-  UNIQUE (specialtyId)
+  FOREIGN KEY (specialtyId) REFERENCES specialties(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS studentMaterialsContent (
@@ -91,8 +86,7 @@ CREATE TABLE IF NOT EXISTS studentMaterialsContent (
   materialId INTEGER NOT NULL,
   language TEXT NOT NULL,
   data TEXT NOT NULL,
-  FOREIGN KEY (materialId) REFERENCES studentMaterials(id) ON DELETE CASCADE,
-  UNIQUE (materialId)
+  FOREIGN KEY (materialId) REFERENCES studentMaterials(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS files (
