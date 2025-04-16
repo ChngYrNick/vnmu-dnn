@@ -96,14 +96,14 @@
       "goSignUp": "Don't have an account?"
     },
     "message": {
-      "goHome": "To Home Page",
+      "goHome": "Home",
       "signUpSuccess": {
         "title": "Registration Success",
         "description": "You successfully created an account"
       }
     },
     "error": {
-      "goHome": "To Home Page"
+      "goHome": "Home"
     }
   }
 }
