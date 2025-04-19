@@ -6,6 +6,7 @@ import { tryCatch } from '../../../common/utils.js';
 import { Roles } from '../../../domain/roles.js';
 import { ForbiddenError } from '../../../domain/errors/forbidden.js';
 import { GetPagesUseCase } from '../../../application/use-cases/get-pages.js';
+import { GetPageDetailsUseCase } from '../../../application/use-cases/get-page-details.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -141,6 +142,31 @@ const setupRoutes = async (fastify) => {
 
     return reply.view('pages/admin/content.html', {
       page: ADMIN_PAGES.Content,
+      data,
+    });
+  });
+
+  fastify.get('/admin/content/edit/:pageId', async (request, reply) => {
+    const { pageId } = request.params;
+    const { lang } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    if (!lang) {
+      return reply.redirect(
+        `/admin/content/edit/${pageId}?lang=${request.i18n.language}`,
+      );
+    }
+
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const data = await useCase.exec({ pageId, language: lang });
+
+    return reply.view('pages/admin/edit-content.html', {
+      page: ADMIN_PAGES.Content,
+      pageId,
+      language: lang,
       data,
     });
   });
