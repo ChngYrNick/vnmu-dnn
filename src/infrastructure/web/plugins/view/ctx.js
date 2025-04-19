@@ -23,6 +23,7 @@ const adminNav = [
   { name: ADMIN_PAGES.Staff, nav: '/admin/staff' },
   { name: ADMIN_PAGES.Materials, nav: '/admin/materials' },
   { name: ADMIN_PAGES.Users, nav: '/admin/users' },
+  { name: ADMIN_PAGES.Contacts, nav: '/admin/contacts' },
 ];
 
 const ctx = { nav, adminNav, Roles, encodeURIComponent };

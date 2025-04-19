@@ -20,6 +20,7 @@ const ADMIN_PAGES = {
   Staff: 'Staff',
   Materials: 'Materials',
   Users: 'Users',
+  Contacts: 'Contacts',
 };
 
 export { PAGES, ADMIN_PAGES };
