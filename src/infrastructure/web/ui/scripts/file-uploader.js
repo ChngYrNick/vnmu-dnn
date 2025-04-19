@@ -229,8 +229,15 @@ class VNMUFileUploaderComponent extends HTMLElement {
     this.render();
   }
 
-  static from() {
-    return document.createElement(VNMUFileUploaderComponent.tagName);
+  updateFiles(files = []) {
+    this.files = files;
+    this.render();
+  }
+
+  static from(files = []) {
+    const component = document.createElement(VNMUFileUploaderComponent.tagName);
+    component.files = files;
+    return component;
   }
 }
 
