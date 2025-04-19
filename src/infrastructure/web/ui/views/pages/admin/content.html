@@ -1,5 +1,5 @@
 {% extends "layouts/admin.html" %} {% block content %}
-<section>
+<section hx-boost="true">
   <h2>Content Pages</h2>
   <div class="table-responsive">
     <table class="table table-striped">
@@ -16,7 +16,7 @@
           <td>{{ page.id }}</td>
           <td>{{ page.slug }}</td>
           <td>
-            <a href="/admin/content/edit/{{ page.id }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+            <a href="/admin/content/edit/{{ page.id }}?lang={{ i18n.language }}" class="btn btn-outline-secondary btn-sm">Edit</a>
           </td>
         </tr>
         {% endfor %}
