@@ -1,19 +1,11 @@
 class VNMUFileUploaderComponent extends HTMLElement {
   static tagName = 'vnmu-file-uploader';
 
-  #fileInputElem = null;
   #abortController = new AbortController();
-  #removeItemHandler = null;
   files = [];
+  #fileInputElem = null;
 
-  constructor() {
-    super();
-
-    this.#removeItemHandler = this.#handleRemoveItem.bind(this);
-  }
-
-  #handleRemoveItem({ target }) {
-    const index = target.dataset.itemIndex;
+  #handleRemoveItem(index) {
     const event = new CustomEvent('delete-file', { detail: index });
     this.dispatchEvent(event);
   }
@@ -176,8 +168,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
       : this.#createPreviewItemIconElem(item);
   }
 
-  #createRemoveItemElem(index) {
-    const item = this.files[index];
+  #createRemoveItemElem(item, index) {
     const removeBtnElem = document.createElement('div');
     const imgElem = document.createElement('img');
     removeBtnElem.classList.add('remove-btn');
@@ -186,15 +177,18 @@ class VNMUFileUploaderComponent extends HTMLElement {
     imgElem.alt = 'close';
     imgElem.height = 20;
     removeBtnElem.appendChild(imgElem);
-    removeBtnElem.addEventListener('click', this.#removeItemHandler);
+    removeBtnElem.addEventListener(
+      'click',
+      () => this.#handleRemoveItem(index),
+      { signal: this.#abortController.signal },
+    );
     if (item.status === 'loading') {
       removeBtnElem.classList.add('d-none');
     }
     return removeBtnElem;
   }
 
-  #createPreviewItemElem(index) {
-    const item = this.files[index];
+  #createPreviewItemElem(item, index) {
     const previewItemElem = document.createElement('div');
     const fileInfoElem = document.createElement('div');
     previewItemElem.classList.add('preview-item');
@@ -204,7 +198,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
     const uploadingOverlayElem = this.#createUploadingOverlayElem(item);
     const progressElem = this.#createProgressElem(item);
     const contentElem = this.#createPreviewItemContentElem(item);
-    const removeItemElem = this.#createRemoveItemElem(index);
+    const removeItemElem = this.#createRemoveItemElem(item, index);
     previewItemElem.appendChild(contentElem);
     previewItemElem.appendChild(fileInfoElem);
     previewItemElem.appendChild(progressElem);
@@ -218,35 +212,15 @@ class VNMUFileUploaderComponent extends HTMLElement {
     this.dispatchEvent(event);
   }
 
-  renderItem(index) {
-    if (!this.files[index]) {
-      return;
-    }
-    const previewItemElements = this.querySelectorAll('.preview-item');
-    const previewItemElem = this.#createPreviewItemElem(index);
-
-    if (previewItemElements[index]) {
-      const previewItemCopyElem = previewItemElements[index];
-      previewItemCopyElem
-        .querySelector('.remove-btn')
-        .removeEventListener('click', this.#removeItemHandler);
-      previewItemCopyElem.replaceWith(previewItemElem);
-      return;
-    }
-    if (index >= previewItemElements.length) {
-      this.appendChild(previewItemElem);
-      return;
-    }
-    this.insertBefore(previewItemElem, previewItemElements[index]);
-  }
-
   render() {
     this.#abortController.abort();
     while (this.firstChild) {
       this.removeChild(this.firstChild);
     }
     this.#abortController = new AbortController();
-    this.files.forEach((_, index) => this.renderItem(index));
+    this.files.forEach((item, index) => {
+      this.appendChild(this.#createPreviewItemElem(item, index));
+    });
     this.appendChild(this.#createContainerElem());
     this.#fileInputElem = this.querySelector('input');
   }
