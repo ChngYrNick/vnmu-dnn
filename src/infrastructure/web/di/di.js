@@ -5,6 +5,7 @@ const DI = {
   userRepo: null,
   setupRepo: null,
   pagesRepo: null,
+  pagesContentRepo: null,
   sessionsRepo: null,
   sessionsSyncRepo: null,
 };
