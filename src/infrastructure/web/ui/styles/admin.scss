@@ -23,9 +23,11 @@
   }
 }
 
-.editor-toolbar {
-  &.fullscreen {
-    z-index: 1021;
+vnmu-editor {
+  .editor-toolbar {
+    &.fullscreen {
+      z-index: 1021;
+    }
   }
 }
 
