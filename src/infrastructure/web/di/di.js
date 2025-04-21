@@ -8,6 +8,8 @@ const DI = {
   pagesContentRepo: null,
   sessionsRepo: null,
   sessionsSyncRepo: null,
+  filesRepo: null,
+  pagesFileRepo: null,
 };
 
 export { DI };
