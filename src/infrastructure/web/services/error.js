@@ -2,6 +2,7 @@ import { NotFoundError } from '../../../domain/errors/not-found.js';
 import { ConflictError } from '../../../domain/errors/conflict.js';
 import { UnauthError } from '../../../domain/errors/unauth-error.js';
 import { ForbiddenError } from '../../../domain/errors/forbidden.js';
+import { BadRequestError } from '../../../domain/errors/bad-request.js';
 
 class ErrorService {
   #languageService = null;
@@ -42,6 +43,14 @@ class ErrorService {
           title: this.#languageService.translate('errors.unauthorized.title'),
           description: this.#languageService.translate(
             `errors.unauthorized.description.${error.type || 'default'}`,
+          ),
+        };
+      case BadRequestError.name:
+        return {
+          code: 400,
+          title: this.#languageService.translate('errors.badRequest.title'),
+          description: this.#languageService.translate(
+            `errors.badRequest.description.${error.type || 'default'}`,
           ),
         };
       default:

@@ -39,6 +39,12 @@
         "default": "Неможливо виконати цю дію"
       }
     },
+    "badRequest": {
+      "title": "Неправильний запит",
+      "description": {
+        "default": "Неправильні параметри запиту"
+      }
+    },
     "unauthorized": {
       "title": "Не авторизовано",
       "description": {

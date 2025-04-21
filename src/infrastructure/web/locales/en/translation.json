@@ -39,6 +39,12 @@
         "default": "Can't perform this action"
       }
     },
+    "badRequest": {
+      "title": "Bad Request",
+      "description": {
+        "default": "Invalid request"
+      }
+    },
     "unauthorized": {
       "title": "Unauthorized",
       "description": {
