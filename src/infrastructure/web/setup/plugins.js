@@ -5,6 +5,7 @@ import fastifyView from '@fastify/view';
 import { fastifyFormbody } from '@fastify/formbody';
 import { fastifySession } from '@fastify/session';
 import { fastifyCookie } from '@fastify/cookie';
+import { fastifyMultipart } from '@fastify/multipart';
 import i18next from 'i18next';
 import i18nextFSBackend from 'i18next-fs-backend';
 import {
@@ -35,10 +36,23 @@ const setupPlugins = async (fastify) => {
       },
     });
 
+  fastify.register(fastifyMultipart, {
+    limits: {
+      fileSize: 1024 * 1024 * 1024, // 1GB limit
+    },
+  });
+
   fastify.register(fastifyStatic, {
     root: path.join(process.cwd(), 'dist/public'),
     prefix: '/public/',
     preCompressed: true,
+    decorateReply: false,
+  });
+
+  fastify.register(fastifyStatic, {
+    root: path.join(process.cwd(), 'uploads'),
+    prefix: '/uploads/',
+    decorateReply: false,
   });
 
   fastify.register(fastifyView, {
