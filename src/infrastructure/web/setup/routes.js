@@ -7,6 +7,9 @@ import { Roles } from '../../../domain/roles.js';
 import { ForbiddenError } from '../../../domain/errors/forbidden.js';
 import { GetPagesUseCase } from '../../../application/use-cases/get-pages.js';
 import { GetPageDetailsUseCase } from '../../../application/use-cases/get-page-details.js';
+import { UploadPageFileUseCase } from '../../../application/use-cases/upload-page-file.js';
+import { GetPageFilesUseCase } from '../../../application/use-cases/get-page-files.js';
+import { DeleteFileUseCase } from '../../../application/use-cases/delete-file.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -169,6 +172,46 @@ const setupRoutes = async (fastify) => {
       language: lang,
       data,
     });
+  });
+
+  fastify.post('/admin/content/uploads/:pageId', async (request, reply) => {
+    const { pageId } = request.params;
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const data = await request.file();
+    const useCase = new UploadPageFileUseCase(request.di);
+    const result = await tryCatch(useCase.exec({ pageId, data }));
+    if (result.error) {
+      request.log.error(result.error);
+      const processedError = request.di.errorService.handle(result.error);
+      return reply.code(processedError.code).send(processedError);
+    }
+    return reply.code(200).send(result.data);
+  });
+
+  fastify.get('/content/uploads/:pageId', async (request, reply) => {
+    const { pageId } = request.params;
+    const useCase = new GetPageFilesUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(pageId));
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+    return reply.code(200).send(data);
+  });
+
+  fastify.delete('/uploads/:fileId', async (request, reply) => {
+    const { fileId } = request.params;
+    const useCase = new DeleteFileUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(fileId));
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+    return reply.code(200).send(data);
   });
 };
 
