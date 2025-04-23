@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS files (
   originalFilename TEXT NOT NULL,
   mimetype TEXT NOT NULL,
   size INTEGER NOT NULL,
+  filepath TEXT NOT NULL,
   path TEXT NOT NULL,
   createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
