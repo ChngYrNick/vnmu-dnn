@@ -1,14 +1,14 @@
-import fs from 'node:fs/promises';
-
 class DeleteFileUseCase {
   #filesRepo = null;
+  #fileService = null;
 
-  constructor({ filesRepo }) {
+  constructor({ filesRepo, fileService }) {
     this.#filesRepo = filesRepo;
+    this.#fileService = fileService;
   }
   async exec(fileId) {
     const file = await this.#filesRepo.readById(fileId);
-    await fs.unlink(file.filepath);
+    await this.#fileService.delete(file.filepath);
     return this.#filesRepo.deleteById(fileId);
   }
 }
