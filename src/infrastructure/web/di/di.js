@@ -1,6 +1,7 @@
 const DI = {
   db: null,
   passwordService: null,
+  fileService: null,
   queryLoaderService: null,
   userRepo: null,
   setupRepo: null,
