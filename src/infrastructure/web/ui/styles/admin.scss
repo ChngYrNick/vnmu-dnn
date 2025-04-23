@@ -37,6 +37,18 @@ vnmu-editor {
   gap: 10px;
 }
 
+.preview-item {
+  text-decoration: none;
+
+  &.failed {
+    pointer-events: none;
+
+    .remove-btn {
+      pointer-events: all;
+    }
+  }
+}
+
 .preview-item,
 .upload-tile {
   position: relative;
@@ -76,6 +88,7 @@ vnmu-editor {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .preview-item .file-info {
@@ -105,6 +118,7 @@ vnmu-editor {
   justify-content: center;
   cursor: pointer;
   font-size: 10px;
+  border: none;
 }
 
 .preview-item .remove-btn:hover {
@@ -119,17 +133,23 @@ vnmu-editor {
   flex-direction: column;
   height: 100%;
   background-color: #f8f9fa;
-}
 
-.file-type-icon i {
-  font-size: 32px;
-  color: #6c757d;
-  margin-bottom: 5px;
-}
+  img {
+    pointer-events: none;
+  }
 
-.file-type-icon span {
-  font-size: 12px;
-  color: #6c757d;
+  span {
+    font-size: 12px;
+    color: #6c757d;
+  }
+
+  &.failed {
+    background-color: #f8d7da;
+
+    span {
+      color: #721c24;
+    }
+  }
 }
 
 .file-progress {

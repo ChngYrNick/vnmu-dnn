@@ -4,6 +4,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
   #abortController = new AbortController();
   files = [];
   #fileInputElem = null;
+  #previewContainerElem = null;
 
   #handleRemoveItem(index) {
     const event = new CustomEvent('delete-file', { detail: index });
@@ -53,14 +54,14 @@ class VNMUFileUploaderComponent extends HTMLElement {
     const containerElem = document.createElement('div');
     const cardElem = document.createElement('div');
     const cardBodyElem = document.createElement('div');
-    const previewContainerElem = document.createElement('div');
+    this.#previewContainerElem = document.createElement('div');
     const uploadTileElem = this.#createUploadTileElem();
     containerElem.classList.add('container-fluid', 'p-0');
     cardElem.classList.add('card', 'border-1');
     cardBodyElem.classList.add('card-body', 'p-3');
-    previewContainerElem.classList.add('preview-container');
-    previewContainerElem.appendChild(uploadTileElem);
-    cardBodyElem.appendChild(previewContainerElem);
+    this.#previewContainerElem.classList.add('preview-container');
+    this.#previewContainerElem.appendChild(uploadTileElem);
+    cardBodyElem.appendChild(this.#previewContainerElem);
     cardElem.appendChild(cardBodyElem);
     containerElem.appendChild(cardElem);
     return containerElem;
@@ -90,66 +91,62 @@ class VNMUFileUploaderComponent extends HTMLElement {
     );
     spinnerElem.role = 'status';
     uploadingOverlay.appendChild(spinnerElem);
-    if (item.status !== 'loading') {
+    if (item.status !== 'loading' || item.progress) {
       uploadingOverlay.classList.add('d-none');
     }
     return uploadingOverlay;
   }
 
   #createPreviewItemImageElem(item) {
-    const img = document.createElement('img');
-    img.classList.add('img-preview');
-    if (item.status !== 'complete') {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(item.data);
-    } else {
-      img.src = item.data.path;
-    }
-    return img;
+    const imgElem = document.createElement('img');
+    imgElem.classList.add('img-preview');
+    imgElem.src = item.data.path;
+    return imgElem;
   }
 
   #createPreviewItemIconElem(item) {
     const iconElem = document.createElement('div');
     const imgElem = document.createElement('img');
     const textElem = document.createElement('span');
-    iconElem.classList.add('file-type-icon');
     let iconSrc = '/public/assets/icons/file.svg';
     let fileType = 'File';
-    if (item.data.type.includes('pdf')) {
+    iconElem.classList.add('file-type-icon');
+    if (item.status === 'failed') {
+      iconSrc = '/public/assets/icons/x-lg.svg';
+      fileType = 'Upload Failed';
+      iconElem.classList.add('failed');
+    } else if (item.data.mimetype.includes('pdf')) {
       iconSrc = '/public/assets/icons/pdf.svg';
       fileType = 'PDF';
     } else if (
-      item.data.type.includes('word') ||
-      item.data.name.endsWith('.doc') ||
-      item.data.name.endsWith('.docx')
+      item.data.mimetype.includes('word') ||
+      item.data.filename.endsWith('.doc') ||
+      item.data.filename.endsWith('.docx')
     ) {
       iconSrc = '/public/assets/icons/doc.svg';
       fileType = 'DOC';
     } else if (
-      item.data.type.includes('excel') ||
-      item.data.name.endsWith('.xls') ||
-      item.data.name.endsWith('.xlsx')
+      item.data.mimetype.includes('excel') ||
+      item.data.filename.endsWith('.xls') ||
+      item.data.filename.endsWith('.xlsx')
     ) {
       iconSrc = '/public/assets/icons/xls.svg';
       fileType = 'XLS';
-    } else if (item.data.type.includes('video')) {
+    } else if (item.data.mimetype.includes('video')) {
       iconSrc = '/public/assets/icons/video.svg';
       fileType = 'Video';
-    } else if (item.data.type.includes('audio')) {
+    } else if (item.data.mimetype.includes('audio')) {
       iconSrc = '/public/assets/icons/audio.svg';
       fileType = 'Audio';
     } else if (
-      item.data.type.includes('zip') ||
-      item.data.type.includes('archive') ||
-      item.data.name.endsWith('.zip') ||
-      item.data.name.endsWith('.rar')
+      item.data.mimetype.includes('zip') ||
+      item.data.mimetype.includes('archive') ||
+      item.data.filename.endsWith('.zip') ||
+      item.data.filename.endsWith('.rar')
     ) {
       iconSrc = '/public/assets/icons/archive.svg';
       fileType = 'Archive';
-    } else if (item.data.type.includes('text')) {
+    } else if (item.data.mimetype.includes('text')) {
       iconSrc = '/public/assets/icons/text.svg';
       fileType = 'Text';
     }
@@ -163,23 +160,30 @@ class VNMUFileUploaderComponent extends HTMLElement {
   }
 
   #createPreviewItemContentElem(item) {
-    return item.data.type.startsWith('image')
+    return item.data.mimetype.startsWith('image') &&
+      item.data.path &&
+      item.status !== 'failed'
       ? this.#createPreviewItemImageElem(item)
       : this.#createPreviewItemIconElem(item);
   }
 
   #createRemoveItemElem(item, index) {
-    const removeBtnElem = document.createElement('div');
+    const removeBtnElem = document.createElement('button');
     const imgElem = document.createElement('img');
     removeBtnElem.classList.add('remove-btn');
     removeBtnElem.dataset.itemIndex = index;
+    removeBtnElem.type = 'button';
     imgElem.src = '/public/assets/icons/x.svg';
     imgElem.alt = 'close';
     imgElem.height = 20;
     removeBtnElem.appendChild(imgElem);
     removeBtnElem.addEventListener(
       'click',
-      () => this.#handleRemoveItem(index),
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.#handleRemoveItem(index);
+      },
       { signal: this.#abortController.signal },
     );
     if (item.status === 'loading') {
@@ -189,12 +193,18 @@ class VNMUFileUploaderComponent extends HTMLElement {
   }
 
   #createPreviewItemElem(item, index) {
-    const previewItemElem = document.createElement('div');
+    const previewItemElem = document.createElement('a');
     const fileInfoElem = document.createElement('div');
     previewItemElem.classList.add('preview-item');
     previewItemElem.dataset.index = index;
+    previewItemElem.href = item.data.path;
+    previewItemElem.target = '_blank';
+    previewItemElem.title = item.data.originalFilename;
+    if (item.status === 'failed') {
+      previewItemElem.classList.add('failed');
+    }
     fileInfoElem.classList.add('file-info');
-    fileInfoElem.textContent = item.data.name;
+    fileInfoElem.textContent = item.data.originalFilename;
     const uploadingOverlayElem = this.#createUploadingOverlayElem(item);
     const progressElem = this.#createProgressElem(item);
     const contentElem = this.#createPreviewItemContentElem(item);
@@ -218,10 +228,13 @@ class VNMUFileUploaderComponent extends HTMLElement {
       this.removeChild(this.firstChild);
     }
     this.#abortController = new AbortController();
-    this.files.forEach((item, index) => {
-      this.appendChild(this.#createPreviewItemElem(item, index));
-    });
     this.appendChild(this.#createContainerElem());
+    this.files.forEach((item, index) => {
+      this.#previewContainerElem.insertBefore(
+        this.#createPreviewItemElem(item, index),
+        this.#previewContainerElem.lastChild,
+      );
+    });
     this.#fileInputElem = this.querySelector('input');
   }
 
