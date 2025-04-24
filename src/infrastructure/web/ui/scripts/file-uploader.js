@@ -4,6 +4,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
   #abortController = new AbortController();
   #fileInputElem = null;
   #previewContainerElem = null;
+  #items = new Map();
 
   #handleRemoveItem(fileId) {
     const event = new CustomEvent('delete-file', { detail: fileId });
@@ -53,14 +54,14 @@ class VNMUFileUploaderComponent extends HTMLElement {
     const containerElem = document.createElement('div');
     const cardElem = document.createElement('div');
     const cardBodyElem = document.createElement('div');
-    this.#previewContainerElem = document.createElement('div');
+    const previewContainerElem = document.createElement('div');
     const uploadTileElem = this.#createUploadTileElem();
     containerElem.classList.add('container-fluid', 'p-0');
     cardElem.classList.add('card', 'border-1');
     cardBodyElem.classList.add('card-body', 'p-3');
-    this.#previewContainerElem.classList.add('preview-container');
-    this.#previewContainerElem.appendChild(uploadTileElem);
-    cardBodyElem.appendChild(this.#previewContainerElem);
+    previewContainerElem.classList.add('preview-container');
+    previewContainerElem.appendChild(uploadTileElem);
+    cardBodyElem.appendChild(previewContainerElem);
     cardElem.appendChild(cardBodyElem);
     containerElem.appendChild(cardElem);
     return containerElem;
@@ -190,6 +191,12 @@ class VNMUFileUploaderComponent extends HTMLElement {
     return removeBtnElem;
   }
 
+  #createPreviewItem(item) {
+    const element = this.#createPreviewItemElem(item);
+    const progressElem = element.querySelector('.file-progress');
+    return { element, progressElem };
+  }
+
   #createPreviewItemElem(item) {
     const previewItemElem = document.createElement('a');
     const fileInfoElem = document.createElement('div');
@@ -227,50 +234,47 @@ class VNMUFileUploaderComponent extends HTMLElement {
     }
     this.#abortController = new AbortController();
     this.appendChild(this.#createContainerElem());
-    files.forEach((item) => {
-      this.#previewContainerElem.insertBefore(
-        this.#createPreviewItemElem(item),
-        this.#previewContainerElem.lastChild,
-      );
-    });
+    this.#previewContainerElem = this.querySelector('.preview-container');
     this.#fileInputElem = this.querySelector('input');
+    files.forEach((file) => this.addFile(file));
   }
 
   connectedCallback() {
     this.updateFiles();
   }
 
-  #findPreviewItemElem(fileId) {
-    return this.#previewContainerElem.querySelector(
-      `.preview-item[data-file-id="${fileId}"]`,
-    );
-  }
-
   updateFile(fileId, file) {
-    const previewItemElem = this.#findPreviewItemElem(fileId);
+    const previewItemElem = this.#items.get(fileId)?.element;
     if (previewItemElem) {
-      const updatedPreviewItemElem = this.#createPreviewItemElem(file);
-      previewItemElem.replaceWith(updatedPreviewItemElem);
+      const updatedItem = this.#createPreviewItem(file);
+      previewItemElem.replaceWith(updatedItem.element);
+      this.#items.delete(fileId);
+      this.#items.set(file.data.id, updatedItem);
     }
   }
 
   updateFileProgress(fileId, file) {
-    const previewItemElem = this.#findPreviewItemElem(fileId);
-    if (previewItemElem) {
-      const progressElem = previewItemElem.querySelector('.file-progress');
+    const progressElem = this.#items.get(fileId)?.progressElem;
+    if (progressElem) {
       const updatedProgressElem = this.#createProgressElem(file);
       progressElem.replaceWith(updatedProgressElem);
+      this.#items.get(fileId).progressElem = updatedProgressElem;
     }
   }
 
   removeFile(fileId) {
-    const previewItemElem = this.#findPreviewItemElem(fileId);
-    previewItemElem?.remove();
+    const previewItemElem = this.#items.get(fileId)?.element;
+    if (previewItemElem) {
+      previewItemElem.remove();
+      this.#items.delete(fileId);
+    }
   }
 
   addFile(file) {
+    const item = this.#createPreviewItem(file);
+    this.#items.set(file.data.id, item);
     this.#previewContainerElem.insertBefore(
-      this.#createPreviewItemElem(file),
+      item.element,
       this.#previewContainerElem.lastChild,
     );
   }
