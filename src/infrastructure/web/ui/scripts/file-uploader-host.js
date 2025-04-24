@@ -106,7 +106,7 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
   #handleImageFile(data) {
     const abortController = new AbortController();
     const file = FileMapper.fromFile(data);
-    const fileReader = new FileReader();
+    let fileReader = new FileReader();
 
     fileReader.addEventListener(
       'load',
@@ -118,17 +118,32 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
         }
 
         abortController.abort();
+        fileReader = null;
       },
       { signal: abortController.signal },
     );
 
-    fileReader.addEventListener('error', () => void abortController.abort(), {
-      signal: abortController.signal,
-    });
+    fileReader.addEventListener(
+      'error',
+      () => {
+        abortController.abort();
+        fileReader = null;
+      },
+      {
+        signal: abortController.signal,
+      },
+    );
 
-    this.addEventListener('destroy', () => void abortController.abort(), {
-      signal: abortController.signal,
-    });
+    this.addEventListener(
+      'destroy',
+      () => {
+        abortController.abort();
+        fileReader = null;
+      },
+      {
+        signal: abortController.signal,
+      },
+    );
 
     this.#files.push(file);
     fileReader.readAsDataURL(data);
@@ -142,12 +157,13 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     }
     const file = FileMapper.fromFile(data);
     this.#files.push(file);
+    this.#addFileToList(file);
     this.#uploadFile(file);
   }
 
   #uploadFile(file) {
     const abortController = new AbortController();
-    const xhr = this.#fileService.upload(this.#id, file);
+    let xhr = this.#fileService.upload(this.#id, file);
 
     xhr.addEventListener(
       'load',
@@ -160,6 +176,7 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
           this.#updateFileStatus(file.data.id, 'failed');
         }
         abortController.abort();
+        xhr = null;
       },
       { signal: abortController.signal },
     );
@@ -169,6 +186,7 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
       () => {
         this.#updateFileStatus(file.data.id, 'failed');
         abortController.abort();
+        xhr = null;
       },
       { signal: abortController.signal },
     );
@@ -186,9 +204,16 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
       },
     );
 
-    this.addEventListener('destroy', () => void abortController.abort(), {
-      signal: abortController.signal,
-    });
+    this.addEventListener(
+      'destroy',
+      () => {
+        abortController.abort();
+        xhr = null;
+      },
+      {
+        signal: abortController.signal,
+      },
+    );
   }
 
   #setupEventListeners() {
@@ -208,7 +233,7 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     this.addEventListener(
       'delete-file',
       async (event) => {
-        const index = event.detail;
+        const index = this.#findFileIndex(event.detail);
         const file = this.#files[index];
         this.#updateError();
         if (file.status !== 'complete') {
@@ -240,7 +265,8 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     if (fileIndex !== -1) {
       this.#files[fileIndex].data = data;
       this.#files[fileIndex].status = 'complete';
-      this.#fileUploaderElem.updateFiles(this.#files);
+      const file = this.#files[fileIndex];
+      this.#fileUploaderElem.updateFile(fileId, file);
     }
   }
 
@@ -248,7 +274,8 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     const fileIndex = this.#findFileIndex(fileId);
     if (fileIndex !== -1) {
       this.#files[fileIndex].progress = progress;
-      this.#fileUploaderElem.updateFiles(this.#files);
+      const file = this.#files[fileIndex];
+      this.#fileUploaderElem.updateFileProgress(fileId, file);
     }
   }
 
@@ -256,7 +283,8 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     const fileIndex = this.#findFileIndex(fileId);
     if (fileIndex !== -1) {
       this.#files[fileIndex].status = status;
-      this.#fileUploaderElem.updateFiles(this.#files);
+      const file = this.#files[fileIndex];
+      this.#fileUploaderElem.updateFile(fileId, file);
     }
   }
 
@@ -264,8 +292,12 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     const fileIndex = this.#findFileIndex(fileId);
     if (fileIndex !== -1) {
       this.#files.splice(fileIndex, 1);
-      this.#fileUploaderElem.updateFiles(this.#files);
+      this.#fileUploaderElem.removeFile(fileId);
     }
+  }
+
+  #addFileToList(file) {
+    this.#fileUploaderElem.addFile(file);
   }
 
   #updateId() {

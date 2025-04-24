@@ -2,12 +2,11 @@ class VNMUFileUploaderComponent extends HTMLElement {
   static tagName = 'vnmu-file-uploader';
 
   #abortController = new AbortController();
-  files = [];
   #fileInputElem = null;
   #previewContainerElem = null;
 
-  #handleRemoveItem(index) {
-    const event = new CustomEvent('delete-file', { detail: index });
+  #handleRemoveItem(fileId) {
+    const event = new CustomEvent('delete-file', { detail: fileId });
     this.dispatchEvent(event);
   }
 
@@ -91,7 +90,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
     );
     spinnerElem.role = 'status';
     uploadingOverlay.appendChild(spinnerElem);
-    if (item.status !== 'loading' || item.progress) {
+    if (item.status !== 'loading') {
       uploadingOverlay.classList.add('d-none');
     }
     return uploadingOverlay;
@@ -167,11 +166,10 @@ class VNMUFileUploaderComponent extends HTMLElement {
       : this.#createPreviewItemIconElem(item);
   }
 
-  #createRemoveItemElem(item, index) {
+  #createRemoveItemElem(item) {
     const removeBtnElem = document.createElement('button');
     const imgElem = document.createElement('img');
     removeBtnElem.classList.add('remove-btn');
-    removeBtnElem.dataset.itemIndex = index;
     removeBtnElem.type = 'button';
     imgElem.src = '/public/assets/icons/x.svg';
     imgElem.alt = 'close';
@@ -182,7 +180,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
       (event) => {
         event.preventDefault();
         event.stopPropagation();
-        this.#handleRemoveItem(index);
+        this.#handleRemoveItem(item.data.id);
       },
       { signal: this.#abortController.signal },
     );
@@ -192,14 +190,14 @@ class VNMUFileUploaderComponent extends HTMLElement {
     return removeBtnElem;
   }
 
-  #createPreviewItemElem(item, index) {
+  #createPreviewItemElem(item) {
     const previewItemElem = document.createElement('a');
     const fileInfoElem = document.createElement('div');
     previewItemElem.classList.add('preview-item');
-    previewItemElem.dataset.index = index;
     previewItemElem.href = item.data.path;
     previewItemElem.target = '_blank';
     previewItemElem.title = item.data.originalFilename;
+    previewItemElem.dataset.fileId = item.data.id;
     if (item.status === 'failed') {
       previewItemElem.classList.add('failed');
     }
@@ -208,7 +206,7 @@ class VNMUFileUploaderComponent extends HTMLElement {
     const uploadingOverlayElem = this.#createUploadingOverlayElem(item);
     const progressElem = this.#createProgressElem(item);
     const contentElem = this.#createPreviewItemContentElem(item);
-    const removeItemElem = this.#createRemoveItemElem(item, index);
+    const removeItemElem = this.#createRemoveItemElem(item);
     previewItemElem.appendChild(contentElem);
     previewItemElem.appendChild(fileInfoElem);
     previewItemElem.appendChild(progressElem);
@@ -222,16 +220,16 @@ class VNMUFileUploaderComponent extends HTMLElement {
     this.dispatchEvent(event);
   }
 
-  render() {
+  updateFiles(files = []) {
     this.#abortController.abort();
     while (this.firstChild) {
       this.removeChild(this.firstChild);
     }
     this.#abortController = new AbortController();
     this.appendChild(this.#createContainerElem());
-    this.files.forEach((item, index) => {
+    files.forEach((item) => {
       this.#previewContainerElem.insertBefore(
-        this.#createPreviewItemElem(item, index),
+        this.#createPreviewItemElem(item),
         this.#previewContainerElem.lastChild,
       );
     });
@@ -239,12 +237,42 @@ class VNMUFileUploaderComponent extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
+    this.updateFiles();
   }
 
-  updateFiles(files = []) {
-    this.files = files;
-    this.render();
+  #findPreviewItemElem(fileId) {
+    return this.#previewContainerElem.querySelector(
+      `.preview-item[data-file-id="${fileId}"]`,
+    );
+  }
+
+  updateFile(fileId, file) {
+    const previewItemElem = this.#findPreviewItemElem(fileId);
+    if (previewItemElem) {
+      const updatedPreviewItemElem = this.#createPreviewItemElem(file);
+      previewItemElem.replaceWith(updatedPreviewItemElem);
+    }
+  }
+
+  updateFileProgress(fileId, file) {
+    const previewItemElem = this.#findPreviewItemElem(fileId);
+    if (previewItemElem) {
+      const progressElem = previewItemElem.querySelector('.file-progress');
+      const updatedProgressElem = this.#createProgressElem(file);
+      progressElem.replaceWith(updatedProgressElem);
+    }
+  }
+
+  removeFile(fileId) {
+    const previewItemElem = this.#findPreviewItemElem(fileId);
+    previewItemElem?.remove();
+  }
+
+  addFile(file) {
+    this.#previewContainerElem.insertBefore(
+      this.#createPreviewItemElem(file),
+      this.#previewContainerElem.lastChild,
+    );
   }
 
   static from(files = []) {
