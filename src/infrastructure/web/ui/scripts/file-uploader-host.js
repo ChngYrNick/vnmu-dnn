@@ -146,6 +146,7 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     );
 
     this.#files.push(file);
+    this.#addFileToList(file);
     fileReader.readAsDataURL(data);
     this.#uploadFile(file);
   }
