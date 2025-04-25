@@ -16,7 +16,7 @@
           <td>{{ page.id }}</td>
           <td>{{ page.slug }}</td>
           <td>
-            <a href="/admin/content/edit/{{ page.id }}?lang={{ i18n.language }}" class="btn btn-outline-secondary btn-sm">Edit</a>
+            <a href="/admin/content/edit/{{ page.id }}?lang={{ i18n.resolvedLanguage }}" class="btn btn-outline-secondary btn-sm">Edit</a>
           </td>
         </tr>
         {% endfor %}
