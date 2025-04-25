@@ -10,7 +10,7 @@ import { GetPageDetailsUseCase } from '../../../application/use-cases/get-page-d
 import { UploadPageFileUseCase } from '../../../application/use-cases/upload-page-file.js';
 import { GetPageFilesUseCase } from '../../../application/use-cases/get-page-files.js';
 import { DeleteFileUseCase } from '../../../application/use-cases/delete-file.js';
-
+import { GetPageContentUseCase } from '../../../application/get-page-content.js';
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
     return reply
@@ -159,7 +159,7 @@ const setupRoutes = async (fastify) => {
 
     if (!lang) {
       return reply.redirect(
-        `/admin/content/edit/${pageId}?lang=${request.i18n.language}`,
+        `/admin/content/edit/${pageId}?lang=${request.i18n.resolvedLanguage}`,
       );
     }
 
@@ -188,6 +188,19 @@ const setupRoutes = async (fastify) => {
       return reply.code(processedError.code).send(processedError);
     }
     return reply.code(200).send(result.data);
+  });
+
+  fastify.get('/admin/content/text/:pageId', async (request, reply) => {
+    const { pageId } = request.params;
+    const { lang } = request.query;
+    const useCase = new GetPageContentUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(pageId, lang));
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+    return data ? reply.code(200).send(data) : reply.code(404).send();
   });
 
   fastify.get('/content/uploads/:pageId', async (request, reply) => {
