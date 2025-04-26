@@ -243,6 +243,10 @@ class VNMUFileUploaderComponent extends HTMLElement {
     this.updateFiles();
   }
 
+  disconnectedCallback() {
+    this.#abortController.abort();
+  }
+
   updateFile(fileId, file) {
     const previewItemElem = this.#items.get(fileId)?.element;
     if (previewItemElem) {
