@@ -11,6 +11,7 @@ import { UploadPageFileUseCase } from '../../../application/use-cases/upload-pag
 import { GetPageFilesUseCase } from '../../../application/use-cases/get-page-files.js';
 import { DeleteFileUseCase } from '../../../application/use-cases/delete-file.js';
 import { GetPageContentUseCase } from '../../../application/use-cases/get-page-content.js';
+import { UpdatePageContentUseCase } from '../../../application/use-cases/update-page-content.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -202,6 +203,21 @@ const setupRoutes = async (fastify) => {
       return reply.code(processedError.code).send(processedError);
     }
     return data ? reply.code(200).send(data) : reply.code(404).send();
+  });
+
+  fastify.put('/admin/content/text/:pageId', async (request, reply) => {
+    const { pageId } = request.params;
+    const { lang } = request.query;
+    const useCase = new UpdatePageContentUseCase(request.di);
+    const { error, data } = await tryCatch(
+      useCase.exec({ data: request.body, pageId, language: lang }),
+    );
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+    return reply.code(200).send(data);
   });
 
   fastify.get('/content/uploads/:pageId', async (request, reply) => {
