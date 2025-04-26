@@ -10,7 +10,8 @@ import { GetPageDetailsUseCase } from '../../../application/use-cases/get-page-d
 import { UploadPageFileUseCase } from '../../../application/use-cases/upload-page-file.js';
 import { GetPageFilesUseCase } from '../../../application/use-cases/get-page-files.js';
 import { DeleteFileUseCase } from '../../../application/use-cases/delete-file.js';
-import { GetPageContentUseCase } from '../../../application/get-page-content.js';
+import { GetPageContentUseCase } from '../../../application/use-cases/get-page-content.js';
+
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
     return reply
