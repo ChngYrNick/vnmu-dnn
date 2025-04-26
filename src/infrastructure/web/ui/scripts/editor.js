@@ -250,7 +250,7 @@ class VNMUEditorComponent extends HTMLElement {
 
   async #saveContent() {
     const data = this.#editor.value();
-    const content = this.#textService.update(+this.#id, this.#language, data);
+    const content = this.#textService.update(this.#id, this.#language, data);
     if (content) {
       this.#content = content;
       this.#handleSavedContent();
