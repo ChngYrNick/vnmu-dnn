@@ -72,6 +72,7 @@ class VNMUEditorComponent extends HTMLElement {
   #abortController = new AbortController();
   #autosaveTimeoutId = null;
   #contentReset = false;
+  #contentLoad = false;
 
   connectedCallback() {
     this.#textAreaElement = document.createElement('textarea');
@@ -113,14 +114,11 @@ class VNMUEditorComponent extends HTMLElement {
   }
 
   #updateModifiedStatusElem() {
-    this.#modifiedStatusElem.classList.remove('text-warning', 'text-success');
     if (this.#autosavedContent) {
       this.#modifiedStatusElem.innerText = 'modified';
-      this.#modifiedStatusElem.classList.add('text-warning');
       return;
     }
     this.#modifiedStatusElem.innerText = 'up-to-date';
-    this.#modifiedStatusElem.classList.add('text-success');
   }
 
   #loadAutosavedContent() {
@@ -167,6 +165,10 @@ class VNMUEditorComponent extends HTMLElement {
     if (this.#autosaveTimeoutId) {
       clearTimeout(this.#autosaveTimeoutId);
     }
+    if (this.#contentLoad) {
+      this.#contentLoad = false;
+      return;
+    }
     if (this.#contentReset) {
       this.#contentReset = false;
       return;
@@ -212,6 +214,9 @@ class VNMUEditorComponent extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (this.#autosaveTimeoutId) {
+      clearTimeout(this.#autosaveTimeoutId);
+    }
     this.#editor = null;
     const event = new CustomEvent('destroy');
     this.dispatchEvent(event);
@@ -229,6 +234,7 @@ class VNMUEditorComponent extends HTMLElement {
 
   #handleContentLoad() {
     if (!this.#autosavedContent && this.#content) {
+      this.#contentLoad = true;
       this.#editor.value(this.#content.data);
     }
     this.#updateUpstreamStatusElem();
@@ -250,7 +256,11 @@ class VNMUEditorComponent extends HTMLElement {
 
   async #saveContent() {
     const data = this.#editor.value();
-    const content = this.#textService.update(this.#id, this.#language, data);
+    const content = await this.#textService.update(
+      this.#id,
+      this.#language,
+      data,
+    );
     if (content) {
       this.#content = content;
       this.#handleSavedContent();
