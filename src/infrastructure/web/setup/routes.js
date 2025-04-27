@@ -208,6 +208,9 @@ const setupRoutes = async (fastify) => {
   fastify.put('/admin/content/text/:pageId', async (request, reply) => {
     const { pageId } = request.params;
     const { lang } = request.query;
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
     const useCase = new UpdatePageContentUseCase(request.di);
     const { error, data } = await tryCatch(
       useCase.exec({ data: request.body, pageId, language: lang }),
@@ -234,6 +237,9 @@ const setupRoutes = async (fastify) => {
 
   fastify.delete('/uploads/:fileId', async (request, reply) => {
     const { fileId } = request.params;
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
     const useCase = new DeleteFileUseCase(request.di);
     const { error, data } = await tryCatch(useCase.exec(fileId));
     if (error) {
