@@ -16,6 +16,11 @@ class PagesRepo {
     const query = this.#loader.get('pages/select-by-id.sql');
     return this.#db.prepare(query).get(pageId);
   }
+
+  async readBySlug(slug) {
+    const query = this.#loader.get('pages/select-by-slug.sql');
+    return this.#db.prepare(query).get(slug);
+  }
 }
 
 export { PagesRepo };
