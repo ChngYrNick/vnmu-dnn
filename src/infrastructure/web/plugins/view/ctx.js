@@ -1,3 +1,4 @@
+import { marked } from 'marked';
 import { Roles } from '../../../../domain/roles.js';
 import { ADMIN_PAGES, PAGES } from './pages.js';
 
@@ -26,6 +27,6 @@ const adminNav = [
   { name: ADMIN_PAGES.Contacts, nav: '/admin/contacts' },
 ];
 
-const ctx = { nav, adminNav, Roles, encodeURIComponent };
+const ctx = { nav, adminNav, Roles, encodeURIComponent, marked };
 
 export { ctx };
