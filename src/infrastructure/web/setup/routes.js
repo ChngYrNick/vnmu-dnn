@@ -25,12 +25,92 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.get('/about', async (request, reply) => {
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      pageId: null,
+      slug: '/about',
+      language: request.i18n.resolvedLanguage,
+    });
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/about.html', {
+      .view('pages/content.html', {
         page: PAGES.About,
         user: request.session.data,
+        content: result.content?.data || '',
+      });
+  });
+
+  fastify.get('/intern', async (request, reply) => {
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      pageId: null,
+      slug: '/intern',
+      language: request.i18n.resolvedLanguage,
+    });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/content.html', {
+        page: PAGES.Intern,
+        user: request.session.data,
+        content: result.content?.data || '',
+      });
+  });
+
+  fastify.get('/listener', async (request, reply) => {
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      pageId: null,
+      slug: '/listener',
+      language: request.i18n.resolvedLanguage,
+    });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/content.html', {
+        page: PAGES.Listener,
+        user: request.session.data,
+        content: result.content?.data || '',
+      });
+  });
+
+  fastify.get('/syllabus', async (request, reply) => {
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      pageId: null,
+      slug: '/syllabus',
+      language: request.i18n.resolvedLanguage,
+    });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/content.html', {
+        page: PAGES.Syllabus,
+        user: request.session.data,
+        content: result.content?.data || '',
+      });
+  });
+
+  fastify.get('/literature', async (request, reply) => {
+    const useCase = new GetPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      pageId: null,
+      slug: '/literature',
+      language: request.i18n.resolvedLanguage,
+    });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/content.html', {
+        page: PAGES.Literature,
+        user: request.session.data,
+        content: result.content?.data || '',
       });
   });
 
@@ -166,7 +246,7 @@ const setupRoutes = async (fastify) => {
     }
 
     const useCase = new GetPageDetailsUseCase(request.di);
-    const data = await useCase.exec({ pageId, language: lang });
+    const data = await useCase.exec({ pageId, slug: '', language: lang });
 
     return reply.view('pages/admin/edit-content.html', {
       page: ADMIN_PAGES.Content,

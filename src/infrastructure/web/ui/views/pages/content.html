@@ -2,7 +2,7 @@
 "partials/header.html" %}
 <main class="container mt-3">
   <section>
-    <h2>About Page</h2>
+    {{ marked(content) | safe }}
   </section>
 </main>
 {% endblock %}
