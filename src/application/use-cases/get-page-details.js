@@ -7,11 +7,17 @@ class GetPageDetailsUseCase {
     this.#pagesContentRepo = pagesContentRepo;
   }
 
-  async exec({ pageId, language }) {
-    const page = await this.#pagesRepo.readById(pageId);
+  async exec({ pageId, slug, language }) {
+    let page = null;
+
+    if (pageId) {
+      page = await this.#pagesRepo.readById(pageId);
+    } else if (slug) {
+      page = await this.#pagesRepo.readBySlug(slug);
+    }
 
     const content = await this.#pagesContentRepo.readByInfo({
-      pageId,
+      pageId: page.id,
       language,
     });
 
