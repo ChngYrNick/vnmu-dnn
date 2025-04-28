@@ -14,6 +14,8 @@
         <a
           class="blog-header-logo text-body-emphasis text-decoration-none"
           href="/"
+          data-bs-dismiss="offcanvas"
+          data-bs-target="#sidebar"
         >
           <img
             class="d-block"
@@ -26,7 +28,7 @@
       <div class="col-3 d-flex justify-content-center align-items-center">
         <a
           href="#"
-          data-bs-toggle="offcanvas"
+          data-bs-dismiss="offcanvas"
           data-bs-target="#sidebar"
           aria-controls="sidebar"
           aria-label="{{ t('nav.sidebarClose')}}"
@@ -46,40 +48,81 @@
         <a
           class="nav-link {% if item.name === page %}active{% else %}link-body-emphasis{% endif %}"
           href="{{ item.nav }}"
+          data-bs-dismiss="offcanvas"
+          data-bs-target="#sidebar"
           >{{ t(item.translation) }}</a
         >
       </li>
       {% endfor %}
     </ul>
     <hr />
-    <select
-      class="form-select w-auto"
-      hx-trigger="change"
-      hx-post="/change-language"
-      hx-target="body"
-      name="language"
-    >
+
+    <div class="dropdown w-auto">
       {% for item in supportedLangs %} {% if item.code === i18n.resolvedLanguage
       %}
-      <option value="{{ item.code }}" selected>{{ item.name }}</option>
-      {% else %}
-      <option value="{{ item.code }}">{{ item.name }}</option>
+
+      <a
+        class="btn btn-outline-secondary dropdown-toggle d-block"
+        href="#"
+        role="button"
+        id="dropdownMenuLink"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {{ item.name }}
+      </a>
       {% endif %} {% endfor %}
-    </select>
+
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        {% for item in supportedLangs %} {% if item.code !==
+        i18n.resolvedLanguage %}
+        <a
+          class="dropdown-item"
+          hx-post="/change-language?language={{ item.code }}"
+          hx-target="body"
+          data-bs-dismiss="offcanvas"
+          data-bs-target="#sidebar"
+          >{{ item.name }}</a
+        >
+
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+
     <hr />
     <div class="d-flex flex-column">
       {% if user %}
-      <a class="btn btn-outline-secondary mb-3" href="/profile"
+      <a
+        class="btn btn-outline-secondary mb-3"
+        data-bs-dismiss="offcanvas"
+        data-bs-target="#sidebar"
+        href="/profile"
         >{{ t('nav.profile') }}</a
       >
-      <a class="btn btn-outline-secondary" hx-post="/logout" hx-target="body"
+      <a
+        class="btn btn-outline-secondary"
+        data-bs-dismiss="offcanvas"
+        data-bs-target="#sidebar"
+        hx-post="/logout"
+        hx-target="body"
         >{{ t('nav.logout') }}</a
       >
       {% else %}
-      <a class="btn btn-outline-secondary mb-3" href="/sign-in" hx-boost="false"
+      <a
+        class="btn btn-outline-secondary mb-3"
+        data-bs-dismiss="offcanvas"
+        data-bs-target="#sidebar"
+        href="/sign-in"
+        hx-boost="false"
         >{{ t('nav.signin') }}</a
       >
-      <a class="btn btn-outline-secondary" href="/sign-up" hx-boost="false"
+      <a
+        class="btn btn-outline-secondary"
+        data-bs-dismiss="offcanvas"
+        data-bs-target="#sidebar"
+        href="/sign-up"
+        hx-boost="false"
         >{{ t('nav.signup') }}</a
       >
       {% endif %}
