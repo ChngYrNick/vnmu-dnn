@@ -12,6 +12,9 @@ import { GetPageFilesUseCase } from '../../../application/use-cases/get-page-fil
 import { DeleteFileUseCase } from '../../../application/use-cases/delete-file.js';
 import { GetPageContentUseCase } from '../../../application/use-cases/get-page-content.js';
 import { UpdatePageContentUseCase } from '../../../application/use-cases/update-page-content.js';
+import { AddContactUseCase } from '../../../application/use-cases/add-contact.js';
+import { GetContactsUseCase } from '../../../application/use-cases/get-contacts.js';
+import { DeleteContactUseCase } from '../../../application/use-cases/delete-contact.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -39,6 +42,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.About,
         user: request.session.data,
         content: result.content?.data || '',
+        title: request.i18n.t('nav.about'),
       });
   });
 
@@ -57,6 +61,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Intern,
         user: request.session.data,
         content: result.content?.data || '',
+        title: request.i18n.t('nav.intern'),
       });
   });
 
@@ -75,6 +80,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Listener,
         user: request.session.data,
         content: result.content?.data || '',
+        title: request.i18n.t('nav.listener'),
       });
   });
 
@@ -93,6 +99,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Syllabus,
         user: request.session.data,
         content: result.content?.data || '',
+        title: request.i18n.t('nav.syllabus'),
       });
   });
 
@@ -111,6 +118,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Literature,
         user: request.session.data,
         content: result.content?.data || '',
+        title: request.i18n.t('nav.literature'),
       });
   });
 
@@ -120,7 +128,11 @@ const setupRoutes = async (fastify) => {
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/sign-up.html', { page: PAGES.SignUp, error });
+      .view('pages/sign-up.html', {
+        page: PAGES.SignUp,
+        error,
+        title: request.i18n.t('nav.signup'),
+      });
   });
 
   fastify.get('/sign-in', async (request, reply) => {
@@ -129,7 +141,11 @@ const setupRoutes = async (fastify) => {
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
-      .view('pages/sign-in.html', { page: PAGES.SignIn, error });
+      .view('pages/sign-in.html', {
+        page: PAGES.SignIn,
+        error,
+        title: request.i18n.t('nav.signin'),
+      });
   });
 
   fastify.get('/error', async (request, reply) => {
@@ -189,7 +205,7 @@ const setupRoutes = async (fastify) => {
     }
     const { description } = request.di.errorService.handle(error);
     const params = new URLSearchParams({ error: description });
-    return reply.redirect(`/sign-in?${params.toString()}`);
+    return reply.redirect(`/sign-up?${params.toString()}`);
   });
 
   fastify.post('/logout', async (request, reply) => {
@@ -216,6 +232,40 @@ const setupRoutes = async (fastify) => {
     return reply.view('pages/admin/news.html', {
       page: ADMIN_PAGES.News,
     });
+  });
+
+  fastify.get('/admin/contacts', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    const useCase = new GetContactsUseCase(request.di);
+    const data = await useCase.exec();
+
+    return reply.view('pages/admin/contacts.html', {
+      page: ADMIN_PAGES.Contacts,
+      data,
+    });
+  });
+
+  fastify.post('/admin/contacts', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const { type, value } = request.body;
+    const useCase = new AddContactUseCase(request.di);
+    await useCase.exec({ type, value });
+    return reply.redirect('/admin/contacts');
+  });
+
+  fastify.delete('/admin/contacts', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const { contactId } = request.query;
+    const useCase = new DeleteContactUseCase(request.di);
+    await useCase.exec(contactId);
+    return reply.code(303).redirect('/admin/contacts');
   });
 
   fastify.get('/admin/content', async (request, reply) => {
