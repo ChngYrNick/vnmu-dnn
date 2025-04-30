@@ -1,88 +1,86 @@
-<!doctype html>
-<html lang="{{ i18n.resolvedLanguage }}">
-  <head>
-    <title>{{ t('title') }}</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="public/assets/images/logo.svg" type="image/svg+xml">
-    <script type="module" src="../../scripts/sign-in.js"></script>
-  </head>
-  <body>
-    <main class="container mt-3">
-      <div class="row justify-content-center">
-        <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
-          <div class="card shadow-sm border-0 mb-5">
-            <div class="card-body p-4 p-md-5">
-              <div class="d-flex flex-column">
-                <a
-                  class="blog-header-logo text-body-emphasis text-decoration-none mb-2 mx-auto"
-                  href="/"
-                >
-                  <img
-                    class="d-block"
-                    height="50"
-                    src="public/assets/images/logo.svg"
-                    alt="Logo"
-                  />
-                </a>
-                <h2 class="fw-bold text-center">{{ t('pages.signIn.logIn') }}</h2>
-                <p class="text-muted text-center">{{ t('pages.signIn.fillInfo') }}</p>
+{% extends "layouts/base.html" %} {% block content %}
 
-                {% if error %}
-                <div class="alert alert-danger" style="padding: .375rem .75rem;" role="alert">
-                  {{ error }}
-                </div>
-                {% endif %}
-              </div>
+<main hx-boost="true" preload preload-images="true" class="container mt-3" >
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
+      <div class="card shadow-sm border-0 mb-5">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex flex-column">
+            <a
+              class="blog-header-logo text-body-emphasis text-decoration-none mb-2 mx-auto"
+              href="/"
+            >
+              <img
+                class="d-block"
+                height="50"
+                src="public/assets/images/logo.svg"
+                alt="Logo"
+              />
+            </a>
+            <h2 class="fw-bold text-center">{{ t('pages.signIn.logIn') }}</h2>
+            <p class="text-muted text-center">
+              {{ t('pages.signIn.fillInfo') }}
+            </p>
 
-              <form id="signupForm" action="/sign-in" method="post">
-                <div class="mb-3">
-                  <label for="email" class="form-label"
-                    >{{ t('pages.signIn.email') }}</label
-                  >
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    placeholder="{{ t('pages.signIn.enterEmail') }}"
-                    required
-                    name="email"
-                  />
-                </div>
-
-                <div class="mb-4">
-                  <label for="password" class="form-label"
-                    >{{ t('pages.signIn.password') }}</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="{{ t('pages.signIn.enterPassword') }}"
-                    required
-                  />
-                </div>
-
-                <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">
-                    {{ t('pages.signIn.signIn') }}
-                  </button>
-                </div>
-
-                <div class="text-center mt-4">
-                  <p class="mb-0">
-                    {{ t('pages.signIn.goSignUp') }}
-                    <a href="/sign-up" class="text-primary"
-                      >{{ t('pages.signIn.signUp') }}</a
-                    >
-                  </p>
-                </div>
-              </form>
+            {% if error %}
+            <div
+              class="alert alert-danger"
+              style="padding: 0.375rem 0.75rem"
+              role="alert"
+            >
+              {{ error }}
             </div>
+            {% endif %}
           </div>
+
+          <form id="signupForm" action="/sign-in" method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >{{ t('pages.signIn.email') }}</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="{{ t('pages.signIn.enterEmail') }}"
+                required
+                name="email"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label"
+                >{{ t('pages.signIn.password') }}</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="{{ t('pages.signIn.enterPassword') }}"
+                required
+              />
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">
+                {{ t('pages.signIn.signIn') }}
+              </button>
+            </div>
+
+            <div class="text-center mt-4">
+              <p class="mb-0">
+                {{ t('pages.signIn.goSignUp') }}
+                <a href="/sign-up" class="text-primary"
+                  >{{ t('pages.signIn.signUp') }}</a
+                >
+              </p>
+            </div>
+          </form>
         </div>
       </div>
-    </main>
-  </body>
-</html>
+    </div>
+  </div>
+</main>
+
+{% endblock %}
