@@ -213,9 +213,8 @@ const setupRoutes = async (fastify) => {
     const useCase = new LogoutUseCase(request.di);
     await useCase.exec();
     const href = redirect || request.headers.referer || '/';
-    return request.headers['hx-request']
-      ? reply.header('HX-Redirect', href).status(200).send()
-      : reply.redirect(href);
+    reply.clearCookie('sessionId', { path: '/' });
+    return reply.redirect(href);
   });
 
   fastify.get('/admin', async (request, reply) => {
