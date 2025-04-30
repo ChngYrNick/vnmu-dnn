@@ -6,6 +6,7 @@ import { PagesRepo } from '../../repos/pages/pages.js';
 import { PagesContentRepo } from '../../repos/pages-content/pages-content.js';
 import { FilesRepo } from '../../repos/files/files.js';
 import { PagesFileRepo } from '../../repos/pages-file/pages-file.js';
+import { ContactsRepo } from '../../repos/contacts/contacts.js';
 
 const setupRepos = async (fastify) => {
   const { db, queryLoaderService } = fastify.di;
@@ -17,6 +18,7 @@ const setupRepos = async (fastify) => {
   const pagesContentRepo = new PagesContentRepo(db, queryLoaderService);
   const filesRepo = new FilesRepo(db, queryLoaderService);
   const pagesFileRepo = new PagesFileRepo(db, queryLoaderService, filesRepo);
+  const contactsRepo = new ContactsRepo(db, queryLoaderService);
   fastify.di.userRepo = userRepo;
   fastify.di.setupRepo = setupRepo;
   fastify.di.sessionsRepo = sessionsRepo;
@@ -25,6 +27,7 @@ const setupRepos = async (fastify) => {
   fastify.di.pagesContentRepo = pagesContentRepo;
   fastify.di.filesRepo = filesRepo;
   fastify.di.pagesFileRepo = pagesFileRepo;
+  fastify.di.contactsRepo = contactsRepo;
   fastify.addHook('preHandler', (req, reply, done) => {
     req.di.userRepo = userRepo;
     req.di.setupRepo = setupRepo;
@@ -34,6 +37,7 @@ const setupRepos = async (fastify) => {
     req.di.pagesContentRepo = pagesContentRepo;
     req.di.filesRepo = filesRepo;
     req.di.pagesFileRepo = pagesFileRepo;
+    req.di.contactsRepo = contactsRepo;
     done();
   });
 };

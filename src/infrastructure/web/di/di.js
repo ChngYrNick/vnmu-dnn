@@ -11,6 +11,7 @@ const DI = {
   sessionsSyncRepo: null,
   filesRepo: null,
   pagesFileRepo: null,
+  contactsRepo: null,
 };
 
 export { DI };
