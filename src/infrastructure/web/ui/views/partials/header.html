@@ -90,11 +90,11 @@
     </div>
   </header>
 
-  <div class="nav-scroller py-1 border-bottom d-none d-md-block">
-    <nav class="nav nav-underline justify-content-between p-0">
+  <div class="nav-scroller border-bottom d-none d-md-block">
+    <nav class="nav justify-content-between p-0">
       {% for item in nav %}
       <a
-        class="nav-item nav-link link-body-emphasis {% if item.name === page %}active{% endif %}"
+        class="nav-item px-0 nav-link link-body-emphasis {% if item.name === page %}fw-bold{% endif %}"
         href="{{ item.nav }}"
         >{{ t(item.translation) }}</a
       >
