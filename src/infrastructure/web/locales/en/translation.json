@@ -19,6 +19,14 @@
     "sidebarClose": "Sidebar Close",
     "admin": "Admin"
   },
+  "footer": {
+    "title": "Department of Neurology and Neurosurgery",
+    "sections": {
+      "links": "Quick Links",
+      "contacts": "Contacts"
+    },
+    "copyright": "© 2025 Department of Neurology and Neurosurgery. VNMU named after M.I. Pirogov. All rights reserved."
+  },
   "errors": {
     "conflict": {
       "title": "Conflict",

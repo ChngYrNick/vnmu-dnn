@@ -1,0 +1,73 @@
+<footer class="text-body-secondary bg-body-tertiary pt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h5 class="fw-bold mb-3">{{ t('footer.title') }}</h5>
+
+        {% for contact in data.contacts %} {% if contact.type === 'geolocation' %}
+        <p class="mb-1 d-flex align-items-center">
+          <img
+            class="d-block me-2"
+            height="15"
+            src="/public/assets/icons/geo.svg"
+            alt="geolocation"
+          />
+          {{ contact.value }}
+        </p>
+        {% endif %} {% endfor %}
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+        <h5 class="fw-bold mb-3">{{ t('footer.sections.contacts') }}</h5>
+
+        {% for contact in data.contacts %} {% if contact.type !== 'geolocation' %}
+        <p class="mb-2 d-flex align-items-center">
+          {% if contact.type === 'phone' %}
+
+          <img
+            class="d-block me-2"
+            height="15"
+            src="/public/assets/icons/phone.svg"
+            alt="phone"
+          />
+          {% endif %} {% if contact.type === 'fax' %}
+
+          <img
+            class="d-block me-2"
+            height="15"
+            src="/public/assets/icons/printer.svg"
+            alt="printer"
+          />
+          {% endif %} {% if contact.type === 'email' %}
+
+          <img
+            class="d-block me-2"
+            height="15"
+            src="/public/assets/icons/mail.svg"
+            alt="mail"
+          />
+          {% endif %} {{ contact.value }}
+        </p>
+        {% endif %} {% endfor %}
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h5 class="fw-bold mb-3">{{ t('footer.sections.links') }}</h5>
+        <ul class="list-unstyled" hx-boost="true">
+          <li class="mb-2">
+            <a href="/">{{ t('nav.home') }}</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about">{{ t('nav.about') }}</a>
+          </li>
+          <li class="mb-2">
+            <a href="/literature">{{ t('nav.literature') }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="bg-secondary text-white-50 py-3 mt-4">
+    <div class="container text-center">
+      <p class="mb-0">{{ t('footer.copyright') }}</p>
+    </div>
+  </div>
+</footer>

@@ -15,15 +15,20 @@ import { UpdatePageContentUseCase } from '../../../application/use-cases/update-
 import { AddContactUseCase } from '../../../application/use-cases/add-contact.js';
 import { GetContactsUseCase } from '../../../application/use-cases/get-contacts.js';
 import { DeleteContactUseCase } from '../../../application/use-cases/delete-contact.js';
+import { GetHomePageDetailsUseCase } from '../../../application/use-cases/get-home-page-details.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
+    const useCase = new GetHomePageDetailsUseCase(request.di);
+    const data = await useCase.exec();
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
       .view('pages/home.html', {
         page: PAGES.Home,
         user: request.session.data,
+        data,
       });
   });
 
@@ -43,6 +48,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         content: result.content?.data || '',
         title: request.i18n.t('nav.about'),
+        data: result,
       });
   });
 
@@ -62,6 +68,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         content: result.content?.data || '',
         title: request.i18n.t('nav.intern'),
+        data: result,
       });
   });
 
@@ -81,6 +88,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         content: result.content?.data || '',
         title: request.i18n.t('nav.listener'),
+        data: result,
       });
   });
 
@@ -100,6 +108,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         content: result.content?.data || '',
         title: request.i18n.t('nav.syllabus'),
+        data: result,
       });
   });
 
@@ -119,6 +128,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         content: result.content?.data || '',
         title: request.i18n.t('nav.literature'),
+        data: result,
       });
   });
 

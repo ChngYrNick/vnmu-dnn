@@ -1,8 +1,7 @@
 {% extends "layouts/base.html" %} {% block content %} {% include
 "partials/header.html" %}
-<main class="container mt-3">
-  <section>
-    {{ marked(content) | safe }}
-  </section>
+<main class="container mt-3 flex-grow-1">
+  <section>{{ marked(content) | safe }}</section>
 </main>
-{% endblock %}
+
+{% include "partials/footer.html" %} {% endblock %}

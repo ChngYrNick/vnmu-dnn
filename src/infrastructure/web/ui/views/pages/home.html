@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %} {% block content %} {% include
 "partials/header.html" %}
 
-<main class="container mt-3" hx-boost="true" preload preload-images="true">
+<main class="container mt-3 flex-grow-1" hx-boost="true" preload preload-images="true">
   <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
     <div class="col-lg-7 px-0">
       <h2 class="fst-italic">{{ t("pages.home.featured.title") }}</h2>
@@ -14,4 +14,4 @@
     </div>
   </div>
 </main>
-{% endblock %}
+{% include "partials/footer.html" %} {% endblock %}
