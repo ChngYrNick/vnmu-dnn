@@ -1,11 +1,20 @@
+import { ForbiddenError } from '../../domain/errors/forbidden.js';
+import { Roles } from '../../domain/roles.js';
+
 class UpdatePageContentUseCase {
   #pagesContentRepo = null;
+  #sessionsService = null;
 
-  constructor({ pagesContentRepo }) {
+  constructor({ pagesContentRepo, sessionsService }) {
     this.#pagesContentRepo = pagesContentRepo;
+    this.#sessionsService = sessionsService;
   }
 
   async exec({ data, pageId, language }) {
+    const user = await this.#sessionsService.getCurrentUser();
+    if (!user || user.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
     const content = await this.#pagesContentRepo.readByInfo({
       pageId,
       language,
