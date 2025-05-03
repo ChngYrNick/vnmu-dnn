@@ -1,10 +1,15 @@
-<footer class="text-body-secondary bg-body-tertiary pt-5" role="contentinfo" aria-label="{{ t('footer.title') }}">
+<footer
+  class="text-body-secondary bg-body-tertiary pt-5"
+  role="contentinfo"
+  aria-label="{{ t('footer.title') }}"
+>
   <div class="container">
     <div class="row">
       <div class="col-lg-6 mb-4 mb-lg-0">
         <h2 class="h5 fw-bold mb-3">{{ t('footer.title') }}</h2>
 
-        {% for contact in data.contacts %} {% if contact.type === 'geolocation' %}
+        {% for contact in data.contacts %} {% if contact.type === 'geolocation'
+        %}
         <p class="mb-1 d-flex align-items-center">
           <img
             class="d-block me-2"
@@ -21,7 +26,8 @@
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
         <h2 class="h5 fw-bold mb-3">{{ t('footer.sections.contacts') }}</h2>
 
-        {% for contact in data.contacts %} {% if contact.type !== 'geolocation' %}
+        {% for contact in data.contacts %} {% if contact.type !== 'geolocation'
+        %}
         <p class="mb-2 d-flex align-items-center">
           {% if contact.type === 'phone' %}
           <img
@@ -32,7 +38,11 @@
             alt=""
             aria-hidden="true"
           />
-          <a href="tel:{{ contact.value }}" aria-label="{{ t('footer.phone') }}: {{ contact.value }}">{{ contact.value }}</a>
+          <a
+            href="tel:{{ contact.value }}"
+            aria-label="{{ t('footer.phone') }}: {{ contact.value }}"
+            >{{ contact.value }}</a
+          >
           {% endif %} {% if contact.type === 'fax' %}
           <img
             class="d-block me-2"
@@ -42,7 +52,9 @@
             alt=""
             aria-hidden="true"
           />
-          <span aria-label="{{ t('footer.fax') }}: {{ contact.value }}">{{ contact.value }}</span>
+          <span aria-label="{{ t('footer.fax') }}: {{ contact.value }}"
+            >{{ contact.value }}</span
+          >
           {% endif %} {% if contact.type === 'email' %}
           <img
             class="d-block me-2"
@@ -52,7 +64,11 @@
             alt=""
             aria-hidden="true"
           />
-          <a href="mailto:{{ contact.value }}" aria-label="{{ t('footer.email') }}: {{ contact.value }}">{{ contact.value }}</a>
+          <a
+            href="mailto:{{ contact.value }}"
+            aria-label="{{ t('footer.email') }}: {{ contact.value }}"
+            >{{ contact.value }}</a
+          >
           {% endif %}
         </p>
         {% endif %} {% endfor %}
@@ -60,15 +76,26 @@
       <div class="col-lg-3 col-md-6">
         <h2 class="h5 fw-bold mb-3">{{ t('footer.sections.links') }}</h2>
         <nav aria-label="{{ t('footer.navigation') }}">
-          <ul class="list-unstyled" hx-boost="true">
+          <ul
+            class="list-unstyled"
+            hx-boost="true"
+            preload
+            preload-images="true"
+          >
             <li class="mb-2">
-              <a href="/" aria-label="{{ t('nav.home') }}">{{ t('nav.home') }}</a>
+              <a href="/" aria-label="{{ t('nav.home') }}"
+                >{{ t('nav.home') }}</a
+              >
             </li>
             <li class="mb-2">
-              <a href="/about" aria-label="{{ t('nav.about') }}">{{ t('nav.about') }}</a>
+              <a href="/about" aria-label="{{ t('nav.about') }}"
+                >{{ t('nav.about') }}</a
+              >
             </li>
             <li class="mb-2">
-              <a href="/literature" aria-label="{{ t('nav.literature') }}">{{ t('nav.literature') }}</a>
+              <a href="/literature" aria-label="{{ t('nav.literature') }}"
+                >{{ t('nav.literature') }}</a
+              >
             </li>
           </ul>
         </nav>
