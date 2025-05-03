@@ -32,6 +32,17 @@ class UserRepo {
     const query = this.#loader.get('user/delete.sql');
     return this.#db.prepare(query).run(userId);
   }
+
+  async updateInfo({ userId, fullName, email, password }) {
+    if (password) {
+      return this.#db
+        .prepare(this.#loader.get('user/update-info-and-pass.sql'))
+        .run(fullName, email, password, userId);
+    }
+    return this.#db
+      .prepare(this.#loader.get('user/update-info.sql'))
+      .run(fullName, email, userId);
+  }
 }
 
 export { UserRepo };
