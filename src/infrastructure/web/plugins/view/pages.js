@@ -12,6 +12,7 @@ const PAGES = {
   SignIn: 'SignIn',
   Message: 'Message',
   Error: 'Error',
+  Profile: 'Profile',
 };
 
 const ADMIN_PAGES = {

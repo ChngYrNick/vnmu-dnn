@@ -16,6 +16,8 @@ import { AddContactUseCase } from '../../../application/use-cases/add-contact.js
 import { GetContactsUseCase } from '../../../application/use-cases/get-contacts.js';
 import { DeleteContactUseCase } from '../../../application/use-cases/delete-contact.js';
 import { GetHomePageDetailsUseCase } from '../../../application/use-cases/get-home-page-details.js';
+import { UpdateProfileUseCase } from '../../../application/use-cases/update-profile.js';
+import { GetProfilePageDetailsUseCase } from '../../../application/use-cases/get-profile-page-details.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -132,6 +134,17 @@ const setupRoutes = async (fastify) => {
       });
   });
 
+  fastify.get('/profile', async (request, reply) => {
+    const useCase = new GetProfilePageDetailsUseCase(request.di);
+    const data = await useCase.exec();
+    return reply.view('pages/profile.html', {
+      page: PAGES.Profile,
+      user: request.session.data,
+      title: request.i18n.t('nav.profile'),
+      data,
+    });
+  });
+
   fastify.get('/sign-up', async (request, reply) => {
     const { error } = request.query;
 
@@ -168,6 +181,19 @@ const setupRoutes = async (fastify) => {
         code,
         title,
         description,
+      });
+  });
+
+  fastify.get('/profile-update-success', async (request, reply) => {
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/message.html', {
+        page: PAGES.Message,
+        title: request.t('pages.message.profileUpdateSuccess.title'),
+        description: request.t(
+          'pages.message.profileUpdateSuccess.description',
+        ),
       });
   });
 
@@ -218,6 +244,12 @@ const setupRoutes = async (fastify) => {
     return reply.redirect(`/sign-up?${params.toString()}`);
   });
 
+  fastify.post('/update-profile', async (request, reply) => {
+    const useCase = new UpdateProfileUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/profile-update-success');
+  });
+
   fastify.post('/logout', async (request, reply) => {
     const { redirect } = request.query;
     const useCase = new LogoutUseCase(request.di);
@@ -258,9 +290,6 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/admin/contacts', async (request, reply) => {
-    if (request.session.data?.role !== Roles.ADMIN) {
-      throw new ForbiddenError();
-    }
     const { type, value } = request.body;
     const useCase = new AddContactUseCase(request.di);
     await useCase.exec({ type, value });
@@ -268,9 +297,6 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.delete('/admin/contacts', async (request, reply) => {
-    if (request.session.data?.role !== Roles.ADMIN) {
-      throw new ForbiddenError();
-    }
     const { contactId } = request.query;
     const useCase = new DeleteContactUseCase(request.di);
     await useCase.exec(contactId);
@@ -317,9 +343,6 @@ const setupRoutes = async (fastify) => {
 
   fastify.post('/admin/content/uploads/:pageId', async (request, reply) => {
     const { pageId } = request.params;
-    if (request.session.data?.role !== Roles.ADMIN) {
-      throw new ForbiddenError();
-    }
     const data = await request.file();
     const useCase = new UploadPageFileUseCase(request.di);
     const result = await tryCatch(useCase.exec({ pageId, data }));
@@ -334,6 +357,9 @@ const setupRoutes = async (fastify) => {
   fastify.get('/admin/content/text/:pageId', async (request, reply) => {
     const { pageId } = request.params;
     const { lang } = request.query;
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
     const useCase = new GetPageContentUseCase(request.di);
     const { error, data } = await tryCatch(useCase.exec(pageId, lang));
     if (error) {
@@ -347,9 +373,6 @@ const setupRoutes = async (fastify) => {
   fastify.put('/admin/content/text/:pageId', async (request, reply) => {
     const { pageId } = request.params;
     const { lang } = request.query;
-    if (request.session.data?.role !== Roles.ADMIN) {
-      throw new ForbiddenError();
-    }
     const useCase = new UpdatePageContentUseCase(request.di);
     const { error, data } = await tryCatch(
       useCase.exec({ data: request.body, pageId, language: lang }),
@@ -376,9 +399,6 @@ const setupRoutes = async (fastify) => {
 
   fastify.delete('/uploads/:fileId', async (request, reply) => {
     const { fileId } = request.params;
-    if (request.session.data?.role !== Roles.ADMIN) {
-      throw new ForbiddenError();
-    }
     const useCase = new DeleteFileUseCase(request.di);
     const { error, data } = await tryCatch(useCase.exec(fileId));
     if (error) {

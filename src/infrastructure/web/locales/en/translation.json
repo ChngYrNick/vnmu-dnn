@@ -81,6 +81,25 @@
         "continue": "Continue reading..."
       }
     },
+    "profile": {
+      "title": "Edit Profile",
+      "fullName": "Full Name",
+      "enterFullName": "Enter your full name",
+      "email": "Email Address",
+      "enterEmail": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Leave blank to keep current password",
+      "repeatPassword": "Confirm Password",
+      "repeatPasswordPlaceholder": "Confirm new password",
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "errors": {
+        "fullName": "Please enter your full name",
+        "email": "Please enter valid email address",
+        "password": "Password must be at least 8 characters with at least one uppercase letter, one lowercase letter, and one number",
+        "passwordRepeat": "Passwords do not match"
+      }
+    },
     "signUp": {
       "createAccount": "Create Account",
       "fillInfo": "Please fill in the information below",
@@ -118,6 +137,10 @@
       "signUpSuccess": {
         "title": "Registration Success",
         "description": "You successfully created an account"
+      },
+      "profileUpdateSuccess": {
+        "title": "Update Success",
+        "description": "You successfully updated profile"
       }
     },
     "error": {
