@@ -18,6 +18,11 @@ class UserRepo {
     return result.userExists === 1;
   }
 
+  async find() {
+    const query = this.#loader.get('user/select.sql');
+    return this.#db.prepare(query).all();
+  }
+
   async read(userId) {
     const query = this.#loader.get('user/select-by-id.sql');
     return this.#db.prepare(query).get(userId);
