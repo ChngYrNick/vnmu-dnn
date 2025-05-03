@@ -14,6 +14,10 @@ class SessionsService {
     return this.#request.session.data;
   }
 
+  async updateSession(user) {
+    this.#request.session.data = user;
+  }
+
   async startSession(user) {
     this.#request.session.data = user;
     return this.#request.session.save();
