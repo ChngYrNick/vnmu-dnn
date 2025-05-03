@@ -1,0 +1,35 @@
+{% extends "layouts/admin.html" %} {% block content %}
+<section hx-boost="true">
+  <h2>Users</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data.users %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.fullName }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.role }}</td>
+          <td>
+            <a
+              href="/admin/user/edit/{{ item.id }}"
+              class="btn btn-outline-secondary btn-sm"
+              >Edit</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

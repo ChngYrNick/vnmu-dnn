@@ -18,6 +18,7 @@ import { DeleteContactUseCase } from '../../../application/use-cases/delete-cont
 import { GetHomePageDetailsUseCase } from '../../../application/use-cases/get-home-page-details.js';
 import { UpdateProfileUseCase } from '../../../application/use-cases/update-profile.js';
 import { GetProfilePageDetailsUseCase } from '../../../application/use-cases/get-profile-page-details.js';
+import { GetUsersUseCase } from '../../../application/use-cases/get-users.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -313,6 +314,19 @@ const setupRoutes = async (fastify) => {
     return reply.view('pages/admin/content.html', {
       page: ADMIN_PAGES.Content,
       data,
+    });
+  });
+
+  fastify.get('/admin/users', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const useCase = new GetUsersUseCase(request.di);
+    const result = await useCase.exec();
+
+    return reply.view('pages/admin/users.html', {
+      page: ADMIN_PAGES.Users,
+      data: { users: result },
     });
   });
 
