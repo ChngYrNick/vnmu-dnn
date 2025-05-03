@@ -48,7 +48,7 @@
                   placeholder="{{ t('pages.signUp.enterFullName') }}"
                   required
                   minlength="2"
-                  maxlength="50"
+                  maxlength="64"
                   autocomplete="name"
                   name="fullName"
                 />
@@ -85,6 +85,7 @@
                   placeholder="{{ t('pages.signUp.enterPassword') }}"
                   required
                   minlength="8"
+                  maxlength="64"
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   autocomplete="new-password"
                   name="password"
