@@ -30,7 +30,10 @@ class UserRepo {
 
   async create({ email, fullName, password, role }) {
     const query = this.#loader.get('user/insert.sql');
-    return this.#db.prepare(query).run(email, fullName, password, role);
+    const { lastInsertRowid } = await this.#db
+      .prepare(query)
+      .run(email, fullName, password, role);
+    return { userId: lastInsertRowid };
   }
 
   async delete(userId) {

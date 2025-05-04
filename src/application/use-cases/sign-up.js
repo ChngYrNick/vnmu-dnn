@@ -20,14 +20,15 @@ class SignUpUseCase {
       throw new ConflictError(ConflictError.USER_EXISTS);
     }
     const hashedPassword = await this.#passwordService.hash(password);
-    const user = {
+    const userDto = {
       email,
       fullName,
       password: hashedPassword,
       role: Roles.USER,
     };
-    await this.#userRepo.create(user);
-    await this.#sessionsService.startSession(user);
+    const { userId } = await this.#userRepo.create(userDto);
+    const createdUser = await this.#userRepo.read(userId);
+    await this.#sessionsService.startSession(createdUser);
   }
 }
 
