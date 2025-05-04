@@ -11,7 +11,7 @@ class UpdateProfileUseCase {
     this.#passwordService = passwordService;
   }
 
-  async exec({ email, fullName, password }) {
+  async exec({ fullName, password }) {
     const user = await this.#sessionsService.getCurrentUser();
 
     if (!user) {
@@ -22,19 +22,20 @@ class UpdateProfileUseCase {
       ? await this.#passwordService.hash(password)
       : user.password;
 
+    const newFullName = fullName || user.fullName;
+
     await this.#userRepo.update({
       userId: user.id,
-      fullName,
-      email,
+      fullName: newFullName,
+      email: user.email,
       password: newPassword,
       role: user.role,
     });
 
     await this.#sessionsService.updateSession({
       ...user,
-      fullName,
-      email,
-      password: newPassword || user.password,
+      fullName: newFullName,
+      password: newPassword,
     });
   }
 }
