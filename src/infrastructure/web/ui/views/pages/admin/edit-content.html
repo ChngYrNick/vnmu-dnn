@@ -1,24 +1,26 @@
 {% extends "layouts/admin.html" %} {% block content %}
-<section>
-  <h2>Edit '{{ data.page.slug }}' Content</h2>
-  <div class="container-fluid p-0 mb-2">
-    <select
-      class="form-select form-select-sm w-auto"
-      hx-trigger="change"
-      hx-get="/admin/content/edit/{{pageId}}"
-      hx-target="body"
-      hx-push-url="true"
-      name="lang"
-    >
-      {% for item in supportedLangs %} {% if item.code === language %}
-      <option value="{{ item.code }}" selected>{{ item.name }}</option>
-      {% else %}
-      <option value="{{ item.code }}">{{ item.name }}</option>
-      {% endif %} {% endfor %}
-    </select>
+<section class="row justify-content-center mb-2">
+  <div class="col-md-10 col-lg-8">
+    <h2>Edit '{{ data.page.slug }}' Content</h2>
+    <div class="container-fluid p-0 mb-2">
+      <select
+        class="form-select form-select-sm w-auto"
+        hx-trigger="change"
+        hx-get="/admin/content/edit/{{pageId}}"
+        hx-target="body"
+        hx-push-url="true"
+        name="lang"
+      >
+        {% for item in supportedLangs %} {% if item.code === language %}
+        <option value="{{ item.code }}" selected>{{ item.name }}</option>
+        {% else %}
+        <option value="{{ item.code }}">{{ item.name }}</option>
+        {% endif %} {% endfor %}
+      </select>
+    </div>
+    <vnmu-editor lang="{{ language }}" page-id="{{ pageId }}"></vnmu-editor>
+    <vnmu-file-uploader-host page-id="{{ pageId }}"></vnmu-file-uploader-host>
   </div>
-  <vnmu-editor lang="{{ language }}" page-id="{{ pageId }}"></vnmu-editor>
-  <vnmu-file-uploader-host page-id="{{ pageId }}"></vnmu-file-uploader-host>
 </section>
 
 {% endblock %}

@@ -1,27 +1,33 @@
 {% extends "layouts/admin.html" %} {% block content %}
-<section hx-boost="true">
-  <h2>Content Pages</h2>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Slug</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for page in data %}
-        <tr>
-          <td>{{ page.id }}</td>
-          <td>{{ page.slug }}</td>
-          <td>
-            <a href="/admin/content/edit/{{ page.id }}?lang={{ i18n.resolvedLanguage }}" class="btn btn-outline-secondary btn-sm">Edit</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<section hx-boost="true" class="row justify-content-center mb-2">
+  <div class="col-md-10 col-lg-8">
+    <h2>Content Pages</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Slug</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for page in data %}
+          <tr>
+            <td>{{ page.id }}</td>
+            <td>{{ page.slug }}</td>
+            <td>
+              <a
+                href="/admin/content/edit/{{ page.id }}?lang={{ i18n.resolvedLanguage }}"
+                class="btn btn-outline-secondary btn-sm"
+                >Edit</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 {% endblock %}
