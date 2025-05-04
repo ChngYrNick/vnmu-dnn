@@ -19,6 +19,7 @@ import { GetHomePageDetailsUseCase } from '../../../application/use-cases/get-ho
 import { UpdateProfileUseCase } from '../../../application/use-cases/update-profile.js';
 import { GetProfilePageDetailsUseCase } from '../../../application/use-cases/get-profile-page-details.js';
 import { GetUsersUseCase } from '../../../application/use-cases/get-users.js';
+import { ChangeLanguageUseCase } from '../../../application/use-cases/change-language.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -210,15 +211,9 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/change-language', async (request, reply) => {
-    const { language } = request.body;
-
-    reply.setCookie('language', language, {
-      path: '/',
-      maxAge: 365 * 24 * 60 * 60,
-      httpOnly: true,
-      signed: false,
-    });
-
+    const language = request.body?.language || request.query?.language;
+    const useCase = new ChangeLanguageUseCase(request.di);
+    await useCase.exec(language);
     const referer = request.headers.referer || '/';
     return reply.redirect(referer);
   });

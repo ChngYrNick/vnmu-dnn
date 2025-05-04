@@ -14,7 +14,7 @@ const setupServices = async (fastify) => {
   fastify.di.fileService = FileService;
   fastify.addHook('preHandler', (req, reply, done) => {
     req.di.sessionsService = new SessionsService(req);
-    req.di.languageService = new LanguageService(req);
+    req.di.languageService = new LanguageService(req, reply);
     req.di.errorService = new ErrorService(req.di.languageService);
     req.di.passwordService = PasswordService;
     req.di.fileService = FileService;

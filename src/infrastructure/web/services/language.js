@@ -2,9 +2,11 @@ import { supportedLangs } from '../config/language.js';
 
 class LanguageService {
   #request = null;
+  #reply = null;
 
-  constructor(request) {
+  constructor(request, reply) {
     this.#request = request;
+    this.#reply = reply;
   }
 
   static readDefault() {
@@ -21,6 +23,15 @@ class LanguageService {
 
   translate(key = '', options = {}) {
     return this.#request.t(key, options);
+  }
+
+  changeLanguage(language) {
+    this.#reply.setCookie('language', language, {
+      path: '/',
+      maxAge: 365 * 24 * 60 * 60,
+      httpOnly: true,
+      signed: false,
+    });
   }
 }
 
