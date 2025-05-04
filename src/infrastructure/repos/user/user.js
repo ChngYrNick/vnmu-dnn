@@ -38,15 +38,10 @@ class UserRepo {
     return this.#db.prepare(query).run(userId);
   }
 
-  async updateInfo({ userId, fullName, email, password }) {
-    if (password) {
-      return this.#db
-        .prepare(this.#loader.get('user/update-info-and-pass.sql'))
-        .run(fullName, email, password, userId);
-    }
+  async update({ fullName, email, password, role, userId }) {
     return this.#db
-      .prepare(this.#loader.get('user/update-info.sql'))
-      .run(fullName, email, userId);
+      .prepare(this.#loader.get('user/update.sql'))
+      .run(fullName, email, password, role, userId);
   }
 }
 

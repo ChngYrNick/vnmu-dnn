@@ -20,19 +20,20 @@ class UpdateProfileUseCase {
 
     const newPassword = password
       ? await this.#passwordService.hash(password)
-      : null;
+      : user.password;
 
-    await this.#userRepo.updateInfo({
+    await this.#userRepo.update({
       userId: user.id,
-      email,
       fullName,
+      email,
       password: newPassword,
+      role: user.role,
     });
 
     await this.#sessionsService.updateSession({
       ...user,
-      email,
       fullName,
+      email,
       password: newPassword || user.password,
     });
   }
