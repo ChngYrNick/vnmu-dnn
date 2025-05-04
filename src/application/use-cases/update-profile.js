@@ -15,7 +15,7 @@ class UpdateProfileUseCase {
     const user = await this.#sessionsService.getCurrentUser();
 
     if (!user) {
-      throw new UnauthError(UnauthError.ACTIVE_SESSION);
+      throw new UnauthError(UnauthError.NO_SESSION);
     }
 
     const newPassword = password
