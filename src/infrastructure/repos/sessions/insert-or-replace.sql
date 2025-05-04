@@ -1,1 +1,1 @@
-INSERT OR REPLACE INTO sessions (sid, expires, data) VALUES (?, ?, ?);
+INSERT OR REPLACE INTO sessions (sid, userId, expires, data) VALUES (?, ?, ?, ?);

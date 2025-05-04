@@ -21,6 +21,13 @@ class SessionsSyncRepo {
       .catch((err) => callback(err));
   }
 
+  getByUserId(userId, callback) {
+    this.#sessionsRepo
+      .getByUserId(userId)
+      .then((result) => callback(null, result))
+      .catch((err) => callback(err));
+  }
+
   set(sessionId, session, callback) {
     this.#sessionsRepo
       .set(sessionId, session)
