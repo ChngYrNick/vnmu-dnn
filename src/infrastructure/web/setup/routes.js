@@ -19,7 +19,10 @@ import { GetHomePageDetailsUseCase } from '../../../application/use-cases/get-ho
 import { UpdateProfileUseCase } from '../../../application/use-cases/update-profile.js';
 import { GetProfilePageDetailsUseCase } from '../../../application/use-cases/get-profile-page-details.js';
 import { GetUsersUseCase } from '../../../application/use-cases/get-users.js';
+import { GetUserDetailsUseCase } from '../../../application/use-cases/get-user-details.js';
+import { EditUserUseCase } from '../../../application/use-cases/edit-user.js';
 import { ChangeLanguageUseCase } from '../../../application/use-cases/change-language.js';
+import { DeleteUserUseCase } from '../../../application/use-cases/delete-user.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -323,6 +326,38 @@ const setupRoutes = async (fastify) => {
       page: ADMIN_PAGES.Users,
       data: { users: result },
     });
+  });
+
+  fastify.get('/admin/user/edit/:userId', async (request, reply) => {
+    const { userId } = request.params;
+    const { status } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const useCase = new GetUserDetailsUseCase(request.di);
+    const data = await useCase.exec(userId);
+
+    return reply.view('pages/admin/edit-user.html', {
+      page: ADMIN_PAGES.Users,
+      user: request.session.data,
+      status,
+      data,
+    });
+  });
+
+  fastify.post('/admin/user/edit/:userId', async (request, reply) => {
+    const { userId } = request.params;
+    const useCase = new EditUserUseCase(request.di);
+    await useCase.exec({ userId, data: request.body });
+    return reply.redirect(`/admin/user/edit/${userId}?status=success`);
+  });
+
+  fastify.delete('/admin/user/edit/:userId', async (request, reply) => {
+    const { userId } = request.params;
+    const useCase = new DeleteUserUseCase(request.di);
+    await useCase.exec(userId);
+    return reply.code(303).redirect(`/admin/users`);
   });
 
   fastify.get('/admin/content/edit/:pageId', async (request, reply) => {
