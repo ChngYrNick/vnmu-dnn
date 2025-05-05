@@ -50,16 +50,8 @@ class TextService {
 
 class VNMUEditorComponent extends HTMLElement {
   static tagName = 'vnmu-editor';
-  static defaultConfig = {
-    showIcons: ['table'],
-    toolbarButtonClassPrefix: 'mde',
-    spellChecker: false,
-    nativeSpellcheck: false,
-  };
-
   #editor = null;
   #textAreaElement = null;
-  #saveBtnElement = null;
   #id = null;
   #idKey = null;
   #textService = null;
@@ -78,13 +70,12 @@ class VNMUEditorComponent extends HTMLElement {
     this.#textAreaElement = document.createElement('textarea');
     this.appendChild(this.#createContainerElem());
     this.appendChild(this.#textAreaElement);
-    this.#saveBtnElement = this.querySelector('.btn-save');
     this.#updateId();
     this.#updateLanguage();
     this.#textService = TextService.from(this.#idKey);
     const initialData = localStorage.getItem(this.autosavedContentId);
     this.#editor = new EasyMDE({
-      ...VNMUEditorComponent.defaultConfig,
+      ...this.#createEditorDefaultConfig(),
       element: this.#textAreaElement,
       initialValue: initialData ? JSON.parse(initialData).data : '',
     });
@@ -97,6 +88,47 @@ class VNMUEditorComponent extends HTMLElement {
     this.#loadAutosavedContent();
     this.#loadContent();
     this.#setupEvents();
+  }
+
+  #createEditorDefaultConfig() {
+    return {
+      showIcons: ['table'],
+      toolbarButtonClassPrefix: 'mde',
+      spellChecker: false,
+      nativeSpellcheck: false,
+      toolbar: [
+        'bold',
+        'italic',
+        'heading',
+        '|',
+        'quote',
+        'unordered-list',
+        'ordered-list',
+        '|',
+        'link',
+        'image',
+        'table',
+        '|',
+        'preview',
+        'side-by-side',
+        'fullscreen',
+        '|',
+        'guide',
+        '|',
+        {
+          name: 'reset',
+          action: () => this.#resetContent(),
+          className: 'fa fa-rotate-left',
+          title: 'Reset',
+        },
+        {
+          name: 'save',
+          action: () => this.#saveContent(),
+          className: 'fa fa-check',
+          title: 'Save',
+        },
+      ],
+    };
   }
 
   #updateUpstreamStatusElem() {
@@ -266,7 +298,6 @@ class VNMUEditorComponent extends HTMLElement {
       this.#handleSavedContent();
       return;
     }
-    this.#handleContentSaveFail();
   }
 
   #handleContentReset() {
@@ -276,11 +307,6 @@ class VNMUEditorComponent extends HTMLElement {
 
   #handleSavedContent() {
     this.#resetContent();
-    this.#updateSaveButtonElem('settled');
-  }
-
-  #handleContentSaveFail() {
-    this.#updateSaveButtonElem('settled');
   }
 
   #resetContent() {
@@ -289,62 +315,6 @@ class VNMUEditorComponent extends HTMLElement {
     localStorage.removeItem(this.autosavedContentId);
     this.#editor.value(this.#content?.data || '');
     this.#handleContentReset();
-  }
-
-  #handleSaveButtonClick() {
-    this.#updateSaveButtonElem('loading');
-    this.#saveContent();
-  }
-
-  #updateSaveButtonElem(status) {
-    this.#saveBtnElement.firstChild.classList.remove('d-none');
-    if (status === 'settled') {
-      this.#saveBtnElement.firstChild.classList.add('d-none');
-    }
-  }
-
-  #createSaveButtonElem() {
-    const saveButtonElem = document.createElement('button');
-    const spinnerElem = document.createElement('span');
-    const textElem = document.createElement('span');
-    saveButtonElem.classList.add(
-      'btn',
-      'btn-sm',
-      'btn-outline-success',
-      'btn-save',
-    );
-    saveButtonElem.addEventListener(
-      'click',
-      () => this.#handleSaveButtonClick(),
-      {
-        signal: this.#abortController.signal,
-      },
-    );
-    spinnerElem.classList.add(
-      'spinner-border',
-      'spinner-border-sm',
-      'me-2',
-      'd-none',
-    );
-    textElem.innerText = 'Save';
-    saveButtonElem.appendChild(spinnerElem);
-    saveButtonElem.appendChild(textElem);
-    return saveButtonElem;
-  }
-
-  #createResetButtonElem() {
-    const resetButtonElem = document.createElement('button');
-    resetButtonElem.classList.add(
-      'btn',
-      'btn-sm',
-      'btn-outline-warning',
-      'mx-2',
-    );
-    resetButtonElem.innerText = 'Reset';
-    resetButtonElem.addEventListener('click', () => this.#resetContent(), {
-      signal: this.#abortController.signal,
-    });
-    return resetButtonElem;
   }
 
   #createContainerElem() {
@@ -356,8 +326,6 @@ class VNMUEditorComponent extends HTMLElement {
       'd-flex',
       'flex-row-reverse',
     );
-    containerElem.appendChild(this.#createSaveButtonElem());
-    containerElem.appendChild(this.#createResetButtonElem());
     return containerElem;
   }
 
