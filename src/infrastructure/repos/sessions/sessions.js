@@ -41,6 +41,11 @@ class SessionsRepo {
     };
   }
 
+  async updateDataByUserId(userId, data) {
+    const query = this.#loader.get('sessions/update-data-by-user-id.sql');
+    this.#db.prepare(query).run(JSON.stringify(data), userId);
+  }
+
   async set(sessionId, session) {
     const query = this.#loader.get('sessions/insert-or-replace.sql');
     const expires = session.expires ? session.expires.getTime() : Date.now();
