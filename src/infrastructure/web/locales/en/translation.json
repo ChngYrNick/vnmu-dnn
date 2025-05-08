@@ -1,5 +1,10 @@
 {
   "title": "Department of Neurology and Neurosurgery",
+  "meta": {
+    "description": "Official website of the Department of Neurology and Neurosurgery at VNMU named after M.I. Pirogov",
+    "keywords": "neurology, neurosurgery, VNMU, medicine, education, Pirogov, university, department",
+    "author": "Department of Neurology and Neurosurgery, VNMU"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
