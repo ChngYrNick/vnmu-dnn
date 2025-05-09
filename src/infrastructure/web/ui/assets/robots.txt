@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /sign-in/
+Disallow: /sign-up/
+
+# Allow search engines to access all public-facing content
+# Disallow admin and user-specific pages

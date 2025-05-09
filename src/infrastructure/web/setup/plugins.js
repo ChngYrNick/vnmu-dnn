@@ -46,7 +46,6 @@ const setupPlugins = async (fastify) => {
     root: path.join(process.cwd(), 'dist/public'),
     prefix: '/public/',
     preCompressed: true,
-    decorateReply: false,
   });
 
   fastify.register(fastifyStatic, {
