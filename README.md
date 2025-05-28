@@ -96,7 +96,3 @@ This project follows clean architecture principles:
 - Follows TypeScript strict mode guidelines
 - Uses repository pattern for data access
 - Uses use case pattern for business logic
-
-## License
-
-This project is authored by Serhii Moskovko.
