@@ -1,5 +1,5 @@
 <div
-  class="offcanvas offcanvas-start overflow-scroll"
+  class="offcanvas offcanvas-start overflow-scroll invisible-scrollbar"
   tabindex="-1"
   id="sidebar"
   aria-label="{{ t('nav.sidebar') }}"
@@ -25,20 +25,15 @@
           />
         </a>
       </div>
-      <div class="col-3 d-flex justify-content-center align-items-center">
-        <a
-          href="#"
+      <div class="col-3 d-flex justify-content-center align-items-center p-0">
+        <button
+          type="button"
+          class="btn-close"
           data-bs-dismiss="offcanvas"
           data-bs-target="#sidebar"
           aria-controls="sidebar"
           aria-label="{{ t('nav.sidebarClose')}}"
-        >
-          <img
-            height="35"
-            src="public/assets/icons/x.svg"
-            alt="{{ t('nav.sidebarClose') }}"
-          />
-        </a>
+        ></button>
       </div>
     </div>
     <hr />

@@ -20,3 +20,7 @@ form:invalid button[type='submit'] {
   border-color: var(--bs-btn-disabled-border-color);
   opacity: var(--bs-btn-disabled-opacity);
 }
+
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
