@@ -19,9 +19,9 @@ const ADMIN_PAGES = {
   Content: 'Content',
   News: 'News',
   Staff: 'Staff',
-  Materials: 'Materials',
   Users: 'Users',
   Contacts: 'Contacts',
+  Specialties: 'Specialties',
 };
 
 export { PAGES, ADMIN_PAGES };

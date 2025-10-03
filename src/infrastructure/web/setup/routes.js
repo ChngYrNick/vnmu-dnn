@@ -23,6 +23,8 @@ import { GetUserDetailsUseCase } from '../../../application/use-cases/get-user-d
 import { EditUserUseCase } from '../../../application/use-cases/edit-user.js';
 import { ChangeLanguageUseCase } from '../../../application/use-cases/change-language.js';
 import { DeleteUserUseCase } from '../../../application/use-cases/delete-user.js';
+import { GetSpecialtiesUseCase } from '../../../application/use-cases/get-specialties.js';
+import { AddSpecialityUseCase } from '../../../application/use-cases/add-speciality.js';
 import path from 'node:path';
 
 const setupRoutes = async (fastify) => {
@@ -321,6 +323,25 @@ const setupRoutes = async (fastify) => {
       page: ADMIN_PAGES.Content,
       data,
     });
+  });
+
+  fastify.get('/admin/specialties', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const useCase = new GetSpecialtiesUseCase(request.di);
+    const result = await useCase.exec();
+
+    return reply.view('pages/admin/specialties.html', {
+      page: ADMIN_PAGES.Specialties,
+      data: { specialties: result },
+    });
+  });
+
+  fastify.post('/admin/specialties', async (request, reply) => {
+    const useCase = new AddSpecialityUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/admin/specialties');
   });
 
   fastify.get('/admin/users', async (request, reply) => {

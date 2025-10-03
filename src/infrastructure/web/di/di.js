@@ -12,6 +12,7 @@ const DI = {
   filesRepo: null,
   pagesFileRepo: null,
   contactsRepo: null,
+  specialtiesRepo: null,
 };
 
 export { DI };

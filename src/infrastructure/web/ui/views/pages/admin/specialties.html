@@ -1,0 +1,95 @@
+{% extends "layouts/admin.html" %} {% block content %}
+<section hx-boost="true" class="row justify-content-center mb-2">
+  <div class="col-md-10 col-lg-8">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Specialties</h2>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-success"
+        data-bs-toggle="modal"
+        data-bs-target="#createSpecialtyModal"
+      >
+        Create
+      </button>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Slug</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data.specialties %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.slug }}</td>
+            <td>
+              <a
+                href="/admin/specialty/edit/{{ item.id }}"
+                class="btn btn-outline-secondary btn-sm"
+                >Edit</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Create Specialty Modal -->
+<div
+  class="modal fade"
+  id="createSpecialtyModal"
+  tabindex="-1"
+  aria-labelledby="createSpecialtyModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createSpecialtyModalLabel">Create Specialty</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form hx-boost="true" action="/admin/specialties" method="post">
+        <div class="modal-body">
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="slug"
+              name="slug"
+              required
+              minlength="2"
+              maxlength="64"
+              placeholder="Enter specialty slug"
+            />
+            <div class="invalid-feedback">
+              Please provide a valid slug (2-64 characters)
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
