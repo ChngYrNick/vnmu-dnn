@@ -25,7 +25,6 @@ import { ChangeLanguageUseCase } from '../../../application/use-cases/change-lan
 import { DeleteUserUseCase } from '../../../application/use-cases/delete-user.js';
 import { GetSpecialtiesUseCase } from '../../../application/use-cases/get-specialties.js';
 import { AddSpecialityUseCase } from '../../../application/use-cases/add-speciality.js';
-import path from 'node:path';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -40,13 +39,6 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         data,
       });
-  });
-
-  fastify.get('/robots.txt', async (_, reply) => {
-    return reply.sendFile(
-      'robots.txt',
-      path.join(process.cwd(), 'dist/public/assets'),
-    );
   });
 
   fastify.get('/about', async (request, reply) => {

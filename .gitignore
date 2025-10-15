@@ -2,9 +2,11 @@ logs
 *.log
 npm-debug.log*
 node_modules
+certbot/
 dist/
 data/*
 uploads/*
 !data/.gitkeep
 !uploads/.gitkeep
-.env.keys
+*.env
+!.example.env

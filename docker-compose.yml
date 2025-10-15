@@ -1,11 +1,35 @@
 services:
   app:
     build: .
-    ports:
-      - "3000:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+      HOST: ${HOST}
+      SESSION_SECRET: ${SESSION_SECRET}
     restart: unless-stopped
     volumes:
-      - /srv/app/data:/usr/src/app/data
-      - /srv/app/uploads:/usr/src/app/uploads
+      - ./data:/usr/src/app/data
+      - ./uploads:/usr/src/app/uploads
+
+  nginx:
+    image: jonasal/nginx-certbot:latest
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/deploy/nginx/conf.d:/etc/nginx/templates:ro
+      - ./dist/public:/var/www/app/public:ro
+      - ./uploads:/var/www/app/uploads:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     environment:
-      - DOTENV_PRIVATE_KEY_PRODUCTION=${DOTENV_PRIVATE_KEY_PRODUCTION}
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL}
+      DOMAIN: ${DOMAIN}
+      port: ${PORT}
+      DHPARAM_SIZE: 2048
+      RSA_KEY_SIZE: 4096
+      RENEWAL_INTERVAL: 12
+    restart: unless-stopped

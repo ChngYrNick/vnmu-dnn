@@ -42,18 +42,6 @@ const setupPlugins = async (fastify) => {
     },
   });
 
-  fastify.register(fastifyStatic, {
-    root: path.join(process.cwd(), 'dist/public'),
-    prefix: '/public/',
-    preCompressed: true,
-  });
-
-  fastify.register(fastifyStatic, {
-    root: path.join(process.cwd(), 'uploads'),
-    prefix: '/uploads/',
-    decorateReply: false,
-  });
-
   fastify.register(fastifyView, {
     engine: { nunjucks },
     root: path.join(process.cwd(), 'dist/views'),
