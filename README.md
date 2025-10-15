@@ -29,8 +29,9 @@ Designed to provide students, faculty, and healthcare professionals with access 
 
 ### Prerequisites
 
-- Node.js (latest LTS version)
-- npm
+- Docker
+- Docker Compose
+- Git
 
 ### Installation
 
@@ -38,61 +39,70 @@ Designed to provide students, faculty, and healthcare professionals with access 
 # Clone the repository
 git clone <repository-url>
 cd vnmu-dnn
-
-# Install dependencies
-npm install
 ```
 
 ### Configuration
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory with the following variables:
 
-```
-DATABASE_PATH=./data/database.sqlite
+```bash
+# Application
+NODE_ENV=development
 PORT=3000
-HOST=localhost
+HOST=0.0.0.0
+SESSION_SECRET=your-secret-key
+
+# SSL/Domain (for production)
+CERTBOT_EMAIL=your-email@domain.com
+DOMAIN=your-domain.com
 ```
 
-### Running the Application
+### Development Environment
+
+Start the development server using the provided script:
 
 ```bash
-# Development mode
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm start
+# Start development environment
+./scripts/run-dev.sh
 ```
 
-## Development Commands
+This will:
+- Build the development Docker images
+- Start all services (ui, server, nginx)
+- Make the application available at http://localhost:8080
 
-- **Build**: `npm run build`
-- **Development**: `npm run dev`
-- **Lint**: `npx eslint src/**/*.js`
-- **Type Check**: `npx tsc --noEmit`
+**Development services:**
+- **UI Builder** - Vite dev server for frontend assets
+- **API Server** - Fastify server with hot reload
+- **Nginx** - Reverse proxy and static file server
+- **Debug Port** - Node.js inspector on port 9229
 
-## Docker
+### Production Deployment
 
-The application can also be run using Docker:
+Deploy to production using:
 
 ```bash
-# Build and start with Docker Compose
-docker-compose up -d
+# Deploy to production
+./scripts/deploy.sh
 ```
 
-## Architecture
+This will:
+- Build production Docker images
+- Start services with SSL certificates
+- Make the application available at https://your-domain.com
 
-This project follows clean architecture principles:
+### Manual Docker Commands
 
-1. **Domain Layer**: Core business logic and entities
-2. **Application Layer**: Use cases that orchestrate the domain
-3. **Infrastructure Layer**: External interfaces like databases, web, etc.
+```bash
+# Development
+docker-compose -f docker-compose.dev.yml --env-file .env up -d
 
-## Code Style
+# Production  
+docker-compose --env-file .production.env up -d
 
-- Uses Prettier and ESLint for code formatting and linting
-- Follows TypeScript strict mode guidelines
-- Uses repository pattern for data access
-- Uses use case pattern for business logic
+# View logs
+docker-compose -f docker-compose.dev.yml logs -f
+
+# Stop services
+docker-compose -f docker-compose.dev.yml down
+```
