@@ -389,6 +389,7 @@ const setupRoutes = async (fastify) => {
   fastify.get('/admin/specialties/:id', async (request, reply) => {
     const { id } = request.params;
     const { lang } = request.query;
+    const { status } = request.query;
 
     if (request.session.data?.role !== Roles.ADMIN) {
       throw new ForbiddenError();
@@ -408,6 +409,7 @@ const setupRoutes = async (fastify) => {
       specialtyId: id,
       language: lang,
       data,
+      status,
     });
   });
 
@@ -419,7 +421,9 @@ const setupRoutes = async (fastify) => {
     const useCase = new UpdateSpecialtyContentUseCase(request.di);
     await useCase.exec({ specialtyId: id, language: lang, name });
 
-    return reply.redirect(`/admin/specialties/${id}?lang=${lang}`);
+    return reply.redirect(
+      `/admin/specialties/${id}?lang=${lang}&status=success`,
+    );
   });
 
   fastify.delete('/admin/specialties/:id', async (request, reply) => {

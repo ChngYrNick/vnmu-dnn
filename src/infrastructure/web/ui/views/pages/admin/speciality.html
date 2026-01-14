@@ -39,14 +39,20 @@
       </select>
     </div>
 
-    <form hx-boost="true" action="/admin/specialties/{{specialtyId}}" method="post" class="mb-4">
-      <div class="mb-3">
-        <label for="name" class="form-label">Specialty Name</label>
+    {% if status === 'success' %}
+    <div class="alert alert-success" role="alert">
+      Specialty name successfully updated!
+    </div>
+    {% endif %}
+
+    <form hx-boost="true" action="/admin/specialties/{{specialtyId}}" method="post" class="mb-4 d-flex">
+      <div class="me-3 flex-grow-1">
         <input
           type="text"
           class="form-control"
           id="name"
           name="name"
+          placeholder="Enter specialty name"
           value="{{ data.specialty.name }}"
           required
           minlength="2"
@@ -65,7 +71,6 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Course</th>
             <th>Actions</th>
           </tr>
@@ -73,7 +78,6 @@
         <tbody>
           {% for item in data.materials %}
           <tr>
-            <td>{{ item.id }}</td>
             <td>{{ item.course }}</td>
             <td>
               <a
