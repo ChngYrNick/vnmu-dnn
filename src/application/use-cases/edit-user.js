@@ -35,7 +35,7 @@ class EditUserUseCase {
 
     const isCurrentUser = targetUser.id === currentUser.id;
 
-    if (isCurrentUser && data.role !== currentUser.role) {
+    if (isCurrentUser && data.role && data.role !== currentUser.role) {
       throw new ForbiddenError();
     }
 
