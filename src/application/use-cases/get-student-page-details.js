@@ -19,7 +19,7 @@ class GetStudentPageDetailsUseCase {
     this.#contactsRepo = contactsRepo;
   }
 
-  async exec({ specialtyId, course, language }) {
+  async exec({ specialtySlug, course, language }) {
     const [allSpecialties, contacts] = await Promise.all([
       this.#specialtiesRepo.find(),
       this.#contactsRepo.read(),
@@ -41,19 +41,25 @@ class GetStudentPageDetailsUseCase {
     let courses = [];
     let content = null;
 
-    if (specialtyId) {
-      courses = await this.#studentMaterialsRepo.findBySpecialty(specialtyId);
-
-      if (course) {
-        const material = await this.#studentMaterialsRepo.findBySpecialtyAndCourse(
-          specialtyId,
-          course,
+    if (specialtySlug) {
+      const specialty = await this.#specialtiesRepo.readBySlug(specialtySlug);
+      if (specialty) {
+        courses = await this.#studentMaterialsRepo.findBySpecialty(
+          specialty.id,
         );
-        if (material) {
-          content = await this.#studentMaterialsContentRepo.readByInfo({
-            materialId: material.id,
-            language,
-          });
+
+        if (course) {
+          const material =
+            await this.#studentMaterialsRepo.findBySpecialtyAndCourse(
+              specialty.id,
+              course,
+            );
+          if (material) {
+            content = await this.#studentMaterialsContentRepo.readByInfo({
+              materialId: material.id,
+              language,
+            });
+          }
         }
       }
     }

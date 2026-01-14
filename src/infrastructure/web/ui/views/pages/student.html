@@ -16,10 +16,10 @@
         >
           <option value="">{{ t('pages.student.selectSpecialty') }}</option>
           {% for item in data.specialties %}
-            {% if item.id == selectedSpecialty %}
-          <option value="{{ item.id }}" selected>{{ item.name }}</option>
+            {% if item.slug == selectedSpecialty %}
+          <option value="{{ item.slug }}" selected>{{ item.name }}</option>
             {% else %}
-          <option value="{{ item.id }}">{{ item.name }}</option>
+          <option value="{{ item.slug }}">{{ item.name }}</option>
             {% endif %}
           {% endfor %}
         </select>

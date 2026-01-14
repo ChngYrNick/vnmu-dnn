@@ -158,7 +158,7 @@ const setupRoutes = async (fastify) => {
 
     const useCase = new GetStudentPageDetailsUseCase(request.di);
     const result = await useCase.exec({
-      specialtyId: specialty || null,
+      specialtySlug: specialty || null,
       course: course ? parseInt(course, 10) : null,
       language,
     });
@@ -167,7 +167,7 @@ const setupRoutes = async (fastify) => {
       const firstSpecialty = result.specialties[0];
       const firstCourse = result.courses[0]?.course || 1;
       return reply.redirect(
-        `/student?specialty=${firstSpecialty.id}&course=${firstCourse}`,
+        `/student?specialty=${firstSpecialty.slug}&course=${firstCourse}`,
       );
     }
 
@@ -185,7 +185,7 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         title: request.i18n.t('nav.student'),
         data: result,
-        selectedSpecialty: specialty ? parseInt(specialty, 10) : null,
+        selectedSpecialty: specialty || null,
         selectedCourse: course ? parseInt(course, 10) : null,
         content: result.content?.data || '',
       });
