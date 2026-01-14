@@ -150,6 +150,14 @@
     },
     "error": {
       "goHome": "Домашня Сторінка"
+    },
+    "student": {
+      "specialty": "Спеціальність",
+      "course": "Курс",
+      "selectSpecialty": "Оберіть спеціальність...",
+      "selectCourse": "Оберіть курс...",
+      "courseLabel": "Курс",
+      "noContent": "Вміст для цього курсу відсутній."
     }
   }
 }

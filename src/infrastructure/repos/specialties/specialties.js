@@ -16,6 +16,16 @@ class SpecialtiesRepo {
     const query = this.#loader.get('specialties/insert.sql');
     return this.#db.prepare(query).run(slug);
   }
+
+  async readById(id) {
+    const query = this.#loader.get('specialties/select-by-id.sql');
+    return this.#db.prepare(query).get(id);
+  }
+
+  async delete(id) {
+    const query = this.#loader.get('specialties/delete.sql');
+    return this.#db.prepare(query).run(id);
+  }
 }
 
 export { SpecialtiesRepo };

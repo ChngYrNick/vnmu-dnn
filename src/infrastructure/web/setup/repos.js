@@ -8,6 +8,10 @@ import { FilesRepo } from '../../repos/files/files.js';
 import { PagesFileRepo } from '../../repos/pages-file/pages-file.js';
 import { ContactsRepo } from '../../repos/contacts/contacts.js';
 import { SpecialtiesRepo } from '../../repos/specialties/specialties.js';
+import { SpecialtiesContentRepo } from '../../repos/specialties-content/specialties-content.js';
+import { StudentMaterialsRepo } from '../../repos/student-materials/student-materials.js';
+import { StudentMaterialsContentRepo } from '../../repos/student-materials-content/student-materials-content.js';
+import { StudentMaterialsFileRepo } from '../../repos/student-materials-file/student-materials-file.js';
 
 const setupRepos = async (fastify) => {
   const { db, queryLoaderService } = fastify.di;
@@ -21,6 +25,20 @@ const setupRepos = async (fastify) => {
   const pagesFileRepo = new PagesFileRepo(db, queryLoaderService, filesRepo);
   const contactsRepo = new ContactsRepo(db, queryLoaderService);
   const specialtiesRepo = new SpecialtiesRepo(db, queryLoaderService);
+  const specialtiesContentRepo = new SpecialtiesContentRepo(
+    db,
+    queryLoaderService,
+  );
+  const studentMaterialsRepo = new StudentMaterialsRepo(db, queryLoaderService);
+  const studentMaterialsContentRepo = new StudentMaterialsContentRepo(
+    db,
+    queryLoaderService,
+  );
+  const studentMaterialsFileRepo = new StudentMaterialsFileRepo(
+    db,
+    queryLoaderService,
+    filesRepo,
+  );
   fastify.di.userRepo = userRepo;
   fastify.di.setupRepo = setupRepo;
   fastify.di.sessionsRepo = sessionsRepo;
@@ -31,6 +49,10 @@ const setupRepos = async (fastify) => {
   fastify.di.pagesFileRepo = pagesFileRepo;
   fastify.di.contactsRepo = contactsRepo;
   fastify.di.specialtiesRepo = specialtiesRepo;
+  fastify.di.specialtiesContentRepo = specialtiesContentRepo;
+  fastify.di.studentMaterialsRepo = studentMaterialsRepo;
+  fastify.di.studentMaterialsContentRepo = studentMaterialsContentRepo;
+  fastify.di.studentMaterialsFileRepo = studentMaterialsFileRepo;
   fastify.addHook('preHandler', (req, reply, done) => {
     req.di.userRepo = userRepo;
     req.di.setupRepo = setupRepo;
@@ -42,6 +64,10 @@ const setupRepos = async (fastify) => {
     req.di.pagesFileRepo = pagesFileRepo;
     req.di.contactsRepo = contactsRepo;
     req.di.specialtiesRepo = specialtiesRepo;
+    req.di.specialtiesContentRepo = specialtiesContentRepo;
+    req.di.studentMaterialsRepo = studentMaterialsRepo;
+    req.di.studentMaterialsContentRepo = studentMaterialsContentRepo;
+    req.di.studentMaterialsFileRepo = studentMaterialsFileRepo;
     done();
   });
 };

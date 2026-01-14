@@ -13,6 +13,11 @@ class FileService {
       upload: (id) => `/admin/content/uploads/${id}`,
       delete: (id) => `/uploads/${id}`,
     },
+    materialId: {
+      read: (id) => `/content/material/${id}`,
+      upload: (id) => `/admin/material/uploads/${id}`,
+      delete: (id) => `/uploads/${id}`,
+    },
   };
 
   async read(id) {
@@ -305,6 +310,9 @@ class VNMUFileUploaderHostComponent extends HTMLElement {
     if (this.getAttribute('page-id')) {
       this.#id = this.getAttribute('page-id');
       this.#idKey = 'pageId';
+    } else if (this.getAttribute('material-id')) {
+      this.#id = this.getAttribute('material-id');
+      this.#idKey = 'materialId';
     }
   }
 

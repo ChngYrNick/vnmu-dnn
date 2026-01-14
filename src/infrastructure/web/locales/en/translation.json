@@ -150,6 +150,14 @@
     },
     "error": {
       "goHome": "Home"
+    },
+    "student": {
+      "specialty": "Specialty",
+      "course": "Course",
+      "selectSpecialty": "Select specialty...",
+      "selectCourse": "Select course...",
+      "courseLabel": "Course",
+      "noContent": "No content available for this course."
     }
   }
 }

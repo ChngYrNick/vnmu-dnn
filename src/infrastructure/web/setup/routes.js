@@ -25,6 +25,17 @@ import { ChangeLanguageUseCase } from '../../../application/use-cases/change-lan
 import { DeleteUserUseCase } from '../../../application/use-cases/delete-user.js';
 import { GetSpecialtiesUseCase } from '../../../application/use-cases/get-specialties.js';
 import { AddSpecialityUseCase } from '../../../application/use-cases/add-speciality.js';
+import { GetSpecialtyDetailsUseCase } from '../../../application/use-cases/get-specialty-details.js';
+import { UpdateSpecialtyContentUseCase } from '../../../application/use-cases/update-specialty-content.js';
+import { DeleteSpecialtyUseCase } from '../../../application/use-cases/delete-specialty.js';
+import { AddStudentMaterialUseCase } from '../../../application/use-cases/add-student-material.js';
+import { GetStudentMaterialDetailsUseCase } from '../../../application/use-cases/get-student-material-details.js';
+import { GetStudentMaterialContentUseCase } from '../../../application/use-cases/get-student-material-content.js';
+import { UpdateStudentMaterialContentUseCase } from '../../../application/use-cases/update-student-material-content.js';
+import { GetStudentMaterialFilesUseCase } from '../../../application/use-cases/get-student-material-files.js';
+import { UploadStudentMaterialFileUseCase } from '../../../application/use-cases/upload-student-material-file.js';
+import { DeleteStudentMaterialUseCase } from '../../../application/use-cases/delete-student-material.js';
+import { GetStudentPageDetailsUseCase } from '../../../application/use-cases/get-student-page-details.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -138,6 +149,45 @@ const setupRoutes = async (fastify) => {
         content: result.content?.data || '',
         title: request.i18n.t('nav.literature'),
         data: result,
+      });
+  });
+
+  fastify.get('/student', async (request, reply) => {
+    const { specialty, course } = request.query;
+    const language = request.i18n.resolvedLanguage;
+
+    const useCase = new GetStudentPageDetailsUseCase(request.di);
+    const result = await useCase.exec({
+      specialtyId: specialty || null,
+      course: course ? parseInt(course, 10) : null,
+      language,
+    });
+
+    if (!specialty && result.specialties.length > 0) {
+      const firstSpecialty = result.specialties[0];
+      const firstCourse = result.courses[0]?.course || 1;
+      return reply.redirect(
+        `/student?specialty=${firstSpecialty.id}&course=${firstCourse}`,
+      );
+    }
+
+    if (specialty && !course && result.courses.length > 0) {
+      return reply.redirect(
+        `/student?specialty=${specialty}&course=${result.courses[0].course}`,
+      );
+    }
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/student.html', {
+        page: PAGES.Student,
+        user: request.session.data,
+        title: request.i18n.t('nav.student'),
+        data: result,
+        selectedSpecialty: specialty ? parseInt(specialty, 10) : null,
+        selectedCourse: course ? parseInt(course, 10) : null,
+        content: result.content?.data || '',
       });
   });
 
@@ -335,6 +385,175 @@ const setupRoutes = async (fastify) => {
     await useCase.exec(request.body);
     return reply.redirect('/admin/specialties');
   });
+
+  fastify.get('/admin/specialties/:id', async (request, reply) => {
+    const { id } = request.params;
+    const { lang } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    if (!lang) {
+      return reply.redirect(
+        `/admin/specialties/${id}?lang=${request.i18n.resolvedLanguage}`,
+      );
+    }
+
+    const useCase = new GetSpecialtyDetailsUseCase(request.di);
+    const data = await useCase.exec({ specialtyId: id, language: lang });
+
+    return reply.view('pages/admin/speciality.html', {
+      page: ADMIN_PAGES.Specialties,
+      specialtyId: id,
+      language: lang,
+      data,
+    });
+  });
+
+  fastify.post('/admin/specialties/:id', async (request, reply) => {
+    const { id } = request.params;
+    const { lang } = request.body;
+    const { name } = request.body;
+
+    const useCase = new UpdateSpecialtyContentUseCase(request.di);
+    await useCase.exec({ specialtyId: id, language: lang, name });
+
+    return reply.redirect(`/admin/specialties/${id}?lang=${lang}`);
+  });
+
+  fastify.delete('/admin/specialties/:id', async (request, reply) => {
+    const { id } = request.params;
+    const useCase = new DeleteSpecialtyUseCase(request.di);
+    await useCase.exec(id);
+    return reply.code(303).redirect('/admin/specialties');
+  });
+
+  fastify.post('/admin/specialties/:id/material', async (request, reply) => {
+    const { id } = request.params;
+    const { course, lang } = request.body;
+
+    const useCase = new AddStudentMaterialUseCase(request.di);
+    await useCase.exec({ specialtyId: id, course: parseInt(course, 10) });
+
+    return reply.redirect(`/admin/specialties/${id}?lang=${lang}`);
+  });
+
+  fastify.get(
+    '/admin/specialties/:specialtyId/course/:courseId',
+    async (request, reply) => {
+      const { specialtyId, courseId } = request.params;
+      const { lang } = request.query;
+
+      if (request.session.data?.role !== Roles.ADMIN) {
+        throw new ForbiddenError();
+      }
+
+      if (!lang) {
+        return reply.redirect(
+          `/admin/specialties/${specialtyId}/course/${courseId}?lang=${request.i18n.resolvedLanguage}`,
+        );
+      }
+
+      const useCase = new GetStudentMaterialDetailsUseCase(request.di);
+      const data = await useCase.exec({ materialId: courseId, language: lang });
+
+      return reply.view('pages/admin/course-edit.html', {
+        page: ADMIN_PAGES.Specialties,
+        specialtyId,
+        materialId: courseId,
+        language: lang,
+        data,
+      });
+    },
+  );
+
+  fastify.delete(
+    '/admin/specialties/:specialtyId/course/:courseId',
+    async (request, reply) => {
+      const { specialtyId, courseId } = request.params;
+      const { lang } = request.query;
+
+      const useCase = new DeleteStudentMaterialUseCase(request.di);
+      await useCase.exec(courseId);
+
+      return reply
+        .code(303)
+        .redirect(`/admin/specialties/${specialtyId}?lang=${lang}`);
+    },
+  );
+
+  fastify.get('/admin/material/text/:materialId', async (request, reply) => {
+    const { materialId } = request.params;
+    const { lang } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    const useCase = new GetStudentMaterialContentUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(materialId, lang));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return data ? reply.code(200).send(data) : reply.code(404).send();
+  });
+
+  fastify.put('/admin/material/text/:materialId', async (request, reply) => {
+    const { materialId } = request.params;
+    const { lang } = request.query;
+
+    const useCase = new UpdateStudentMaterialContentUseCase(request.di);
+    const { error, data } = await tryCatch(
+      useCase.exec({ materialId, language: lang, data: request.body }),
+    );
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.get('/content/material/:materialId', async (request, reply) => {
+    const { materialId } = request.params;
+
+    const useCase = new GetStudentMaterialFilesUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(materialId));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.post(
+    '/admin/material/uploads/:materialId',
+    async (request, reply) => {
+      const { materialId } = request.params;
+      const data = await request.file();
+
+      const useCase = new UploadStudentMaterialFileUseCase(request.di);
+      const result = await tryCatch(useCase.exec({ materialId, data }));
+
+      if (result.error) {
+        request.log.error(result.error);
+        const processedError = request.di.errorService.handle(result.error);
+        return reply.code(processedError.code).send(processedError);
+      }
+
+      return reply.code(200).send(result.data);
+    },
+  );
 
   fastify.get('/admin/users', async (request, reply) => {
     if (request.session.data?.role !== Roles.ADMIN) {
