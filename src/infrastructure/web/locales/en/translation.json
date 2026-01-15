@@ -158,6 +158,9 @@
       "selectCourse": "Select course...",
       "courseLabel": "Course",
       "noContent": "No content available for this course."
+    },
+    "staff": {
+      "noStaff": "No staff members available."
     }
   }
 }

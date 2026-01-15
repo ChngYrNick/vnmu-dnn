@@ -36,6 +36,18 @@ import { GetStudentMaterialFilesUseCase } from '../../../application/use-cases/g
 import { UploadStudentMaterialFileUseCase } from '../../../application/use-cases/upload-student-material-file.js';
 import { DeleteStudentMaterialUseCase } from '../../../application/use-cases/delete-student-material.js';
 import { GetStudentPageDetailsUseCase } from '../../../application/use-cases/get-student-page-details.js';
+import { GetStaffUseCase } from '../../../application/use-cases/get-staff.js';
+import { AddStaffUseCase } from '../../../application/use-cases/add-staff.js';
+import { GetStaffDetailsUseCase } from '../../../application/use-cases/get-staff-details.js';
+import { UpdateStaffUseCase } from '../../../application/use-cases/update-staff.js';
+import { UpdateStaffContentUseCase } from '../../../application/use-cases/update-staff-content.js';
+import { GetStaffContentUseCase } from '../../../application/use-cases/get-staff-content.js';
+import { UpdateStaffContentDataUseCase } from '../../../application/use-cases/update-staff-content-data.js';
+import { ToggleStaffPublishedUseCase } from '../../../application/use-cases/toggle-staff-published.js';
+import { DeleteStaffUseCase } from '../../../application/use-cases/delete-staff.js';
+import { UploadStaffFileUseCase } from '../../../application/use-cases/upload-staff-file.js';
+import { GetStaffFilesUseCase } from '../../../application/use-cases/get-staff-files.js';
+import { GetStaffPageDetailsUseCase } from '../../../application/use-cases/get-staff-page-details.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -695,6 +707,169 @@ const setupRoutes = async (fastify) => {
       return reply.code(processedError.code).send(processedError);
     }
     return reply.code(200).send(data);
+  });
+
+  // Public staff page
+  fastify.get('/staff', async (request, reply) => {
+    const language = request.i18n.resolvedLanguage;
+
+    const useCase = new GetStaffPageDetailsUseCase(request.di);
+    const result = await useCase.exec({ language });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/staff.html', {
+        page: PAGES.Staff,
+        user: request.session.data,
+        title: request.i18n.t('nav.staff'),
+        data: result,
+      });
+  });
+
+  // Admin staff routes
+  fastify.get('/admin/staff', async (request, reply) => {
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+    const useCase = new GetStaffUseCase(request.di);
+    const result = await useCase.exec();
+
+    return reply.view('pages/admin/staff.html', {
+      page: ADMIN_PAGES.Staff,
+      data: { staff: result },
+    });
+  });
+
+  fastify.post('/admin/staff', async (request, reply) => {
+    const useCase = new AddStaffUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/admin/staff');
+  });
+
+  fastify.get('/admin/staff/edit/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const { lang, status } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    if (!lang) {
+      return reply.redirect(
+        `/admin/staff/edit/${staffId}?lang=${request.i18n.resolvedLanguage}`,
+      );
+    }
+
+    const useCase = new GetStaffDetailsUseCase(request.di);
+    const data = await useCase.exec({ staffId, language: lang });
+
+    return reply.view('pages/admin/edit-staff.html', {
+      page: ADMIN_PAGES.Staff,
+      staffId,
+      language: lang,
+      data,
+      status,
+    });
+  });
+
+  fastify.post('/admin/staff/edit/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const { lang, name, position, email, phone, orderIndex } = request.body;
+
+    const updateStaffUseCase = new UpdateStaffUseCase(request.di);
+    await updateStaffUseCase.exec({ staffId, email, phone, orderIndex });
+
+    const updateContentUseCase = new UpdateStaffContentUseCase(request.di);
+    await updateContentUseCase.exec({ staffId, language: lang, name, position });
+
+    return reply.redirect(`/admin/staff/edit/${staffId}?lang=${lang}&status=success`);
+  });
+
+  fastify.delete('/admin/staff/edit/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const useCase = new DeleteStaffUseCase(request.di);
+    await useCase.exec(staffId);
+    return reply.code(303).redirect('/admin/staff');
+  });
+
+  fastify.post('/admin/staff/edit/:staffId/publish', async (request, reply) => {
+    const { staffId } = request.params;
+    const { lang, published } = request.body;
+
+    const useCase = new ToggleStaffPublishedUseCase(request.di);
+    await useCase.exec({ staffId, published: published === 'true' });
+
+    return reply.redirect(`/admin/staff/edit/${staffId}?lang=${lang}`);
+  });
+
+  fastify.get('/admin/staff/text/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const { lang } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    const useCase = new GetStaffContentUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(staffId, lang));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return data ? reply.code(200).send(data) : reply.code(404).send();
+  });
+
+  fastify.put('/admin/staff/text/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const { lang } = request.query;
+
+    const useCase = new UpdateStaffContentDataUseCase(request.di);
+    const { error, data } = await tryCatch(
+      useCase.exec({ staffId, language: lang, data: request.body }),
+    );
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.get('/content/staff/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+
+    const useCase = new GetStaffFilesUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(staffId));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.post('/admin/staff/uploads/:staffId', async (request, reply) => {
+    const { staffId } = request.params;
+    const data = await request.file();
+
+    const useCase = new UploadStaffFileUseCase(request.di);
+    const result = await tryCatch(useCase.exec({ staffId, data }));
+
+    if (result.error) {
+      request.log.error(result.error);
+      const processedError = request.di.errorService.handle(result.error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(result.data);
   });
 };
 

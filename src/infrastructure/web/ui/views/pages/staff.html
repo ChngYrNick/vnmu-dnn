@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %} {% block content %} {% include
+"partials/header.html" %}
+<main class="container mt-3 flex-grow-1">
+  <section>
+    {% if data.staff.length === 0 %}
+    <div class="alert alert-info">
+      {{ t('pages.staff.noStaff') }}
+    </div>
+    {% else %}
+    <div class="row">
+      {% for member in data.staff %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+          {% if member.profilePicture %}
+          <div class="card-img-top text-center pt-3">
+            <img
+              src="{{ member.profilePicture.path }}"
+              alt="{{ member.name }}"
+              class="rounded-circle"
+              style="width: 150px; height: 150px; object-fit: cover;"
+            />
+          </div>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ member.name }}</h5>
+            {% if member.position %}
+            <p class="card-text text-center text-muted">{{ member.position }}</p>
+            {% endif %}
+            <ul class="list-unstyled">
+              {% if member.email %}
+              <li class="mb-2">
+                <img src="public/assets/icons/mail.svg" alt="Email" width="16" height="16" class="me-2" />
+                <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+              </li>
+              {% endif %}
+              {% if member.phone %}
+              <li class="mb-2">
+                <img src="public/assets/icons/phone.svg" alt="Phone" width="16" height="16" class="me-2" />
+                <a href="tel:{{ member.phone }}">{{ member.phone }}</a>
+              </li>
+              {% endif %}
+            </ul>
+            {% if member.data %}
+            <div class="mt-3">
+              {{ marked(member.data) | safe }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+</main>
+
+{% include "partials/footer.html" %} {% endblock %}

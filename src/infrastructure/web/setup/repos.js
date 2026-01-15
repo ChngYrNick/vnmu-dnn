@@ -12,6 +12,9 @@ import { SpecialtiesContentRepo } from '../../repos/specialties-content/specialt
 import { StudentMaterialsRepo } from '../../repos/student-materials/student-materials.js';
 import { StudentMaterialsContentRepo } from '../../repos/student-materials-content/student-materials-content.js';
 import { StudentMaterialsFileRepo } from '../../repos/student-materials-file/student-materials-file.js';
+import { StaffRepo } from '../../repos/staff/staff.js';
+import { StaffContentRepo } from '../../repos/staff-content/staff-content.js';
+import { StaffFileRepo } from '../../repos/staff-file/staff-file.js';
 
 const setupRepos = async (fastify) => {
   const { db, queryLoaderService } = fastify.di;
@@ -39,6 +42,9 @@ const setupRepos = async (fastify) => {
     queryLoaderService,
     filesRepo,
   );
+  const staffRepo = new StaffRepo(db, queryLoaderService);
+  const staffContentRepo = new StaffContentRepo(db, queryLoaderService);
+  const staffFileRepo = new StaffFileRepo(db, queryLoaderService, filesRepo);
   fastify.di.userRepo = userRepo;
   fastify.di.setupRepo = setupRepo;
   fastify.di.sessionsRepo = sessionsRepo;
@@ -53,6 +59,9 @@ const setupRepos = async (fastify) => {
   fastify.di.studentMaterialsRepo = studentMaterialsRepo;
   fastify.di.studentMaterialsContentRepo = studentMaterialsContentRepo;
   fastify.di.studentMaterialsFileRepo = studentMaterialsFileRepo;
+  fastify.di.staffRepo = staffRepo;
+  fastify.di.staffContentRepo = staffContentRepo;
+  fastify.di.staffFileRepo = staffFileRepo;
   fastify.addHook('preHandler', (req, reply, done) => {
     req.di.userRepo = userRepo;
     req.di.setupRepo = setupRepo;
@@ -68,6 +77,9 @@ const setupRepos = async (fastify) => {
     req.di.studentMaterialsRepo = studentMaterialsRepo;
     req.di.studentMaterialsContentRepo = studentMaterialsContentRepo;
     req.di.studentMaterialsFileRepo = studentMaterialsFileRepo;
+    req.di.staffRepo = staffRepo;
+    req.di.staffContentRepo = staffContentRepo;
+    req.di.staffFileRepo = staffFileRepo;
     done();
   });
 };
