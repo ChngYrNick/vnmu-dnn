@@ -65,15 +65,15 @@
       <div class="position-sticky" style="top: 2rem;">
         <div class="p-4 mb-3 bg-body-tertiary rounded">
           <h4 class="fst-italic">{{ t("pages.home.sidebar.quickLinks.title") }}</h4>
-          <nav class="nav flex-column">
-            <a class="nav-link px-0" href="/student">{{ t("nav.student") }}</a>
-            <a class="nav-link px-0" href="/intern">{{ t("nav.intern") }}</a>
-            <a class="nav-link px-0" href="/listener">{{ t("nav.listener") }}</a>
-            <a class="nav-link px-0" href="/syllabus">{{ t("nav.syllabus") }}</a>
-            <a class="nav-link px-0" href="/literature">{{ t("nav.literature") }}</a>
-            <a class="nav-link px-0" href="/staff">{{ t("nav.staff") }}</a>
-            <a class="nav-link px-0" href="/news">{{ t("nav.news") }}</a>
-          </nav>
+          {% if data.quickLinks.length === 0 %}
+            <p class="text-muted mb-0">{{ t("pages.home.sidebar.quickLinks.noLinks") }}</p>
+          {% else %}
+            <nav class="nav flex-column">
+              {% for link in data.quickLinks %}
+                <a class="nav-link px-0" href="{{ link.url }}">{{ link.name }}</a>
+              {% endfor %}
+            </nav>
+          {% endif %}
         </div>
       </div>
     </div>

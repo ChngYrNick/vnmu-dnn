@@ -93,7 +93,8 @@
       },
       "sidebar": {
         "quickLinks": {
-          "title": "Quick Links"
+          "title": "Quick Links",
+          "noLinks": "No specialties available."
         }
       }
     },
