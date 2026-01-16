@@ -30,7 +30,7 @@
     </div>
 
     {% if data.pagination.totalPages > 1 %}
-    <nav aria-label="News pagination">
+    <nav aria-label="News pagination" hx-boost="true" preload preload-images="true">
       <ul class="pagination justify-content-center">
         {% if data.pagination.hasPrev %}
         <li class="page-item">
