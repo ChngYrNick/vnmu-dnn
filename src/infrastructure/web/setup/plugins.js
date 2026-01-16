@@ -38,7 +38,7 @@ const setupPlugins = async (fastify) => {
 
   fastify.register(fastifyMultipart, {
     limits: {
-      fileSize: 1024 * 1024 * 1024, // 1GB limit
+      fileSize: 200 * 1024 * 1024, // 200MB limit
     },
   });
 

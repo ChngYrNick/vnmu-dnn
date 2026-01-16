@@ -2,6 +2,9 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { Roles } from '../../domain/roles.js';
 import { ForbiddenError } from '../../domain/errors/forbidden.js';
+import { BadRequestError } from '../../domain/errors/bad-request.js';
+
+const MAX_FILE_SIZE = 200 * 1024 * 1024; // 200MB
 
 class UploadStaffFileUseCase {
   #staffFileRepo = null;
@@ -20,6 +23,9 @@ class UploadStaffFileUseCase {
     const user = await this.#sessionsService.getCurrentUser();
     if (!user || user.role !== Roles.ADMIN) {
       throw new ForbiddenError();
+    }
+    if (data.file.bytesRead > MAX_FILE_SIZE) {
+      throw new BadRequestError(BadRequestError.FILE_SIZE_LIMIT);
     }
 
     // Delete existing profile picture (single picture mode)

@@ -59,7 +59,8 @@
     "badRequest": {
       "title": "Bad Request",
       "description": {
-        "default": "Invalid request"
+        "default": "Invalid request",
+        "fileSizeLimit": "File size exceeds 200MB limit"
       }
     },
     "unauthorized": {
