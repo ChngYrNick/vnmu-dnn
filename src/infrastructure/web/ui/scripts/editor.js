@@ -20,6 +20,10 @@ class TextService {
       read: (id, language) => `/admin/staff/text/${id}?lang=${language}`,
       update: (id, language) => `/admin/staff/text/${id}?lang=${language}`,
     },
+    newsId: {
+      read: (id, language) => `/admin/news/text/${id}?lang=${language}`,
+      update: (id, language) => `/admin/news/text/${id}?lang=${language}`,
+    },
   };
 
   async read(id, language) {
@@ -291,6 +295,9 @@ class VNMUEditorComponent extends HTMLElement {
     } else if (this.getAttribute('staff-id')) {
       this.#id = this.getAttribute('staff-id');
       this.#idKey = 'staffId';
+    } else if (this.getAttribute('news-id')) {
+      this.#id = this.getAttribute('news-id');
+      this.#idKey = 'newsId';
     }
   }
 

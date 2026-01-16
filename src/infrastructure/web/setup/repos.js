@@ -15,6 +15,9 @@ import { StudentMaterialsFileRepo } from '../../repos/student-materials-file/stu
 import { StaffRepo } from '../../repos/staff/staff.js';
 import { StaffContentRepo } from '../../repos/staff-content/staff-content.js';
 import { StaffFileRepo } from '../../repos/staff-file/staff-file.js';
+import { NewsRepo } from '../../repos/news/news.js';
+import { NewsContentRepo } from '../../repos/news-content/news-content.js';
+import { NewsFileRepo } from '../../repos/news-file/news-file.js';
 
 const setupRepos = async (fastify) => {
   const { db, queryLoaderService } = fastify.di;
@@ -45,6 +48,9 @@ const setupRepos = async (fastify) => {
   const staffRepo = new StaffRepo(db, queryLoaderService);
   const staffContentRepo = new StaffContentRepo(db, queryLoaderService);
   const staffFileRepo = new StaffFileRepo(db, queryLoaderService, filesRepo);
+  const newsRepo = new NewsRepo(db, queryLoaderService);
+  const newsContentRepo = new NewsContentRepo(db, queryLoaderService);
+  const newsFileRepo = new NewsFileRepo(db, queryLoaderService, filesRepo);
   fastify.di.userRepo = userRepo;
   fastify.di.setupRepo = setupRepo;
   fastify.di.sessionsRepo = sessionsRepo;
@@ -62,6 +68,9 @@ const setupRepos = async (fastify) => {
   fastify.di.staffRepo = staffRepo;
   fastify.di.staffContentRepo = staffContentRepo;
   fastify.di.staffFileRepo = staffFileRepo;
+  fastify.di.newsRepo = newsRepo;
+  fastify.di.newsContentRepo = newsContentRepo;
+  fastify.di.newsFileRepo = newsFileRepo;
   fastify.addHook('preHandler', (req, reply, done) => {
     req.di.userRepo = userRepo;
     req.di.setupRepo = setupRepo;
@@ -80,6 +89,9 @@ const setupRepos = async (fastify) => {
     req.di.staffRepo = staffRepo;
     req.di.staffContentRepo = staffContentRepo;
     req.di.staffFileRepo = staffFileRepo;
+    req.di.newsRepo = newsRepo;
+    req.di.newsContentRepo = newsContentRepo;
+    req.di.newsFileRepo = newsFileRepo;
     done();
   });
 };

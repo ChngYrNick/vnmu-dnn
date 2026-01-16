@@ -16,6 +16,9 @@ const DI = {
   staffRepo: null,
   staffContentRepo: null,
   staffFileRepo: null,
+  newsRepo: null,
+  newsContentRepo: null,
+  newsFileRepo: null,
 };
 
 export { DI };

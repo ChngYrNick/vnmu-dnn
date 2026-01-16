@@ -48,6 +48,17 @@ import { DeleteStaffUseCase } from '../../../application/use-cases/delete-staff.
 import { UploadStaffFileUseCase } from '../../../application/use-cases/upload-staff-file.js';
 import { GetStaffFilesUseCase } from '../../../application/use-cases/get-staff-files.js';
 import { GetStaffPageDetailsUseCase } from '../../../application/use-cases/get-staff-page-details.js';
+import { GetNewsUseCase } from '../../../application/use-cases/get-news.js';
+import { CreateNewsUseCase } from '../../../application/use-cases/create-news.js';
+import { GetNewsDetailsUseCase } from '../../../application/use-cases/get-news-details.js';
+import { ToggleNewsPublishedUseCase } from '../../../application/use-cases/toggle-news-published.js';
+import { DeleteNewsUseCase } from '../../../application/use-cases/delete-news.js';
+import { GetNewsContentUseCase } from '../../../application/use-cases/get-news-content.js';
+import { UpdateNewsContentDataUseCase } from '../../../application/use-cases/update-news-content-data.js';
+import { UpdateNewsTitleUseCase } from '../../../application/use-cases/update-news-title.js';
+import { GetNewsFilesUseCase } from '../../../application/use-cases/get-news-files.js';
+import { UploadNewsFileUseCase } from '../../../application/use-cases/upload-news-file.js';
+import { GetPublishedNewsPaginatedUseCase } from '../../../application/use-cases/get-published-news-paginated.js';
 
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
@@ -333,9 +344,141 @@ const setupRoutes = async (fastify) => {
     if (request.session.data?.role !== Roles.ADMIN) {
       throw new ForbiddenError();
     }
+    const useCase = new GetNewsUseCase(request.di);
+    const result = await useCase.exec();
+
     return reply.view('pages/admin/news.html', {
       page: ADMIN_PAGES.News,
+      data: { news: result },
     });
+  });
+
+  fastify.post('/admin/news', async (request, reply) => {
+    const useCase = new CreateNewsUseCase(request.di);
+    await useCase.exec(request.body);
+    return reply.redirect('/admin/news');
+  });
+
+  fastify.get('/admin/news/edit/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const { lang, status } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    if (!lang) {
+      return reply.redirect(
+        `/admin/news/edit/${newsId}?lang=${request.i18n.resolvedLanguage}`,
+      );
+    }
+
+    const useCase = new GetNewsDetailsUseCase(request.di);
+    const data = await useCase.exec({ newsId, language: lang });
+
+    return reply.view('pages/admin/edit-news.html', {
+      page: ADMIN_PAGES.News,
+      newsId,
+      language: lang,
+      data,
+      status,
+    });
+  });
+
+  fastify.post('/admin/news/edit/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const { lang, title } = request.body;
+
+    const useCase = new UpdateNewsTitleUseCase(request.di);
+    await useCase.exec({ newsId, language: lang, title });
+
+    return reply.redirect(`/admin/news/edit/${newsId}?lang=${lang}&status=success`);
+  });
+
+  fastify.delete('/admin/news/edit/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const useCase = new DeleteNewsUseCase(request.di);
+    await useCase.exec(newsId);
+    return reply.code(303).redirect('/admin/news');
+  });
+
+  fastify.post('/admin/news/edit/:newsId/publish', async (request, reply) => {
+    const { newsId } = request.params;
+    const { lang, published } = request.body;
+
+    const useCase = new ToggleNewsPublishedUseCase(request.di);
+    await useCase.exec({ newsId, published: published === 'true' });
+
+    return reply.redirect(`/admin/news/edit/${newsId}?lang=${lang}`);
+  });
+
+  fastify.get('/admin/news/text/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const { lang } = request.query;
+
+    if (request.session.data?.role !== Roles.ADMIN) {
+      throw new ForbiddenError();
+    }
+
+    const useCase = new GetNewsContentUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(newsId, lang));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return data ? reply.code(200).send(data) : reply.code(404).send();
+  });
+
+  fastify.put('/admin/news/text/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const { lang } = request.query;
+
+    const useCase = new UpdateNewsContentDataUseCase(request.di);
+    const { error, data } = await tryCatch(
+      useCase.exec({ newsId, language: lang, data: request.body }),
+    );
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.get('/content/news/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+
+    const useCase = new GetNewsFilesUseCase(request.di);
+    const { error, data } = await tryCatch(useCase.exec(newsId));
+
+    if (error) {
+      request.log.error(error);
+      const processedError = request.di.errorService.handle(error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(data);
+  });
+
+  fastify.post('/admin/news/uploads/:newsId', async (request, reply) => {
+    const { newsId } = request.params;
+    const data = await request.file();
+
+    const useCase = new UploadNewsFileUseCase(request.di);
+    const result = await tryCatch(useCase.exec({ newsId, data }));
+
+    if (result.error) {
+      request.log.error(result.error);
+      const processedError = request.di.errorService.handle(result.error);
+      return reply.code(processedError.code).send(processedError);
+    }
+
+    return reply.code(200).send(result.data);
   });
 
   fastify.get('/admin/contacts', async (request, reply) => {
@@ -724,6 +867,33 @@ const setupRoutes = async (fastify) => {
         user: request.session.data,
         title: request.i18n.t('nav.staff'),
         data: result,
+      });
+  });
+
+  // Public news page
+  fastify.get('/news', async (request, reply) => {
+    const { page } = request.query;
+
+    if (!page) {
+      return reply.redirect('/news?page=1');
+    }
+
+    const language = request.i18n.resolvedLanguage;
+    const pageNum = parseInt(page, 10) || 1;
+    const limit = 10;
+
+    const useCase = new GetPublishedNewsPaginatedUseCase(request.di);
+    const result = await useCase.exec({ page: pageNum, limit, language });
+
+    return reply
+      .header('Vary', 'Cookie')
+      .header('Cache-Control', 'private, max-age=300')
+      .view('pages/news.html', {
+        page: PAGES.News,
+        user: request.session.data,
+        title: request.i18n.t('nav.news'),
+        data: result,
+        currentPage: pageNum,
       });
   });
 

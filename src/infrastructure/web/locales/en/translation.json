@@ -161,6 +161,9 @@
     },
     "staff": {
       "noStaff": "No staff members available."
+    },
+    "news": {
+      "noNews": "No news available."
     }
   }
 }

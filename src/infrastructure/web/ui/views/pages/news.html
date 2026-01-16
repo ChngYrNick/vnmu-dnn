@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %} {% block content %} {% include
+"partials/header.html" %}
+<main class="container mt-3 flex-grow-1">
+  <section>
+    {% if data.news.length === 0 %}
+    <div class="alert alert-info">
+      {{ t('pages.news.noNews') }}
+    </div>
+    {% else %}
+    <div class="row">
+      {% for item in data.news %}
+      <div class="col-12 mb-4">
+        <article class="card">
+          <div class="card-body">
+            {% if item.title %}
+            <h2 class="card-title h4">{{ item.title }}</h2>
+            {% endif %}
+            <p class="card-text text-muted small mb-3">
+              {{ item.publishedAt }}
+            </p>
+            {% if item.data %}
+            <div class="card-text">
+              {{ marked(item.data) | safe }}
+            </div>
+            {% endif %}
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if data.pagination.totalPages > 1 %}
+    <nav aria-label="News pagination">
+      <ul class="pagination justify-content-center">
+        {% if data.pagination.hasPrev %}
+        <li class="page-item">
+          <a class="page-link" href="/news?page={{ currentPage - 1 }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+        {% endif %}
+        {% for pageNum in range(1, data.pagination.totalPages + 1) %}
+        <li class="page-item {% if pageNum === currentPage %}active{% endif %}">
+          <a class="page-link" href="/news?page={{ pageNum }}">{{ pageNum }}</a>
+        </li>
+        {% endfor %}
+        {% if data.pagination.hasNext %}
+        <li class="page-item">
+          <a class="page-link" href="/news?page={{ currentPage + 1 }}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Next</span>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+    {% endif %}
+  </section>
+</main>
+
+{% include "partials/footer.html" %} {% endblock %}
