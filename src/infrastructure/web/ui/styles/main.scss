@@ -24,3 +24,12 @@ form:invalid button[type='submit'] {
 .invisible-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.header-wrapper {
+  @include bootstrap.media-breakpoint-down(md) {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background-color: var(--bs-body-bg);
+  }
+}
