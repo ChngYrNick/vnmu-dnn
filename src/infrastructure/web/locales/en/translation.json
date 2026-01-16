@@ -80,10 +80,21 @@
   },
   "pages": {
     "home": {
-      "featured": {
+      "hero": {
         "title": "Department of Neurology and neurosurgery of postgraduate education faculty",
         "description": "The Neurosurgery Department provides a full range of neurosurgical procedures for adult patients with brain and spinal cord pathology.",
-        "continue": "Continue reading..."
+        "learnMore": "Learn more about us..."
+      },
+      "news": {
+        "title": "Latest News",
+        "noNews": "No news available at the moment.",
+        "continue": "Continue reading...",
+        "viewAll": "View all news"
+      },
+      "sidebar": {
+        "quickLinks": {
+          "title": "Quick Links"
+        }
       }
     },
     "profile": {

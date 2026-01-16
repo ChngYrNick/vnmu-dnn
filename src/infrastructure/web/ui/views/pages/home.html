@@ -2,16 +2,82 @@
 "partials/header.html" %}
 
 <main class="container mt-3 flex-grow-1" hx-boost="true" preload preload-images="true">
+  <!-- Hero Section -->
   <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
     <div class="col-lg-7 px-0">
-      <h2 class="fst-italic">{{ t("pages.home.featured.title") }}</h2>
-      <p class="lead my-3">{{ t("pages.home.featured.description") }}</p>
+      <h2 class="fst-italic">{{ t("pages.home.hero.title") }}</h2>
+      <p class="lead my-3">{{ t("pages.home.hero.description") }}</p>
       <p class="lead mb-0">
         <a href="/about" class="text-body-emphasis fw-bold">
-          {{ t("pages.home.featured.continue") }}
+          {{ t("pages.home.hero.learnMore") }}
         </a>
       </p>
     </div>
   </div>
+
+  <!-- Main Content + Sidebar -->
+  <div class="row g-5">
+    <!-- Main Content -->
+    <div class="col-md-8">
+      <h3 class="pb-4 mb-4 fst-italic border-bottom">
+        {{ t("pages.home.news.title") }}
+      </h3>
+
+      {% if data.news.length === 0 %}
+      <div class="alert alert-info">
+        {{ t('pages.home.news.noNews') }}
+      </div>
+      {% else %}
+        {% for item in data.news %}
+        <article class="blog-post mb-4 pb-4 {% if not loop.last %}border-bottom{% endif %}">
+          {% if loop.first and item.featuredImage %}
+          <div class="mb-3">
+            <img src="{{ item.featuredImage }}" class="img-fluid rounded" alt="{{ item.title }}">
+          </div>
+          {% endif %}
+          <h4 class="blog-post-title mb-1">
+            <a href="/news?page=1" class="text-decoration-none text-body-emphasis">
+              {{ item.title }}
+            </a>
+          </h4>
+          <p class="blog-post-meta text-muted small mb-2">
+            {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
+          </p>
+          <p class="card-text">
+            {{ truncate(striptags(item.data), 200) }}
+          </p>
+          <a href="/news?page=1" class="text-decoration-none">
+            {{ t("pages.home.news.continue") }}
+          </a>
+        </article>
+        {% endfor %}
+
+        <div class="mt-4">
+          <a href="/news?page=1" class="btn btn-outline-primary mb-3">
+            {{ t("pages.home.news.viewAll") }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+        <div class="p-4 mb-3 bg-body-tertiary rounded">
+          <h4 class="fst-italic">{{ t("pages.home.sidebar.quickLinks.title") }}</h4>
+          <nav class="nav flex-column">
+            <a class="nav-link px-0" href="/student">{{ t("nav.student") }}</a>
+            <a class="nav-link px-0" href="/intern">{{ t("nav.intern") }}</a>
+            <a class="nav-link px-0" href="/listener">{{ t("nav.listener") }}</a>
+            <a class="nav-link px-0" href="/syllabus">{{ t("nav.syllabus") }}</a>
+            <a class="nav-link px-0" href="/literature">{{ t("nav.literature") }}</a>
+            <a class="nav-link px-0" href="/staff">{{ t("nav.staff") }}</a>
+            <a class="nav-link px-0" href="/news">{{ t("nav.news") }}</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
+
 {% include "partials/footer.html" %} {% endblock %}

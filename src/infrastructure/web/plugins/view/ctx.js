@@ -39,6 +39,26 @@ const formatDate = (dateStr, locale = 'uk') => {
   });
 };
 
-const ctx = { nav, adminNav, Roles, encodeURIComponent, marked, formatDate };
+const truncate = (str, length) => {
+  if (!str) return '';
+  if (str.length <= length) return str;
+  return str.slice(0, length) + '...';
+};
+
+const striptags = (str) => {
+  if (!str) return '';
+  return str.replace(/<[^>]*>/g, '');
+};
+
+const ctx = {
+  nav,
+  adminNav,
+  Roles,
+  encodeURIComponent,
+  marked,
+  formatDate,
+  truncate,
+  striptags,
+};
 
 export { ctx };

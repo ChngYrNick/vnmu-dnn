@@ -63,7 +63,9 @@ import { GetPublishedNewsPaginatedUseCase } from '../../../application/use-cases
 const setupRoutes = async (fastify) => {
   fastify.get('/', async (request, reply) => {
     const useCase = new GetHomePageDetailsUseCase(request.di);
-    const data = await useCase.exec();
+    const data = await useCase.exec({
+      language: request.i18n.resolvedLanguage,
+    });
 
     return reply
       .header('Vary', 'Cookie')
