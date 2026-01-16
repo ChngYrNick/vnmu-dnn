@@ -4,6 +4,14 @@ import { SignUpUseCase } from '../../../application/use-cases/sign-up.js';
 import { ADMIN_PAGES, PAGES } from '../plugins/view/pages.js';
 import { tryCatch } from '../../../common/utils.js';
 import { Roles } from '../../../domain/roles.js';
+import { BadRequestError } from '../../../domain/errors/bad-request.js';
+import {
+  changeLanguageSchema,
+  signInSchema,
+  signUpSchema,
+  updateProfileSchema,
+  logoutQuerySchema,
+} from './validation-schemas.js';
 import { ForbiddenError } from '../../../domain/errors/forbidden.js';
 import { GetPagesUseCase } from '../../../application/use-cases/get-pages.js';
 import { GetPageDetailsUseCase } from '../../../application/use-cases/get-page-details.js';
@@ -291,16 +299,26 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/change-language', async (request, reply) => {
-    const language = request.body?.language || request.query?.language;
+    const result = changeLanguageSchema.safeParse(request.body);
+    if (!result.success) {
+      throw new BadRequestError(result.error.issues[0]?.message);
+    }
     const useCase = new ChangeLanguageUseCase(request.di);
-    await useCase.exec(language);
+    await useCase.exec(result.data.language);
     const referer = request.headers.referer || '/';
     return reply.redirect(referer);
   });
 
   fastify.post('/sign-in', async (request, reply) => {
+    const result = signInSchema.safeParse(request.body);
+    if (!result.success) {
+      const params = new URLSearchParams({
+        error: result.error.issues[0]?.message || 'Invalid input',
+      });
+      return reply.redirect(`/sign-in?${params.toString()}`);
+    }
     const useCase = new SignInUseCase(request.di);
-    const { error } = await tryCatch(useCase.exec(request.body));
+    const { error } = await tryCatch(useCase.exec(result.data));
     if (!error) {
       return reply.redirect('/');
     }
@@ -310,8 +328,15 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/sign-up', async (request, reply) => {
+    const result = signUpSchema.safeParse(request.body);
+    if (!result.success) {
+      const params = new URLSearchParams({
+        error: result.error.issues[0]?.message || 'Invalid input',
+      });
+      return reply.redirect(`/sign-up?${params.toString()}`);
+    }
     const useCase = new SignUpUseCase(request.di);
-    const { error } = await tryCatch(useCase.exec(request.body));
+    const { error } = await tryCatch(useCase.exec(result.data));
     if (!error) {
       return reply.redirect('/sign-up-success');
     }
@@ -321,16 +346,27 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/update-profile', async (request, reply) => {
+    const result = updateProfileSchema.safeParse(request.body);
+    if (!result.success) {
+      throw new BadRequestError(result.error.issues[0]?.message);
+    }
     const useCase = new UpdateProfileUseCase(request.di);
-    await useCase.exec(request.body);
+    await useCase.exec(result.data);
     return reply.redirect('/profile-update-success');
   });
 
   fastify.post('/logout', async (request, reply) => {
-    const { redirect } = request.query;
+    const result = logoutQuerySchema.safeParse(request.query);
+    if (!result.success) {
+      throw new BadRequestError(result.error.issues[0]?.message);
+    }
     const useCase = new LogoutUseCase(request.di);
     await useCase.exec();
-    const href = redirect || request.headers.referer || '/';
+    const redirect = result.data.redirect;
+    const href =
+      redirect && redirect.startsWith('/')
+        ? redirect
+        : request.headers.referer || '/';
     reply.clearCookie('sessionId', { path: '/' });
     return reply.redirect(href);
   });
