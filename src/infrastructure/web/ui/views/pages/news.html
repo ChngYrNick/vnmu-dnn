@@ -16,7 +16,7 @@
             <h2 class="card-title h4">{{ item.title }}</h2>
             {% endif %}
             <p class="card-text text-muted small mb-3">
-              {{ item.publishedAt }}
+              {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
             </p>
             {% if item.data %}
             <div class="card-text">

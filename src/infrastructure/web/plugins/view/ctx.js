@@ -27,6 +27,18 @@ const adminNav = [
   { name: ADMIN_PAGES.Contacts, nav: '/admin/contacts' },
 ];
 
-const ctx = { nav, adminNav, Roles, encodeURIComponent, marked };
+const formatDate = (dateStr, locale = 'uk') => {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  return date.toLocaleString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};
+
+const ctx = { nav, adminNav, Roles, encodeURIComponent, marked, formatDate };
 
 export { ctx };
