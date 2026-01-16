@@ -34,11 +34,11 @@
       <ul class="pagination justify-content-center">
         {% if data.pagination.hasPrev %}
         <li class="page-item">
-          <a class="page-link" href="/news?page={{ currentPage - 1 }}">Previous</a>
+          <a class="page-link" href="/news?page={{ currentPage - 1 }}">{{ t('pages.news.previous') }}</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+          <span class="page-link">{{ t('pages.news.previous') }}</span>
         </li>
         {% endif %}
         {% for pageNum in range(1, data.pagination.totalPages + 1) %}
@@ -48,11 +48,11 @@
         {% endfor %}
         {% if data.pagination.hasNext %}
         <li class="page-item">
-          <a class="page-link" href="/news?page={{ currentPage + 1 }}">Next</a>
+          <a class="page-link" href="/news?page={{ currentPage + 1 }}">{{ t('pages.news.next') }}</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Next</span>
+          <span class="page-link">{{ t('pages.news.next') }}</span>
         </li>
         {% endif %}
       </ul>
