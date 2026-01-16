@@ -25,6 +25,11 @@ form:invalid button[type='submit'] {
   display: none;
 }
 
+main img {
+  max-width: 100%;
+  height: auto;
+}
+
 .header-wrapper {
   @include bootstrap.media-breakpoint-down(md) {
     position: sticky;
