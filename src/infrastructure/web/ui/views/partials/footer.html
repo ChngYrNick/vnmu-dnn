@@ -104,7 +104,11 @@
   </div>
   <div class="bg-secondary text-white-50 py-3 mt-4">
     <div class="container text-center">
-      <p class="mb-0">{{ t('footer.copyright') }}</p>
+      <p class="mb-0">
+        <script>
+          document.currentScript.parentElement.textContent = '{{ t('footer.copyright', { year: '__YEAR__' }) }}'.replace('__YEAR__', new Date().getFullYear());
+        </script>
+      </p>
     </div>
   </div>
 </footer>

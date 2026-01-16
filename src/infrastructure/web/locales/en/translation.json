@@ -30,7 +30,7 @@
       "links": "Quick Links",
       "contacts": "Contacts"
     },
-    "copyright": "© 2025 Department of Neurology and Neurosurgery. VNMU named after M.I. Pirogov. All rights reserved.",
+    "copyright": "© {{year}} Department of Neurology and Neurosurgery. VNMU named after M.I. Pirogov. All rights reserved.",
     "navigation": "Footer navigation",
     "phone": "Phone",
     "fax": "Fax",
