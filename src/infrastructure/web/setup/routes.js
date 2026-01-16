@@ -392,7 +392,9 @@ const setupRoutes = async (fastify) => {
     const useCase = new UpdateNewsTitleUseCase(request.di);
     await useCase.exec({ newsId, language: lang, title });
 
-    return reply.redirect(`/admin/news/edit/${newsId}?lang=${lang}&status=success`);
+    return reply.redirect(
+      `/admin/news/edit/${newsId}?lang=${lang}&status=success`,
+    );
   });
 
   fastify.delete('/admin/news/edit/:newsId', async (request, reply) => {
@@ -880,7 +882,7 @@ const setupRoutes = async (fastify) => {
 
     const language = request.i18n.resolvedLanguage;
     const pageNum = parseInt(page, 10) || 1;
-    const limit = 10;
+    const limit = 3;
 
     const useCase = new GetPublishedNewsPaginatedUseCase(request.di);
     const result = await useCase.exec({ page: pageNum, limit, language });
@@ -951,9 +953,16 @@ const setupRoutes = async (fastify) => {
     await updateStaffUseCase.exec({ staffId, email, phone, orderIndex });
 
     const updateContentUseCase = new UpdateStaffContentUseCase(request.di);
-    await updateContentUseCase.exec({ staffId, language: lang, name, position });
+    await updateContentUseCase.exec({
+      staffId,
+      language: lang,
+      name,
+      position,
+    });
 
-    return reply.redirect(`/admin/staff/edit/${staffId}?lang=${lang}&status=success`);
+    return reply.redirect(
+      `/admin/staff/edit/${staffId}?lang=${lang}&status=success`,
+    );
   });
 
   fastify.delete('/admin/staff/edit/:staffId', async (request, reply) => {
