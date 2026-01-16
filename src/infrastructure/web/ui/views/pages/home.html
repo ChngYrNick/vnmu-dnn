@@ -36,7 +36,7 @@
           </div>
           {% endif %}
           <h4 class="blog-post-title mb-1">
-            <a href="/news?page=1" class="text-decoration-none text-body-emphasis">
+            <a href="/news?page=1#{{ item.slug }}" class="text-decoration-none text-body-emphasis">
               {{ item.title }}
             </a>
           </h4>
@@ -46,7 +46,7 @@
           <p class="card-text">
             {{ truncate(striptags(item.data), 200) }}
           </p>
-          <a href="/news?page=1" class="text-decoration-none">
+          <a href="/news?page=1#{{ item.slug }}" class="text-decoration-none">
             {{ t("pages.home.news.continue") }}
           </a>
         </article>

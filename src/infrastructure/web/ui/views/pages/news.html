@@ -10,7 +10,7 @@
     <div class="row">
       {% for item in data.news %}
       <div class="col-12 mb-4">
-        <article class="card">
+        <article id="{{ item.slug }}" class="card">
           <div class="card-body">
             {% if item.title %}
             <h2 class="card-title h4">{{ item.title }}</h2>
