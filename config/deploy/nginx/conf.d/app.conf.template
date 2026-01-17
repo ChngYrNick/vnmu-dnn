@@ -46,17 +46,15 @@ server {
     add_header Cache-Control "public, max-age=3600";
   }
 
-  location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-    alias /var/www/app/public/;
+  location /public/ {
+    root /var/www/app;
     expires 1y;
     add_header Cache-Control "public, immutable";
-    try_files $uri =404;
   }
 
   location ^~ /uploads/ {
-    alias /var/www/app/uploads/;
+    root /var/www/app;
     add_header Cache-Control "public, max-age=3600";
-    try_files $uri =404;
   }
 
   location / {
