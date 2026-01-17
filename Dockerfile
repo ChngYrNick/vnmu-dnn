@@ -1,12 +1,12 @@
 FROM node:22.14.0-slim AS dev
 WORKDIR /usr/src/app
-COPY package*.json .
+COPY package*.json ./
 RUN npm ci
 COPY . .
 
 FROM node:22.14.0-slim AS build
 WORKDIR /usr/src/app
-COPY package*.json .
+COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 RUN npm run build
@@ -14,7 +14,7 @@ RUN npm run build
 FROM node:22.14.0-slim
 WORKDIR /usr/src/app
 RUN adduser --system --group app
-COPY package*.json .
+COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
 COPY --from=build /usr/src/app/dist ./dist
