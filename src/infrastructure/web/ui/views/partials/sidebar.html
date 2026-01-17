@@ -75,7 +75,8 @@
         <a
           class="dropdown-item"
           href="#"
-          hx-post="/change-language?language={{ item.code }}"
+          hx-post="/change-language"
+          hx-vals='{"language": "{{ item.code }}"}'
           hx-target="body"
           data-bs-dismiss="offcanvas"
           data-bs-target="#sidebar"
