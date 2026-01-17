@@ -15,6 +15,6 @@ docker compose --env-file .production.env up -d
 
 echo "✅ Deployment complete!"
 echo "📊 Container status:"
-docker compose ps
+docker compose --env-file .production.env ps
 
-echo "🔍 Use 'docker-compose logs -f' to view logs"
+echo "🔍 Use 'docker compose logs -f' to view logs"
