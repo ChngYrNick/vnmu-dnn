@@ -10,4 +10,5 @@ uploads/*
 !uploads/.gitkeep
 *.env
 !.example.env
-.claude
+.claude/settings.local.json
+.claude/memory/
