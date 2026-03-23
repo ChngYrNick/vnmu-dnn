@@ -1,0 +1,565 @@
+/* ==========================================================================
+   Broadsheet Design System — Reference CSS
+   All styles for public-facing pages. Uses modern CSS (nesting, custom props).
+   In production this lives in src/infrastructure/web/ui/styles/main.css
+   ========================================================================== */
+
+/* --- Reset --- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Design Tokens --- */
+
+:root {
+  --bg: #f7f5f0;
+  --fg: #1c1c1c;
+  --fg-light: #5c5c5c;
+  --rule: #1c1c1c;
+  --rule-light: #c8c3b8;
+  --accent: #2454a0;
+}
+
+/* --- Base --- */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Georgia',
+    'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Skip Link --- */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 0.85rem;
+  z-index: 1000;
+
+  &:focus {
+    top: 0.5rem;
+  }
+}
+
+/* --- Layout --- */
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0;
+  margin-top: 1rem;
+}
+
+.col-main {
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--rule-light);
+}
+
+.col-side {
+  padding-left: 1.5rem;
+}
+
+/* --- Masthead --- */
+
+.masthead {
+  text-align: center;
+  padding: 2rem 0 0.5rem;
+  border-bottom: 4px double var(--rule);
+}
+
+.masthead-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.masthead-sub {
+  font-style: italic;
+  color: var(--fg-light);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* --- Dateline --- */
+
+.dateline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.8rem;
+  color: var(--fg-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* --- Section Navigation --- */
+
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--rule);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  & a {
+    color: var(--fg);
+    padding: 0.2rem 0.8rem;
+    border-right: 1px solid var(--rule-light);
+    text-decoration: none;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:hover {
+      color: var(--accent);
+    }
+
+    &[aria-current='page'] {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  }
+}
+
+/* --- Section Label --- */
+
+.col-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+/* --- Headline / Hero --- */
+
+.headline {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule-light);
+
+  & h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+
+  & .lead {
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--fg-light);
+    line-height: 1.5;
+  }
+
+  & .learn-more {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+/* --- Article Card --- */
+
+.article {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--rule-light);
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  & h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+
+    & a {
+      color: var(--fg);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  & .byline {
+    font-size: 0.75rem;
+    color: var(--fg-light);
+    font-style: italic;
+    margin-bottom: 0.35rem;
+  }
+
+  & p {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  & .read-more {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-top: 0.25rem;
+  }
+}
+
+/* --- Sidebar Links --- */
+
+.sidebar-links {
+  list-style: none;
+
+  & li {
+    padding: 0.35rem 0;
+    border-bottom: 1px dotted var(--rule-light);
+    font-size: 0.9rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  & a {
+    color: var(--fg);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+/* --- Buttons --- */
+
+.btn {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: inherit;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--fg);
+    color: var(--bg);
+    text-decoration: none;
+  }
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  color: var(--accent);
+
+  &:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+}
+
+/* --- Forms --- */
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--rule-light);
+  background: var(--bg);
+  color: var(--fg);
+  width: 100%;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: var(--accent);
+  }
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+  color: var(--fg);
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.form-card {
+  max-width: 28rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid var(--rule-light);
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.form-sub {
+  text-align: center;
+  color: var(--fg-light);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--fg-light);
+}
+
+/* --- Alerts --- */
+
+.alert {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+
+  &[role='alert'] {
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+}
+
+/* --- Staff Grid --- */
+
+.staff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.staff-card {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--rule-light);
+  border-right: 1px solid var(--rule-light);
+
+  &:nth-child(3n) {
+    border-right: none;
+  }
+}
+
+.staff-photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.staff-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.staff-position {
+  font-size: 0.8rem;
+  color: var(--fg-light);
+  font-style: italic;
+}
+
+.staff-contact {
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+/* --- Pagination --- */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-top: 1.5rem;
+}
+
+.page-link {
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--rule-light);
+  border-right: none;
+  font-size: 0.8rem;
+  color: var(--fg);
+  text-decoration: none;
+
+  &:last-child {
+    border-right: 1px solid var(--rule-light);
+  }
+
+  &:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  &[aria-current='page'] {
+    background: var(--fg);
+    color: var(--bg);
+    font-weight: 700;
+  }
+
+  &[aria-disabled='true'] {
+    color: var(--rule-light);
+    cursor: default;
+
+    &:hover {
+      background: transparent;
+      color: var(--rule-light);
+    }
+  }
+}
+
+/* --- Empty State --- */
+
+.no-content {
+  font-style: italic;
+  color: var(--fg-light);
+  padding: 1rem 0;
+}
+
+/* --- Footer --- */
+
+.footer {
+  margin-top: 2rem;
+  border-top: 4px double var(--rule);
+  padding: 1rem 0 2rem;
+  font-size: 0.8rem;
+  color: var(--fg-light);
+  text-align: center;
+
+  & a {
+    color: var(--fg-light);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* --- HTMX --- */
+
+.htmx-indicator {
+  display: none;
+}
+
+:is(.htmx-request) .htmx-indicator,
+.htmx-request.htmx-indicator {
+  display: inline;
+}
+
+/* --- Focus --- */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 700px) {
+  .masthead-title {
+    font-size: 1.8rem;
+  }
+
+  .headline h1 {
+    font-size: 1.5rem;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .col-main {
+    padding-right: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--rule-light);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .col-side {
+    padding-left: 0;
+  }
+
+  .section-nav a {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .staff-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-card {
+    border-right: none;
+  }
+}
