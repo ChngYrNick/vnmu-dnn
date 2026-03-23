@@ -180,5 +180,95 @@
       "previous": "Previous",
       "next": "Next"
     }
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "backToSite": "Back to site",
+    "nav": {
+      "content": "Content",
+      "news": "News",
+      "staff": "Staff",
+      "specialties": "Specialties",
+      "users": "Users",
+      "contacts": "Contacts"
+    },
+    "actions": {
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "back": "Back",
+      "add": "Add",
+      "upload": "Upload"
+    },
+    "fields": {
+      "id": "ID",
+      "name": "Name",
+      "title": "Title",
+      "slug": "Slug",
+      "email": "Email",
+      "phone": "Phone",
+      "position": "Position",
+      "role": "Role",
+      "order": "Order",
+      "createdAt": "Created",
+      "publishedAt": "Published",
+      "actions": "Actions",
+      "status": "Status",
+      "type": "Type",
+      "value": "Value",
+      "fullName": "Full Name",
+      "password": "Password",
+      "repeatPassword": "Confirm Password",
+      "language": "Language",
+      "content": "Content",
+      "profilePicture": "Profile Picture",
+      "course": "Course"
+    },
+    "confirm": {
+      "deleteTitle": "Confirm Delete",
+      "deleteMessage": "Are you sure you want to delete this item? This action cannot be undone."
+    },
+    "messages": {
+      "saved": "Changes saved successfully.",
+      "created": "Item created successfully.",
+      "deleted": "Item deleted successfully."
+    },
+    "contacts": {
+      "title": "Contacts",
+      "selectType": "Select contact type",
+      "phone": "Phone",
+      "email": "Email",
+      "fax": "Fax",
+      "geolocation": "Geolocation",
+      "enterValue": "Enter contact value"
+    },
+    "news": {
+      "title": "News",
+      "createTitle": "Create News",
+      "enterTitle": "Enter news title"
+    },
+    "staff": {
+      "title": "Staff",
+      "createTitle": "Create Staff Member",
+      "enterName": "Enter staff name"
+    },
+    "specialties": {
+      "title": "Specialties",
+      "createTitle": "Create Specialty",
+      "enterName": "Enter specialty name",
+      "materials": "Materials",
+      "addMaterial": "Add Material",
+      "enterMaterialName": "Enter material name"
+    },
+    "users": {
+      "title": "Users"
+    },
+    "content": {
+      "title": "Content Pages"
+    }
   }
 }

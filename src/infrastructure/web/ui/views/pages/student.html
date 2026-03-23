@@ -1,62 +1,72 @@
-{% extends "layouts/base.html" %} {% block content %} {% include
-"partials/header.html" %}
-<main class="container mt-3 flex-grow-1">
-  <section>
-    <div class="row mb-4">
-      <div class="col-md-6 mb-3 mb-md-0">
-        <select
-          class="form-select"
-          id="specialty"
-          hx-get="/student"
-          hx-trigger="change"
-          hx-target="body"
-          hx-push-url="true"
-          hx-vals='{"course": ""}'
-          name="specialty"
-        >
-          <option value="">{{ t('pages.student.selectSpecialty') }}</option>
-          {% for item in data.specialties %}
-            {% if item.slug == selectedSpecialty %}
-          <option value="{{ item.slug }}" selected>{{ item.name }}</option>
-            {% else %}
-          <option value="{{ item.slug }}">{{ item.name }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-      <div class="col-md-6">
-        <select
-          class="form-select"
-          id="course"
-          hx-get="/student"
-          hx-trigger="change"
-          hx-target="body"
-          hx-push-url="true"
-          hx-include="#specialty"
-          name="course"
-        >
-          <option value="">{{ t('pages.student.selectCourse') }}</option>
-          {% for item in data.courses %}
-            {% if item.course == selectedCourse %}
-          <option value="{{ item.course }}" selected>{{ t('pages.student.courseLabel') }} {{ item.course }}</option>
-            {% else %}
-          <option value="{{ item.course }}">{{ t('pages.student.courseLabel') }} {{ item.course }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
+{% extends "layouts/base.html" %}
 
-    {% if content %}
-    <div class="content-area">
-      {{ marked(content) | safe }}
-    </div>
-    {% elif selectedSpecialty and selectedCourse %}
-    <div class="alert alert-info">
-      {{ t('pages.student.noContent') }}
-    </div>
-    {% endif %}
-  </section>
+{% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
+
+<main id="main-content">
+  <div class="page" style="padding-top: 1.5rem;">
+    <section>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="field">
+          <label for="specialty">{{ t('pages.student.specialty') }}</label>
+          <select
+            id="specialty"
+            name="specialty"
+            hx-get="/student"
+            hx-trigger="change"
+            hx-target="body"
+            hx-push-url="true"
+            hx-vals='{"course": ""}'
+          >
+            <option value="">{{ t('pages.student.selectSpecialty') }}</option>
+            {% for item in data.specialties %}
+              {% if item.slug == selectedSpecialty %}
+            <option value="{{ item.slug }}" selected>{{ item.name }}</option>
+              {% else %}
+            <option value="{{ item.slug }}">{{ item.name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="course">{{ t('pages.student.course') }}</label>
+          <select
+            id="course"
+            name="course"
+            hx-get="/student"
+            hx-trigger="change"
+            hx-target="body"
+            hx-push-url="true"
+            hx-include="#specialty"
+          >
+            <option value="">{{ t('pages.student.selectCourse') }}</option>
+            {% for item in data.courses %}
+              {% if item.course == selectedCourse %}
+            <option value="{{ item.course }}" selected>{{ t('pages.student.courseLabel') }} {{ item.course }}</option>
+              {% else %}
+            <option value="{{ item.course }}">{{ t('pages.student.courseLabel') }} {{ item.course }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div id="course-content" aria-live="polite">
+        {% if content %}
+        <div class="prose">
+          {{ marked(content) | safe }}
+        </div>
+        {% elif selectedSpecialty and selectedCourse %}
+        <p class="no-content">{{ t('pages.student.noContent') }}</p>
+        {% endif %}
+      </div>
+    </section>
+  </div>
 </main>
 
-{% include "partials/footer.html" %} {% endblock %}
+{% include "partials/bs-footer.html" %}
+{% endblock %}

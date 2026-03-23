@@ -1,65 +1,40 @@
-{% extends "layouts/base.html" %} {% block content %} {% include
-"partials/header.html" %}
-<main class="container mt-3 flex-grow-1">
-  <section>
-    {% if data.news.length === 0 %}
-    <div class="alert alert-info">
-      {{ t('pages.news.noNews') }}
-    </div>
-    {% else %}
-    <div class="row">
-      {% for item in data.news %}
-      <div class="col-12 mb-4">
-        <article id="{{ item.slug }}" class="card">
-          <div class="card-body">
-            {% if item.title %}
-            <h2 class="card-title h4">{{ item.title }}</h2>
-            {% endif %}
-            <p class="card-text text-muted small mb-3">
-              {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
-            </p>
-            {% if item.data %}
-            <div class="card-text">
-              {{ marked(item.data) | safe }}
-            </div>
-            {% endif %}
-          </div>
-        </article>
-      </div>
-      {% endfor %}
-    </div>
+{% extends "layouts/base.html" %}
 
-    {% if data.pagination.totalPages > 1 %}
-    <nav aria-label="News pagination" hx-boost="true" preload preload-images="true">
-      <ul class="pagination justify-content-center">
-        {% if data.pagination.hasPrev %}
-        <li class="page-item">
-          <a class="page-link" href="/news?page={{ currentPage - 1 }}">{{ t('pages.news.previous') }}</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-          <span class="page-link">{{ t('pages.news.previous') }}</span>
-        </li>
-        {% endif %}
-        {% for pageNum in range(1, data.pagination.totalPages + 1) %}
-        <li class="page-item {% if pageNum === currentPage %}active{% endif %}">
-          <a class="page-link" href="/news?page={{ pageNum }}">{{ pageNum }}</a>
-        </li>
+{% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
+
+<main id="main-content" hx-boost="true" preload preload-images="true">
+  <div class="page" style="padding-top: 1.5rem;">
+    {% if data.news.length === 0 %}
+      <p class="no-content">{{ t('pages.news.noNews') }}</p>
+    {% else %}
+      <div id="news-list" aria-live="polite">
+        {% for item in data.news %}
+        <article class="article">
+          <h2 style="font-size: 1.25rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.15rem;">
+            {{ item.title }}
+          </h2>
+          <time class="byline" datetime="{{ item.publishedAt }}">
+            {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
+          </time>
+          {% if item.data %}
+          <div class="prose" style="margin-top: 0.5rem;">
+            {{ marked(item.data) | safe }}
+          </div>
+          {% endif %}
+        </article>
         {% endfor %}
-        {% if data.pagination.hasNext %}
-        <li class="page-item">
-          <a class="page-link" href="/news?page={{ currentPage + 1 }}">{{ t('pages.news.next') }}</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-          <span class="page-link">{{ t('pages.news.next') }}</span>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
+      </div>
+
+      {% if data.pagination.totalPages > 1 %}
+        {% include "partials/bs-pagination.html" %}
+      {% endif %}
     {% endif %}
-    {% endif %}
-  </section>
+  </div>
 </main>
 
-{% include "partials/footer.html" %} {% endblock %}
+{% include "partials/bs-footer.html" %}
+{% endblock %}

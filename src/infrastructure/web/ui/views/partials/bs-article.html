@@ -1,0 +1,13 @@
+<article class="article">
+  <h3>
+    <a href="/news?page=1#{{ item.slug }}">{{ item.title }}</a>
+  </h3>
+  <time class="byline" datetime="{{ item.publishedAt }}">
+    {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
+  </time>
+  <p>{{ truncate(striptags(item.data), 180) }}</p>
+  <a href="/news?page=1#{{ item.slug }}" class="read-more"
+    aria-label="{{ t('pages.home.news.continue') }} — {{ item.title }}">
+    {{ t('pages.home.news.continue') }}
+  </a>
+</article>

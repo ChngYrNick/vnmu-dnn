@@ -1,26 +1,22 @@
-{% extends "layouts/admin.html" %} {% block content %}
-<section class="row justify-content-center mb-2">
-  <div class="col-md-10 col-lg-8">
-    <h2>Edit '{{ data.page.slug }}' Content</h2>
-    <div class="container-fluid p-0 mb-2">
-      <select
-        class="form-select form-select-sm w-auto"
-        hx-trigger="change"
-        hx-get="/admin/content/edit/{{pageId}}"
-        hx-target="body"
-        hx-push-url="true"
-        name="lang"
-      >
-        {% for item in supportedLangs %} {% if item.code === language %}
-        <option value="{{ item.code }}" selected>{{ item.name }}</option>
-        {% else %}
-        <option value="{{ item.code }}">{{ item.name }}</option>
-        {% endif %} {% endfor %}
-      </select>
-    </div>
-    <vnmu-editor lang="{{ language }}" page-id="{{ pageId }}"></vnmu-editor>
-    <vnmu-file-uploader-host page-id="{{ pageId }}"></vnmu-file-uploader-host>
-  </div>
-</section>
+{% extends "layouts/admin.html" %}
 
+{% block content %}
+<section>
+  <div class="admin-page-header">
+    <h1>{{ t('admin.actions.edit') }} — {{ data.page.slug }}</h1>
+  </div>
+
+  <div class="admin-lang-selector">
+    {% for item in supportedLangs %}
+      {% if item.code === language %}
+      <a href="/admin/content/edit/{{pageId}}?lang={{ item.code }}" aria-current="true">{{ item.name }}</a>
+      {% else %}
+      <a href="/admin/content/edit/{{pageId}}?lang={{ item.code }}">{{ item.name }}</a>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <vnmu-editor lang="{{ language }}" page-id="{{ pageId }}"></vnmu-editor>
+  <vnmu-file-uploader-host page-id="{{ pageId }}"></vnmu-file-uploader-host>
+</section>
 {% endblock %}

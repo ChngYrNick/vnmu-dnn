@@ -1,0 +1,9 @@
+<div class="page">
+  <nav class="section-nav" aria-label="Section navigation">
+    {% for item in nav %}
+    <a href="{{ item.nav }}" aria-current="{{ 'page' if item.name === page else 'false' }}">
+      {{ t(item.translation) }}
+    </a>
+    {% endfor %}
+  </nav>
+</div>

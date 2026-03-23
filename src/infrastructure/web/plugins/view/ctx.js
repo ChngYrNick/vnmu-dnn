@@ -19,12 +19,12 @@ const nav = [
 ];
 
 const adminNav = [
-  { name: ADMIN_PAGES.Content, nav: '/admin/content' },
-  { name: ADMIN_PAGES.News, nav: '/admin/news' },
-  { name: ADMIN_PAGES.Staff, nav: '/admin/staff' },
-  { name: ADMIN_PAGES.Specialties, nav: '/admin/specialties' },
-  { name: ADMIN_PAGES.Users, nav: '/admin/users' },
-  { name: ADMIN_PAGES.Contacts, nav: '/admin/contacts' },
+  { name: ADMIN_PAGES.Content, nav: '/admin/content', translation: 'admin.nav.content' },
+  { name: ADMIN_PAGES.News, nav: '/admin/news', translation: 'admin.nav.news' },
+  { name: ADMIN_PAGES.Staff, nav: '/admin/staff', translation: 'admin.nav.staff' },
+  { name: ADMIN_PAGES.Specialties, nav: '/admin/specialties', translation: 'admin.nav.specialties' },
+  { name: ADMIN_PAGES.Users, nav: '/admin/users', translation: 'admin.nav.users' },
+  { name: ADMIN_PAGES.Contacts, nav: '/admin/contacts', translation: 'admin.nav.contacts' },
 ];
 
 const formatDate = (dateStr, locale = 'uk') => {

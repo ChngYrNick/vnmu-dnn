@@ -1,0 +1,530 @@
+/* ==========================================================================
+   Broadsheet Design System — Admin Stylesheet
+   ========================================================================== */
+
+@import './base.css';
+
+/* --- Admin Layout --- */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+/* --- Admin Header --- */
+
+.admin-header {
+  grid-column: 1 / -1;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  & a {
+    color: var(--bg);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--rule-light);
+    }
+  }
+}
+
+.admin-header-meta {
+  font-size: 0.75rem;
+  color: var(--rule-light);
+
+  & a {
+    color: var(--rule-light);
+    text-decoration: none;
+    margin-left: 0.75rem;
+
+    &:hover {
+      color: var(--bg);
+    }
+  }
+}
+
+/* --- Admin Sidebar --- */
+
+.admin-sidebar {
+  background: var(--bg);
+  border-right: 1px solid var(--rule-light);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+
+  & nav {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & a {
+    display: block;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    color: var(--fg);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+
+    &:hover {
+      color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 5%, transparent);
+    }
+
+    &[aria-current='page'] {
+      color: var(--accent);
+      font-weight: 700;
+      border-left-color: var(--accent);
+    }
+  }
+}
+
+/* --- Admin Main --- */
+
+.admin-main {
+  padding: 1.5rem 2rem;
+  min-width: 0;
+}
+
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--rule);
+
+  & h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}
+
+/* --- Admin Tables --- */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  & th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 2px solid var(--rule);
+    color: var(--fg-light);
+  }
+
+  & td {
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--rule-light);
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+
+  & tr:hover td {
+    background: color-mix(in srgb, var(--accent) 3%, transparent);
+  }
+
+  & th[scope='col'] {
+    white-space: nowrap;
+  }
+}
+
+.admin-table-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* --- Admin Forms --- */
+
+.admin-form {
+  max-width: 600px;
+
+  & .field {
+    margin-bottom: 1.25rem;
+  }
+}
+
+.admin-form-wide {
+  max-width: none;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule-light);
+}
+
+/* --- Admin Language Selector --- */
+
+.admin-lang-selector {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+
+  & a, & button {
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--rule-light);
+    border-right: none;
+    background: transparent;
+    color: var(--fg);
+    text-decoration: none;
+    font-family: inherit;
+    cursor: pointer;
+
+    &:last-child {
+      border-right: 1px solid var(--rule-light);
+    }
+
+    &[aria-current='true'], &.active {
+      background: var(--fg);
+      color: var(--bg);
+      font-weight: 700;
+    }
+
+    &:hover:not([aria-current='true']):not(.active) {
+      background: color-mix(in srgb, var(--fg) 5%, transparent);
+    }
+  }
+}
+
+/* --- Status Badge --- */
+
+.status-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  border: 1px solid;
+}
+
+.status-published {
+  border-color: #1a6b2a;
+  color: #1a6b2a;
+}
+
+.status-draft {
+  border-color: var(--fg-light);
+  color: var(--fg-light);
+}
+
+/* --- Dialog (replaces Bootstrap modal) --- */
+
+dialog {
+  border: 1px solid var(--rule);
+  padding: 2rem;
+  max-width: 480px;
+  width: 90%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: inherit;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  & h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  & p {
+    font-size: 0.9rem;
+    color: var(--fg-light);
+    margin-bottom: 1.25rem;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+/* --- File Uploader Components --- */
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.preview-item {
+  text-decoration: none;
+
+  &.failed {
+    pointer-events: none;
+
+    & .remove-btn {
+      pointer-events: all;
+    }
+  }
+}
+
+.preview-item,
+.upload-tile {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+}
+
+.upload-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--rule-light);
+  cursor: pointer;
+  background-color: var(--bg);
+
+  &:hover {
+    border-color: var(--accent);
+    background-color: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  & .upload-icon {
+    margin-bottom: 8px;
+  }
+
+  & p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--fg-light);
+  }
+}
+
+.preview-item .img-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.preview-item .file-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-item .remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.7);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  border: none;
+
+  &:hover {
+    background: rgba(160, 36, 36, 0.7);
+    color: white;
+  }
+}
+
+.file-type-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  background-color: color-mix(in srgb, var(--rule-light) 30%, var(--bg));
+
+  & img {
+    pointer-events: none;
+  }
+
+  & span {
+    font-size: 12px;
+    color: var(--fg-light);
+  }
+
+  &.failed {
+    background-color: color-mix(in srgb, #a02424 10%, var(--bg));
+
+    & span {
+      color: #a02424;
+    }
+  }
+}
+
+.file-progress {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  right: 10px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.file-progress-bar {
+  height: 100%;
+  background: #1a6b2a;
+  width: 0%;
+  transition: width 0.2s;
+}
+
+.uploading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(247, 245, 240, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- EasyMDE Overrides --- */
+
+vnmu-editor {
+  & .editor-toolbar {
+    &.fullscreen {
+      z-index: 1021;
+    }
+  }
+
+  & .EasyMDEContainer .CodeMirror {
+    font-family: 'SF Mono', 'Cascadia Mono', 'Consolas', monospace;
+    border-color: var(--rule-light);
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  & .editor-toolbar button {
+    color: var(--fg-light);
+
+    &:hover {
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    &.active {
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+    }
+  }
+}
+
+/* --- Utility classes used by web components --- */
+
+.d-none { display: none; }
+.d-flex { display: flex; }
+.d-block { display: block; }
+.d-inline { display: inline; }
+.p-0 { padding: 0; }
+.p-3 { padding: 0.75rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.text-primary { color: var(--accent); }
+.text-warning { color: #b8860b; }
+.text-danger { color: #a02424; }
+
+.upstream { font-size: 0.8rem; }
+
+.spinner-border {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--rule-light);
+  border-right-color: var(--accent);
+  border-radius: 50%;
+  animation: spinner-spin 0.6s linear infinite;
+}
+
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 1.5px;
+}
+
+@keyframes spinner-spin {
+  to { transform: rotate(360deg); }
+}
+
+.container-fluid { width: 100%; }
+.card-body { padding: 0.75rem; }
+
+/* --- Admin Responsive --- */
+
+@media (max-width: 700px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--rule-light);
+    padding: 0.5rem 0;
+
+    & nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    & a {
+      border-left: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.75rem;
+
+      &[aria-current='page'] {
+        border-left-color: transparent;
+        border-bottom-color: var(--accent);
+      }
+    }
+  }
+
+  .admin-main {
+    padding: 1rem;
+  }
+
+  .admin-table {
+    font-size: 0.8rem;
+
+    & th, & td {
+      padding: 0.35rem 0.4rem;
+    }
+  }
+}

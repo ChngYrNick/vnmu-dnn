@@ -1,0 +1,41 @@
+<header class="masthead">
+  <div class="page">
+    <a href="/" class="masthead-title" style="color: inherit; text-decoration: none;">{{ t('title') }}</a>
+    <p class="masthead-sub">{{ t('meta.description') }}</p>
+  </div>
+</header>
+
+<div class="page">
+  <div class="dateline">
+    <span>
+      <select
+        class="dateline-lang"
+        name="language"
+        hx-trigger="change"
+        hx-post="/change-language"
+        hx-target="body"
+        aria-label="Language"
+      >
+        {% for item in supportedLangs %}
+          {% if item.code === i18n.resolvedLanguage %}
+          <option value="{{ item.code }}" selected>{{ item.name }}</option>
+          {% else %}
+          <option value="{{ item.code }}">{{ item.name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+      {% if user.role === Roles.ADMIN %}
+        <a href="/admin" style="text-decoration: none;">{{ t('nav.admin') }}</a>
+      {% endif %}
+    </span>
+    <span class="dateline-auth">
+      {% if user %}
+        <a href="/profile">{{ t('nav.profile') }}</a>
+        <a href="#" hx-post="/logout" hx-target="body">{{ t('nav.logout') }}</a>
+      {% else %}
+        <a href="/sign-in">{{ t('nav.signin') }}</a>
+        <a href="/sign-up">{{ t('nav.signup') }}</a>
+      {% endif %}
+    </span>
+  </div>
+</div>
