@@ -27,14 +27,23 @@
   "footer": {
     "title": "Кафедра Неврології та Нейрохірургії",
     "sections": {
+      "address": "Розташування",
       "links": "Швидкі Посилання",
-      "contacts": "Контакти"
+      "contacts": "Контакти",
+      "social": "ВНМУ в соцмережах"
     },
     "copyright": "© {{year}} Кафедра Неврології та Нейрохірургії. ВНМУ ім. М.І. Пирогова. Всі права захищені.",
     "navigation": "Навігація в нижній частині сторінки",
+    "socialNavigation": "Посилання на соціальні мережі",
     "phone": "Телефон",
     "fax": "Факс",
-    "email": "Електронна пошта"
+    "email": "Електронна пошта",
+    "social": {
+      "website": "Офіційний сайт ВНМУ",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube"
+    }
   },
   "errors": {
     "conflict": {
@@ -93,9 +102,15 @@
         "viewAll": "Переглянути всі новини"
       },
       "sidebar": {
-        "quickLinks": {
-          "title": "Швидкі посилання",
+        "specialties": {
+          "title": "Спеціальності",
           "noLinks": "Спеціальності відсутні."
+        },
+        "forStudents": {
+          "title": "Для студентів"
+        },
+        "department": {
+          "title": "Про кафедру"
         }
       }
     },

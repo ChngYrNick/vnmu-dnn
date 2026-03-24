@@ -11,7 +11,7 @@
     <section class="headline">
       <h1>{{ t('pages.home.hero.title') }}</h1>
       <p class="lead">{{ t('pages.home.hero.description') }}</p>
-      <a href="/about" class="learn-more">{{ t('pages.home.hero.learnMore') }} →</a>
+      <a href="/about" class="btn btn-primary hero-cta">{{ t('pages.home.hero.learnMore') }} →</a>
     </section>
 
     <div class="columns">
@@ -22,19 +22,35 @@
           <p class="no-content">{{ t('pages.home.news.noNews') }}</p>
         {% else %}
           {% for item in data.news %}
-            {% include "partials/bs-article.html" %}
+            {% if loop.first %}
+              <article class="article article-featured">
+                <h3>
+                  <a href="/news?page=1#{{ item.slug }}">{{ item.title }}</a>
+                </h3>
+                <time class="byline" datetime="{{ item.publishedAt }}">
+                  {{ formatDate(item.publishedAt, i18n.resolvedLanguage) }}
+                </time>
+                <p>{{ truncate(striptags(item.data), 300) }}</p>
+                <a href="/news?page=1#{{ item.slug }}" class="read-more"
+                  aria-label="{{ t('pages.home.news.continue') }} — {{ item.title }}">
+                  {{ t('pages.home.news.continue') }}
+                </a>
+              </article>
+            {% else %}
+              {% include "partials/bs-article.html" %}
+            {% endif %}
           {% endfor %}
 
-          <a href="/news?page=1" class="btn">{{ t('pages.home.news.viewAll') }}</a>
+          <a href="/news?page=1" class="btn btn-primary">{{ t('pages.home.news.viewAll') }} →</a>
         {% endif %}
       </div>
 
       <aside class="col-side">
-        <nav aria-label="{{ t('pages.home.sidebar.quickLinks.title') }}">
-          <h2 class="col-label">{{ t('pages.home.sidebar.quickLinks.title') }}</h2>
+        <nav aria-label="{{ t('pages.home.sidebar.specialties.title') }}">
+          <h2 class="col-label">{{ t('pages.home.sidebar.specialties.title') }}</h2>
 
           {% if data.quickLinks.length === 0 %}
-            <p class="no-content">{{ t('pages.home.sidebar.quickLinks.noLinks') }}</p>
+            <p class="no-content">{{ t('pages.home.sidebar.specialties.noLinks') }}</p>
           {% else %}
             <ul class="sidebar-links">
               {% for link in data.quickLinks %}
@@ -42,6 +58,26 @@
               {% endfor %}
             </ul>
           {% endif %}
+        </nav>
+
+        <nav class="sidebar-section" aria-label="{{ t('pages.home.sidebar.forStudents.title') }}">
+          <h2 class="col-label">{{ t('pages.home.sidebar.forStudents.title') }}</h2>
+          <ul class="sidebar-links">
+            <li><a href="/student">{{ t('nav.student') }}</a></li>
+            <li><a href="/intern">{{ t('nav.intern') }}</a></li>
+            <li><a href="/listener">{{ t('nav.listener') }}</a></li>
+            <li><a href="/syllabus">{{ t('nav.syllabus') }}</a></li>
+            <li><a href="/literature">{{ t('nav.literature') }}</a></li>
+          </ul>
+        </nav>
+
+        <nav class="sidebar-section" aria-label="{{ t('pages.home.sidebar.department.title') }}">
+          <h2 class="col-label">{{ t('pages.home.sidebar.department.title') }}</h2>
+          <ul class="sidebar-links">
+            <li><a href="/about">{{ t('nav.about') }}</a></li>
+            <li><a href="/staff">{{ t('nav.staff') }}</a></li>
+            <li><a href="/news">{{ t('nav.news') }}</a></li>
+          </ul>
         </nav>
       </aside>
     </div>

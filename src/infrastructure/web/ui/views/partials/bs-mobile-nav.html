@@ -1,39 +1,12 @@
 <div class="page">
   <details class="mobile-nav">
-    <summary>Menu</summary>
+    <summary><img src="/public/assets/icons/menu.svg" alt="" aria-hidden="true" class="mobile-nav-icon" /> Menu</summary>
     <div class="mobile-nav-links">
       {% for item in nav %}
       <a href="{{ item.nav }}" aria-current="{{ 'page' if item.name === page else 'false' }}">
         {{ t(item.translation) }}
       </a>
       {% endfor %}
-    </div>
-    <div class="mobile-nav-footer">
-      <select
-        class="dateline-lang"
-        name="language"
-        hx-trigger="change"
-        hx-post="/change-language"
-        hx-target="body"
-        aria-label="Language"
-      >
-        {% for item in supportedLangs %}
-          {% if item.code === i18n.resolvedLanguage %}
-          <option value="{{ item.code }}" selected>{{ item.name }}</option>
-          {% else %}
-          <option value="{{ item.code }}">{{ item.name }}</option>
-          {% endif %}
-        {% endfor %}
-      </select>
-      <span>
-        {% if user %}
-          <a href="/profile">{{ t('nav.profile') }}</a>
-          <a href="#" hx-post="/logout" hx-target="body" style="margin-left: 0.5rem;">{{ t('nav.logout') }}</a>
-        {% else %}
-          <a href="/sign-in">{{ t('nav.signin') }}</a>
-          <a href="/sign-up" style="margin-left: 0.5rem;">{{ t('nav.signup') }}</a>
-        {% endif %}
-      </span>
     </div>
   </details>
 </div>

@@ -1,5 +1,5 @@
 {
-  "title": "Department of Neurology and Neurosurgery",
+  "title": "Dept. of Neurology & Neurosurgery",
   "meta": {
     "description": "Official website of the Department of Neurology and Neurosurgery at VNMU named after M.I. Pirogov",
     "keywords": "neurology, neurosurgery, VNMU, medicine, education, Pirogov, university, department",
@@ -27,14 +27,23 @@
   "footer": {
     "title": "Department of Neurology and Neurosurgery",
     "sections": {
+      "address": "Location",
       "links": "Quick Links",
-      "contacts": "Contacts"
+      "contacts": "Contacts",
+      "social": "Follow VNMU"
     },
     "copyright": "© {{year}} Department of Neurology and Neurosurgery. VNMU named after M.I. Pirogov. All rights reserved.",
     "navigation": "Footer navigation",
+    "socialNavigation": "Social media links",
     "phone": "Phone",
     "fax": "Fax",
-    "email": "Email"
+    "email": "Email",
+    "social": {
+      "website": "VNMU Official Website",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube"
+    }
   },
   "errors": {
     "conflict": {
@@ -93,9 +102,15 @@
         "viewAll": "View all news"
       },
       "sidebar": {
-        "quickLinks": {
-          "title": "Quick Links",
+        "specialties": {
+          "title": "Specialties",
           "noLinks": "No specialties available."
+        },
+        "forStudents": {
+          "title": "For Students"
+        },
+        "department": {
+          "title": "About the Department"
         }
       }
     },

@@ -8,24 +8,20 @@
 <div class="page">
   <div class="dateline">
     <span>
-      <select
-        class="dateline-lang"
-        name="language"
-        hx-trigger="change"
-        hx-post="/change-language"
-        hx-target="body"
-        aria-label="Language"
-      >
+      <span class="lang-switch" role="radiogroup" aria-label="Language">
         {% for item in supportedLangs %}
           {% if item.code === i18n.resolvedLanguage %}
-          <option value="{{ item.code }}" selected>{{ item.name }}</option>
+            <span class="lang-switch-active" aria-current="true">{{ item.code }}</span>
           {% else %}
-          <option value="{{ item.code }}">{{ item.name }}</option>
+            <a href="#" class="lang-switch-link"
+              hx-post="/change-language" hx-vals='{"language":"{{ item.code }}"}'
+              hx-target="body">{{ item.code }}</a>
           {% endif %}
+          {% if not loop.last %}<span class="lang-switch-sep">/</span>{% endif %}
         {% endfor %}
-      </select>
+      </span>
       {% if user.role === Roles.ADMIN %}
-        <a href="/admin" style="text-decoration: none;">{{ t('nav.admin') }}</a>
+        <a href="/admin" class="dateline-admin">{{ t('nav.admin') }}</a>
       {% endif %}
     </span>
     <span class="dateline-auth">

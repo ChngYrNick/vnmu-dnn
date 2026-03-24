@@ -22,6 +22,7 @@
   --rule: #1c1c1c;
   --rule-light: #c8c3b8;
   --accent: #2454a0;
+  --accent-admin: #b33a3a;
 }
 
 /* --- Base --- */
@@ -42,6 +43,7 @@ body {
 a {
   color: var(--accent);
   text-decoration: none;
+  transition: color 0.15s;
 
   &:hover {
     text-decoration: underline;
@@ -67,6 +69,7 @@ img {
   background: transparent;
   cursor: pointer;
   text-decoration: none;
+  transition: background 0.15s, color 0.15s;
 
   &:hover {
     background: var(--fg);
