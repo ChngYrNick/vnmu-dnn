@@ -4,7 +4,7 @@
 <section>
   <div class="admin-page-header">
     <h1>{{ t('admin.actions.edit') }} — {{ data.staff.slug }}</h1>
-    <div style="display: flex; gap: 0.5rem;">
+    <div class="admin-publish-actions">
       <form hx-boost="true" action="/admin/staff/edit/{{ staffId }}/publish" method="post">
         <input type="hidden" name="lang" value="{{ language }}" />
         {% if data.staff.published %}
@@ -35,14 +35,14 @@
   <div class="alert" role="alert">{{ t('admin.messages.saved') }}</div>
   {% endif %}
 
-  <div style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--rule-light);">
-    <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;">
+  <div class="admin-photo-card">
+    <h3 class="admin-section-label">
       {{ t('admin.fields.profilePicture') }}
     </h3>
     <vnmu-file-uploader-host staff-id="{{ staffId }}"></vnmu-file-uploader-host>
   </div>
 
-  <form hx-boost="true" action="/admin/staff/edit/{{ staffId }}" method="post" class="admin-form admin-form-wide" style="margin-bottom: 1.5rem;">
+  <form hx-boost="true" action="/admin/staff/edit/{{ staffId }}" method="post" class="admin-form admin-form-wide">
     <input type="hidden" name="lang" value="{{ language }}" />
 
     <div class="field">
@@ -73,8 +73,8 @@
     <button type="submit" class="btn btn-primary">{{ t('admin.actions.save') }}</button>
   </form>
 
-  <div style="border-top: 1px solid var(--rule-light); padding-top: 1.5rem;">
-    <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem;">
+  <div class="admin-section-divider">
+    <h3 class="admin-section-label">
       {{ t('admin.fields.content') }}
     </h3>
     <vnmu-editor lang="{{ language }}" staff-id="{{ staffId }}"></vnmu-editor>

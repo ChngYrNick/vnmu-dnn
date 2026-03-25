@@ -7,7 +7,7 @@
 {% include "partials/bs-mobile-nav.html" %}
 
 <main id="main-content" preload preload-images="true">
-  <div class="form-card" style="max-width: 36rem; margin-top: 1.5rem;">
+  <div class="form-card form-card-wide">
     <h1 class="form-title">{{ t('pages.profile.title') }}</h1>
 
     <vnmu-form-container>
@@ -69,7 +69,7 @@
           <div class="field-error">{{ t('pages.signUp.errors.passwordRepeat') }}</div>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rule-light);">
+        <div class="form-card-actions">
           <a href="/" class="btn">
             {{ t('pages.profile.cancel') }}
           </a>

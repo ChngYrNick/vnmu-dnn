@@ -6,11 +6,11 @@
     <h1>{{ t('admin.contacts.title') }}</h1>
   </div>
 
-  <form id="contactForm" action="/admin/contacts" method="post" style="margin-bottom: 1.5rem;">
-    <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 0.5rem; align-items: end;">
-      <div class="field" style="margin-bottom: 0;">
+  <form id="contactForm" action="/admin/contacts" method="post" class="admin-contact-form">
+    <div class="admin-contact-form-grid">
+      <div class="field">
         <label for="contactType">{{ t('admin.fields.type') }}</label>
-        <select name="type" id="contactType" required style="width: auto;">
+        <select name="type" id="contactType" required>
           <option value="" disabled selected>{{ t('admin.contacts.selectType') }}</option>
           <option value="phone">{{ t('admin.contacts.phone') }}</option>
           <option value="email">{{ t('admin.contacts.email') }}</option>
@@ -18,7 +18,7 @@
           <option value="geolocation">{{ t('admin.contacts.geolocation') }}</option>
         </select>
       </div>
-      <div class="field" style="margin-bottom: 0;">
+      <div class="field">
         <label for="contactValue">{{ t('admin.fields.value') }}</label>
         <input name="value" type="text" id="contactValue" placeholder="{{ t('admin.contacts.enterValue') }}" required />
       </div>
@@ -28,10 +28,10 @@
     </div>
   </form>
 
-  <ul style="list-style: none;">
+  <ul class="admin-contact-list">
     {% for contact in data %}
-    <li style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--rule-light);">
-      <span style="display: flex; align-items: center; gap: 0.5rem;">
+    <li class="admin-contact-item">
+      <span class="admin-contact-item-info">
         {% if contact.type === 'phone' %}
         <img height="15" src="/public/assets/icons/phone.svg" alt="" aria-hidden="true" />
         {% endif %}

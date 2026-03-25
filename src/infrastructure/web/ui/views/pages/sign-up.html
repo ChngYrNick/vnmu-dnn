@@ -3,7 +3,7 @@
 {% block content %}
 <main id="main-content" preload preload-images="true">
   <div class="form-card">
-    <a href="/" style="display: block; text-align: center; margin-bottom: 1rem;">
+    <a href="/" class="form-card-logo">
       <img class="centered-card-logo" height="50" src="public/assets/images/logo.ico" alt="{{ t('title') }}" />
     </a>
     <h1 class="form-title">{{ t('pages.signUp.createAccount') }}</h1>
@@ -77,7 +77,7 @@
           <div class="field-error">{{ t('pages.signUp.errors.passwordRepeat') }}</div>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <button type="submit" class="btn btn-primary btn-block">
           {{ t('pages.signUp.signUp') }}
         </button>
 

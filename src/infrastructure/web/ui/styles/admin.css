@@ -210,6 +210,112 @@
   }
 }
 
+/* --- Admin Publish Actions --- */
+
+.admin-publish-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* --- Admin Section Divider --- */
+
+.admin-section-divider {
+  border-top: 1px solid var(--rule-light);
+  padding-top: 1.5rem;
+}
+
+/* --- Admin Section Label --- */
+
+.admin-section-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+/* --- Admin Photo Card --- */
+
+.admin-photo-card {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--rule-light);
+}
+
+/* --- Admin Inline Form --- */
+
+.admin-inline-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+
+  & .field {
+    flex: 1;
+    margin-bottom: 0;
+  }
+}
+
+/* --- Admin Materials --- */
+
+.admin-materials-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.admin-materials-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* --- Admin Contact Form --- */
+
+.admin-contact-form {
+  margin-bottom: 1.5rem;
+
+  & .admin-contact-form-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.5rem;
+    align-items: end;
+  }
+
+  & .field {
+    margin-bottom: 0;
+  }
+
+  & select {
+    width: auto;
+  }
+}
+
+/* --- Admin Contact List --- */
+
+.admin-contact-list {
+  list-style: none;
+}
+
+.admin-contact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--rule-light);
+}
+
+.admin-contact-item-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* --- Admin Spacer --- */
+
+.admin-spacer {
+  flex: 1;
+}
+
 /* --- Status Badge --- */
 
 .status-badge {

@@ -24,8 +24,8 @@
   {% endif %}
 
   <form hx-boost="true" action="/admin/specialties/{{specialtyId}}" method="post"
-    style="display: flex; gap: 0.75rem; align-items: end; margin-bottom: 1.5rem;">
-    <div class="field" style="flex: 1; margin-bottom: 0;">
+    class="admin-inline-form">
+    <div class="field">
       <label for="name">{{ t('admin.fields.name') }}</label>
       <input type="text" id="name" name="name" value="{{ data.specialty.name }}"
         required minlength="2" maxlength="255" />
@@ -34,9 +34,9 @@
     <button type="submit" class="btn btn-primary">{{ t('admin.actions.save') }}</button>
   </form>
 
-  <div style="border-top: 1px solid var(--rule-light); padding-top: 1.5rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-      <h2 style="font-size: 1.1rem; font-weight: 700;">{{ t('admin.specialties.materials') }}</h2>
+  <div class="admin-section-divider">
+    <div class="admin-materials-header">
+      <h2 class="admin-materials-title">{{ t('admin.specialties.materials') }}</h2>
       <button type="button" class="btn btn-primary btn-sm" data-open-dialog="createMaterialDialog">
         {{ t('admin.specialties.addMaterial') }}
       </button>

@@ -7,7 +7,7 @@
 {% include "partials/bs-mobile-nav.html" %}
 
 <main id="main-content" preload preload-images="true">
-  <div class="page" style="padding-top: 1.5rem;">
+  <div class="page page-section">
     <section aria-label="{{ t('nav.staff') }}">
       {% if data.staff.length === 0 %}
         <p class="no-content">{{ t('pages.staff.noStaff') }}</p>
@@ -42,7 +42,7 @@
             {% endif %}
 
             {% if member.data %}
-            <div class="prose" style="margin-top: 0.5rem;">
+            <div class="prose">
               {{ marked(member.data) | safe }}
             </div>
             {% endif %}
