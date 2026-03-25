@@ -9,7 +9,7 @@
     </button>
   </div>
 
-  <div class="admin-lang-selector">
+  <div class="admin-lang-selector" hx-boost="true">
     {% for item in supportedLangs %}
       {% if item.code === language %}
       <a href="/admin/specialties/{{specialtyId}}?lang={{ item.code }}" aria-current="true">{{ item.name }}</a>

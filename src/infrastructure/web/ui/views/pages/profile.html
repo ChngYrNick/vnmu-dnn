@@ -6,12 +6,12 @@
 {% include "partials/bs-nav.html" %}
 {% include "partials/bs-mobile-nav.html" %}
 
-<main id="main-content">
+<main id="main-content" preload preload-images="true">
   <div class="form-card" style="max-width: 36rem; margin-top: 1.5rem;">
     <h1 class="form-title">{{ t('pages.profile.title') }}</h1>
 
     <vnmu-form-container>
-      <form hx-boost="true" id="userEditForm" action="/update-profile" method="post">
+      <form id="userEditForm" action="/update-profile" method="post">
         <div class="field">
           <label for="email">{{ t('pages.profile.email') }}</label>
           <input
@@ -70,7 +70,7 @@
         </div>
 
         <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rule-light);">
-          <a href="/" class="btn" hx-boost="true" preload preload-images="true">
+          <a href="/" class="btn">
             {{ t('pages.profile.cancel') }}
           </a>
           <button type="submit" class="btn btn-primary">

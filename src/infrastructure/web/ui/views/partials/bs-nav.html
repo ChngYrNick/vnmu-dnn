@@ -1,5 +1,5 @@
 <div class="page">
-  <nav class="section-nav" aria-label="Section navigation">
+  <nav class="section-nav" aria-label="Section navigation" preload preload-images="true">
     {% for item in nav %}
     <a href="{{ item.nav }}" aria-current="{{ 'page' if item.name === page else 'false' }}">
       {{ t(item.translation) }}

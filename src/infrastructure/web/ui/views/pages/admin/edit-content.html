@@ -6,7 +6,7 @@
     <h1>{{ t('admin.actions.edit') }} — {{ data.page.slug }}</h1>
   </div>
 
-  <div class="admin-lang-selector">
+  <div class="admin-lang-selector" hx-boost="true">
     {% for item in supportedLangs %}
       {% if item.code === language %}
       <a href="/admin/content/edit/{{pageId}}?lang={{ item.code }}" aria-current="true">{{ item.name }}</a>

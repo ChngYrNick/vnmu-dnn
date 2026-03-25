@@ -6,9 +6,9 @@
 {% include "partials/bs-nav.html" %}
 {% include "partials/bs-mobile-nav.html" %}
 
-<main id="main-content" hx-boost="true" preload preload-images="true">
+<main id="main-content" preload preload-images="true">
   <div class="page">
-    <section class="prose" style="padding: 1.5rem 0;">
+    <section class="prose" style="padding-top: 1.5rem;">
       {{ marked(content) | safe }}
     </section>
   </div>

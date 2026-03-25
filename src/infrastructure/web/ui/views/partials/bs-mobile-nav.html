@@ -1,7 +1,7 @@
 <div class="page">
   <details class="mobile-nav">
     <summary><img src="/public/assets/icons/menu.svg" alt="" aria-hidden="true" class="mobile-nav-icon" /> Menu</summary>
-    <div class="mobile-nav-links">
+    <div class="mobile-nav-links" preload preload-images="true">
       {% for item in nav %}
       <a href="{{ item.nav }}" aria-current="{{ 'page' if item.name === page else 'false' }}">
         {{ t(item.translation) }}
