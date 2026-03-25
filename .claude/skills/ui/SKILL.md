@@ -130,12 +130,31 @@ Include via `{% include "partials/bs-nav.html" %}`. Partials inherit the parent 
 
 ## HTMX
 
-### Page-level boost
-Add `hx-boost="true"` on `<main>` to AJAX-ify internal links:
+### Global boost
+`hx-boost="true"` is on `<body>` in `layouts/base.html`. All internal links on public pages are automatically boosted — no need to add `hx-boost` per page or partial.
+
+### Preload
+`hx-ext="preload"` is on `<body>`. Add `preload preload-images="true"` to **inner containers** that hold links (nav, `<main>`, footer) — NOT on `<body>` itself — so the extension re-initializes after each HTMX swap.
 
 ```html
-<main id="main-content" hx-boost="true" preload preload-images="true">
+<main id="main-content" preload preload-images="true">
 ```
+
+### Layout-crossing links
+Links that navigate between layouts (e.g., public → admin) need `hx-boost="false"` to force a full page reload:
+
+```html
+<a href="/admin" hx-boost="false" preload="false">Admin</a>
+```
+
+### Admin layout
+Admin uses a separate `layouts/admin.html` with its own `<body>` (no global boost). Add `hx-boost="true"` on specific containers:
+- Sidebar `<nav>` for navigation
+- `.admin-lang-selector` for language switching
+- Individual `<section>` and `<form>` elements as needed
+
+### File downloads
+`main.js` has an `htmx:beforeRequest` listener that prevents HTMX from intercepting file-download links (PDF, docs, images, etc.) and opens them in a new tab instead.
 
 ### Partial updates
 For filtering, pagination, or search — swap only the relevant container:
@@ -151,14 +170,8 @@ For filtering, pagination, or search — swap only the relevant container:
 Target containers need `aria-live="polite"` for screen reader announcements.
 
 ### Forms
-Forms that redirect on success: standard `method="post"` with `hx-boost="true"`.
+Forms that redirect on success: standard `method="post"` — they inherit `hx-boost` from body (public) or need explicit `hx-boost="true"` (admin).
 Forms that update inline: `hx-post` with `hx-target`.
-
-### Loading indicators
-
-```html
-<span id="loading" class="htmx-indicator" aria-hidden="true">Loading...</span>
-```
 
 ### Key rules
 - `aria-live="polite"` on all swap targets
@@ -172,7 +185,7 @@ Forms that update inline: `hx-post` with `hx-target`.
 - No colors outside the 6-variable palette
 - No CSS/JS frameworks (no Bootstrap, Tailwind)
 - No webfonts or icon fonts
-- No inline `<style>` blocks — all CSS goes in `ui/styles/`
+- No inline `<style>` blocks or `style=""` attributes — all CSS goes in `ui/styles/` as classes
 - No `outline: none` — visible focus states required
 - No `<div>` soup — use semantic elements
 - No images without `alt`
@@ -180,4 +193,4 @@ Forms that update inline: `hx-post` with `hx-target`.
 
 ## Reference Implementation
 
-`src/infrastructure/web/ui/views/pages/variant-2d.html` — canonical example of this design applied to the homepage (note: this variant still uses inline styles — the CSS will move to `main.css` during full redesign).
+`src/infrastructure/web/ui/views/pages/home.html` — canonical example of this design applied to the homepage.
