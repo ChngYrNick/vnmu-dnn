@@ -12,40 +12,44 @@
       {% if data.staff.length === 0 %}
         <p class="no-content">{{ t('pages.staff.noStaff') }}</p>
       {% else %}
-        <div class="staff-grid">
+        <div class="staff-directory">
           {% for member in data.staff %}
-          <article class="staff-card">
+          <article class="staff-row">
             {% if member.profilePicture %}
             <img
               src="{{ member.profilePicture.path }}"
               alt="{{ member.name }}"
-              class="staff-photo"
+              class="staff-portrait"
             />
             {% endif %}
 
-            <h3 class="staff-name">{{ member.name }}</h3>
+            <div class="staff-details">
+              <h3 class="staff-name">{{ member.name }}</h3>
 
-            {% if member.position %}
-            <p class="staff-position">{{ member.position }}</p>
-            {% endif %}
+              {% if member.position %}
+              <p class="staff-position">{{ member.position }}</p>
+              {% endif %}
 
-            {% if member.email %}
-            <p class="staff-contact">
-              <a href="mailto:{{ member.email }}">{{ member.email }}</a>
-            </p>
-            {% endif %}
+              <div class="staff-contacts">
+                {% if member.email %}
+                <span class="staff-contact">
+                  <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                </span>
+                {% endif %}
 
-            {% if member.phone %}
-            <p class="staff-contact">
-              <a href="tel:{{ member.phone }}">{{ member.phone }}</a>
-            </p>
-            {% endif %}
+                {% if member.phone %}
+                <span class="staff-contact">
+                  <a href="tel:{{ member.phone }}">{{ member.phone }}</a>
+                </span>
+                {% endif %}
+              </div>
 
-            {% if member.data %}
-            <div class="prose">
-              {{ marked(member.data) | safe }}
+              {% if member.data %}
+              <div class="prose">
+                {{ marked(member.data) | safe }}
+              </div>
+              {% endif %}
             </div>
-            {% endif %}
           </article>
           {% endfor %}
         </div>

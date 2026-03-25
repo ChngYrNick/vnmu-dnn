@@ -391,47 +391,63 @@ label {
   }
 }
 
-/* --- Staff Grid --- */
+/* --- Staff Directory --- */
 
-.staff-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+.staff-directory {
+  border-top: 1px solid var(--rule);
 }
 
-.staff-card {
-  padding: 1.25rem;
+.staff-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
   border-bottom: 1px solid var(--rule-light);
-  border-right: 1px solid var(--rule-light);
 
-  &:nth-child(3n) {
-    border-right: none;
+  &:last-child {
+    border-bottom: 1px solid var(--rule);
   }
 }
 
-.staff-photo {
-  width: 100px;
-  height: 100px;
+.staff-portrait {
+  width: 160px;
+  height: 200px;
   object-fit: cover;
   display: block;
-  margin-bottom: 0.75rem;
+}
+
+.staff-details {
+  min-width: 0;
 }
 
 .staff-name {
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   font-weight: 700;
+  line-height: 1.2;
   margin-bottom: 0.15rem;
 }
 
 .staff-position {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--fg-light);
   font-style: italic;
+  margin-bottom: 0.5rem;
+}
+
+.staff-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .staff-contact {
   font-size: 0.85rem;
-  margin-top: 0.35rem;
+}
+
+.staff-row .prose {
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 /* --- Pagination --- */
@@ -555,11 +571,16 @@ label {
     font-size: 0.7rem;
   }
 
-  .staff-grid {
-    grid-template-columns: 1fr;
+  .staff-row {
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
   }
 
-  .staff-card {
-    border-right: none;
+  .staff-portrait {
+    width: 120px;
+    height: 150px;
   }
+
+  .staff-name { font-size: 1.15rem; }
 }

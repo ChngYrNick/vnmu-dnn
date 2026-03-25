@@ -217,40 +217,54 @@ Notes:
 </div>
 ```
 
-## Staff Grid
+## Staff Directory
+
+Editorial directory layout — full-width horizontal rows with large portrait photos.
 
 ```html
 <section aria-label="{{ t('nav.staff') }}">
+  <h2 class="col-label">{{ t('nav.staff') }}</h2>
+
   {% if data.staff.length === 0 %}
     <p class="no-content">{{ t('pages.staff.noStaff') }}</p>
   {% else %}
-    <div class="staff-grid">
+    <div class="staff-directory">
       {% for member in data.staff %}
-        <article class="staff-card">
-          {% if member.profilePicture %}
-            <img src="{{ member.profilePicture.path }}"
-              alt="{{ member.name }}"
-              class="staff-photo" />
-          {% endif %}
+      <article class="staff-row">
+        {% if member.profilePicture %}
+        <img src="{{ member.profilePicture.path }}"
+          alt="{{ member.name }}"
+          class="staff-portrait" />
+        {% endif %}
 
+        <div class="staff-details">
           <h3 class="staff-name">{{ member.name }}</h3>
 
           {% if member.position %}
-            <p class="staff-position">{{ member.position }}</p>
+          <p class="staff-position">{{ member.position }}</p>
           {% endif %}
 
-          {% if member.email %}
-            <p class="staff-contact">
+          <div class="staff-contacts">
+            {% if member.email %}
+            <span class="staff-contact">
               <a href="mailto:{{ member.email }}">{{ member.email }}</a>
-            </p>
-          {% endif %}
+            </span>
+            {% endif %}
 
-          {% if member.phone %}
-            <p class="staff-contact">
+            {% if member.phone %}
+            <span class="staff-contact">
               <a href="tel:{{ member.phone }}">{{ member.phone }}</a>
-            </p>
+            </span>
+            {% endif %}
+          </div>
+
+          {% if member.data %}
+          <div class="prose">
+            {{ marked(member.data) | safe }}
+          </div>
           {% endif %}
-        </article>
+        </div>
+      </article>
       {% endfor %}
     </div>
   {% endif %}
