@@ -14,7 +14,7 @@
       href="/public/assets/images/logo.ico"
       type="image/svg+xml"
     />
-    <script type="module" src="../../scripts/main.js"></script>
+    {{ vite('scripts/main.js') | safe }}
   </head>
   <body hx-ext="preload" hx-boost="true">
     {% block content %}{% endblock %}

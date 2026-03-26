@@ -1,18 +1,9 @@
 services:
-  init:
-    image: alpine:3.22.1
-    working_dir: /usr/src/app
-    command: ["/bin/sh", "-c", "mkdir -p dist"]
-    volumes:
-      - ./:/usr/src/app
-
   ui:
     build:
       context: .
       target: dev
-    command: npm run start:ui:dev
-    depends_on:
-      - init
+    command: npx vite
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
@@ -24,7 +15,6 @@ services:
       target: dev
     command: npm run start:server:dev
     depends_on:
-      - init
       - ui
     ports:
       - "${PORT}:${PORT}"
@@ -49,6 +39,6 @@ services:
     volumes:
       - ./config/dev/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./config/dev/nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./dist/public:/var/www/app/public:ro
+      - ./src/infrastructure/web/ui/assets:/var/www/app/public/assets:ro
       - ./uploads:/var/www/app/uploads:ro
     restart: unless-stopped

@@ -6,11 +6,14 @@
   "scripts": {
     "start": "npm run start:server:prod",
     "build": "npm run build:ui:prod",
-    "start:server:dev": "node --inspect --watch-path=./dist --watch src/main.js",
-    "start:ui:dev": "vite build --watch",
+    "start:server:dev": "node --inspect --watch src/main.js",
+    "start:ui:dev": "vite",
     "build:ui:prod": "vite build --emptyOutDir",
     "start:server:prod": "node src/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/",
+    "docker:dev": "./scripts/run-dev.sh",
+    "docker:deploy": "./scripts/deploy.sh"
   },
   "author": "Serhii Moskovko",
   "devDependencies": {
@@ -21,7 +24,11 @@
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-html": "^8.1.2",
     "eslint-plugin-prettier": "^5.2.3",
-    "prettier": "^3.5.2"
+    "glob": "^11.0.1",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.2",
+    "vite": "^6.2.1",
+    "vite-plugin-static-copy": "^2.3.0"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
@@ -33,8 +40,6 @@
     "better-sqlite3": "^11.8.1",
     "easymde": "^2.20.0",
     "fastify": "^5.2.1",
-    "glob": "^11.0.1",
-    "globals": "^16.0.0",
     "htmx-ext-preload": "^2.1.1",
     "htmx.org": "^2.0.4",
     "i18next": "^24.2.3",
@@ -42,8 +47,6 @@
     "i18next-http-middleware": "^3.7.1",
     "marked": "^15.0.11",
     "nunjucks": "^3.2.4",
-    "vite": "^6.2.1",
-    "vite-plugin-static-copy": "^2.3.0",
     "zod": "^4.3.5"
   }
 }

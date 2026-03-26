@@ -9,7 +9,7 @@
       href="/public/assets/images/logo.ico"
       type="image/svg+xml"
     />
-    <script type="module" src="../../scripts/admin.js"></script>
+    {{ vite('scripts/admin.js') | safe }}
   </head>
   <body>
     <div class="admin-layout">
