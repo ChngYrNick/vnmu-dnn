@@ -143,9 +143,14 @@ label {
 }
 
 .field-error {
+  display: none;
   font-size: 0.8rem;
   color: #a02424;
   margin-top: 0.25rem;
+}
+
+.field:has(:user-invalid) .field-error {
+  display: block;
 }
 
 /* --- Alerts --- */
