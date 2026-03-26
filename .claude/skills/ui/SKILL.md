@@ -47,7 +47,7 @@ All styles live in `src/infrastructure/web/ui/styles/`. Use modern CSS (nesting,
 | `main.css` | Global styles — reset, palette, typography, layout primitives, shared components |
 | Page-specific CSS | Only when a page has unique styles not shared anywhere else. Prefer extending `main.css`. |
 
-CSS is imported via `scripts/main.js`, bundled by Vite to `dist/public/styles/`, and PurgeCSS strips unused classes. This means all classes used in templates must actually appear in the HTML for PurgeCSS to keep them.
+CSS is imported via `scripts/main.js`. In dev, Vite dev server injects styles via HMR (instant updates). In prod, Vite bundles CSS to `dist/public/styles/` with hashed filenames. Templates use the `{{ vite('scripts/main.js') | safe }}` helper to load the correct assets.
 
 See `references/base.css` for the complete reference stylesheet.
 

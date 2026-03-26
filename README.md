@@ -39,15 +39,20 @@ DOMAIN=your-domain.com
 Start the development server using the provided script:
 
 ```bash
-# Start development environment
 ./scripts/run-dev.sh
 ```
+
+This starts four Docker services:
+- **ui** — Vite dev server with HMR (CSS/JS changes apply instantly)
+- **server** — Node.js backend with file watching
+- **nginx** — Reverse proxy at http://localhost:8080
 
 ### Production Deployment
 
 Deploy to production using:
 
 ```bash
-# Deploy to production
 ./scripts/deploy.sh
 ```
+
+This builds the Docker images, starts the app and nginx (with auto-SSL via Let's Encrypt), and shares static assets via a Docker volume.
