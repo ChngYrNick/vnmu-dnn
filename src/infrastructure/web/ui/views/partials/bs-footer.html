@@ -1,0 +1,97 @@
+<footer class="footer" role="contentinfo" aria-label="{{ t('footer.title') }}">
+  <div class="page">
+    <div class="footer-header">
+      <img src="/public/assets/images/logo.ico" alt="" aria-hidden="true" class="footer-logo" />
+      <span class="footer-header-title">{{ t('footer.title') }}</span>
+    </div>
+
+    <div class="footer-grid">
+      <div>
+        <h2 class="footer-section-title">{{ t('footer.sections.address') }}</h2>
+        {% for contact in data.contacts %}
+          {% if contact.type === 'geolocation' %}
+          <div class="footer-contact-item">
+            <img src="/public/assets/icons/geo.svg" alt="" aria-hidden="true" />
+            <span>{{ contact.value }}</span>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div>
+        <h2 class="footer-section-title">{{ t('footer.sections.contacts') }}</h2>
+        {% for contact in data.contacts %}
+          {% if contact.type === 'phone' %}
+          <div class="footer-contact-item">
+            <img src="/public/assets/icons/phone.svg" alt="" aria-hidden="true" />
+            <a href="tel:{{ contact.value }}" class="footer-contact-link" aria-label="{{ t('footer.phone') }}: {{ contact.value }}">{{ contact.value }}</a>
+          </div>
+          {% endif %}
+          {% if contact.type === 'fax' %}
+          <div class="footer-contact-item">
+            <img src="/public/assets/icons/printer.svg" alt="" aria-hidden="true" />
+            <a href="tel:{{ contact.value }}" class="footer-contact-link" aria-label="{{ t('footer.fax') }}: {{ contact.value }}">{{ contact.value }}</a>
+          </div>
+          {% endif %}
+          {% if contact.type === 'email' %}
+          <div class="footer-contact-item">
+            <img src="/public/assets/icons/mail.svg" alt="" aria-hidden="true" />
+            <a href="mailto:{{ contact.value }}" class="footer-contact-link" aria-label="{{ t('footer.email') }}: {{ contact.value }}">{{ contact.value }}</a>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div>
+        <h2 class="footer-section-title">{{ t('footer.sections.links') }}</h2>
+        <nav aria-label="{{ t('footer.navigation') }}">
+          <ul class="footer-links" preload preload-images="true">
+            <li><a href="/">{{ t('nav.home') }}</a></li>
+            <li><a href="/about">{{ t('nav.about') }}</a></li>
+            <li><a href="/staff">{{ t('nav.staff') }}</a></li>
+            <li><a href="/news">{{ t('nav.news') }}</a></li>
+            <li><a href="/literature">{{ t('nav.literature') }}</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div>
+        <h2 class="footer-section-title">{{ t('footer.sections.social') }}</h2>
+        <nav aria-label="{{ t('footer.socialNavigation') }}">
+          <ul class="footer-social">
+            <li>
+              <a href="https://www.vnmu.edu.ua/" target="_blank" rel="noopener noreferrer" aria-label="{{ t('footer.social.website') }}">
+                <img src="/public/assets/icons/globe.svg" alt="" aria-hidden="true" />
+                <span>{{ t('footer.social.website') }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/vnmu.official" target="_blank" rel="noopener noreferrer" aria-label="{{ t('footer.social.instagram') }}">
+                <img src="/public/assets/icons/instagram.svg" alt="" aria-hidden="true" />
+                <span>{{ t('footer.social.instagram') }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.facebook.com/profile.php?id=61561976519940" target="_blank" rel="noopener noreferrer" aria-label="{{ t('footer.social.facebook') }}">
+                <img src="/public/assets/icons/facebook.svg" alt="" aria-hidden="true" />
+                <span>{{ t('footer.social.facebook') }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/@MED-MEDIA-li1ws" target="_blank" rel="noopener noreferrer" aria-label="{{ t('footer.social.youtube') }}">
+                <img src="/public/assets/icons/youtube.svg" alt="" aria-hidden="true" />
+                <span>{{ t('footer.social.youtube') }}</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="footer-copyright">
+      <script>
+        document.currentScript.parentElement.textContent = '{{ t('footer.copyright', { year: '__YEAR__' }) }}'.replace('__YEAR__', new Date().getFullYear());
+      </script>
+    </div>
+  </div>
+</footer>

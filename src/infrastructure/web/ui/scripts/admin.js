@@ -1,25 +1,28 @@
 import 'htmx.org';
-import '../styles/admin.scss';
+import '../styles/admin.css';
 import 'easymde/dist/easymde.min.css';
-import { Modal } from 'bootstrap/js/dist/modal.js';
 import { VNMUEditorComponent } from './editor.js';
 import { VNMUFileUploaderComponent } from './file-uploader.js';
 import { VNMUFileUploaderHostComponent } from './file-uploader-host.js';
 
-// Clean up Bootstrap modal scroll lock before HTMX swaps content
+// Clean up open dialogs before HTMX swaps content
 document.addEventListener('htmx:beforeSwap', () => {
-  // Hide any open modals and clean up their scroll lock
-  document.querySelectorAll('.modal.show').forEach((modalEl) => {
-    const modal = Modal.getInstance(modalEl);
-    if (modal) {
-      modal.hide();
-    }
+  document.querySelectorAll('dialog[open]').forEach((dialog) => {
+    dialog.close();
   });
-  // Remove any leftover modal artifacts
-  document.body.classList.remove('modal-open');
-  document.body.style.removeProperty('overflow');
-  document.body.style.removeProperty('padding-right');
-  document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+});
+
+// Event delegation for opening/closing dialogs
+document.addEventListener('click', (e) => {
+  const openBtn = e.target.closest('[data-open-dialog]');
+  if (openBtn) {
+    const dialog = document.getElementById(openBtn.dataset.openDialog);
+    if (dialog) dialog.showModal();
+  }
+  const closeBtn = e.target.closest('[data-close-dialog]');
+  if (closeBtn) {
+    closeBtn.closest('dialog')?.close();
+  }
 });
 
 customElements.define(VNMUEditorComponent.tagName, VNMUEditorComponent);

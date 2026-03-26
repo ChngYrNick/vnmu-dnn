@@ -1,99 +1,61 @@
-{% extends "layouts/admin.html" %} {% block content %}
-<section hx-boost="true" class="row justify-content-center mb-2">
-  <div class="col-md-10 col-lg-8">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2>News</h2>
-      <button
-        type="button"
-        class="btn btn-sm btn-outline-success"
-        data-bs-toggle="modal"
-        data-bs-target="#createNewsModal"
-      >
-        Create
-      </button>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Slug</th>
-            <th>Created At</th>
-            <th>Published At</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in data.news %}
-          <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.slug }}</td>
-            <td>{{ item.createdAt }}</td>
-            <td>{{ item.publishedAt or '-' }}</td>
-            <td>
-              <a
-                href="/admin/news/edit/{{ item.id }}"
-                class="btn btn-outline-secondary btn-sm"
-                >Edit</a
-              >
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+{% extends "layouts/admin.html" %}
+
+{% block content %}
+<section hx-boost="true">
+  <div class="admin-page-header">
+    <h1>{{ t('admin.news.title') }}</h1>
+    <button type="button" class="btn btn-primary btn-sm" data-open-dialog="createNewsDialog">
+      {{ t('admin.actions.create') }}
+    </button>
   </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th scope="col">{{ t('admin.fields.id') }}</th>
+        <th scope="col">{{ t('admin.fields.slug') }}</th>
+        <th scope="col">{{ t('admin.fields.createdAt') }}</th>
+        <th scope="col">{{ t('admin.fields.publishedAt') }}</th>
+        <th scope="col">{{ t('admin.fields.actions') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in data.news %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.slug }}</td>
+        <td>{{ item.createdAt }}</td>
+        <td>{{ item.publishedAt or '-' }}</td>
+        <td>
+          <a href="/admin/news/edit/{{ item.id }}" class="btn btn-sm">
+            {{ t('admin.actions.edit') }}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </section>
 
-<!-- Create News Modal -->
-<div
-  class="modal fade"
-  id="createNewsModal"
-  tabindex="-1"
-  aria-labelledby="createNewsModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createNewsModalLabel">Create News</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <form hx-boost="true" action="/admin/news" method="post">
-        <div class="modal-body">
-          <div class="mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="slug"
-              name="slug"
-              required
-              minlength="2"
-              maxlength="64"
-              placeholder="Enter news slug"
-            />
-            <div class="invalid-feedback">
-              Please provide a valid slug (2-64 characters)
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            data-bs-dismiss="modal"
-          >
-            Cancel
-          </button>
-          <button type="submit" class="btn btn-primary">Create</button>
-        </div>
-      </form>
+<dialog id="createNewsDialog">
+  <h3>{{ t('admin.news.createTitle') }}</h3>
+  <form hx-boost="true" action="/admin/news" method="post">
+    <div class="field">
+      <label for="slug">{{ t('admin.fields.slug') }}</label>
+      <input
+        type="text"
+        id="slug"
+        name="slug"
+        required
+        minlength="2"
+        maxlength="64"
+        placeholder="{{ t('admin.news.enterTitle') }}"
+      />
     </div>
-  </div>
-</div>
+    <div class="dialog-actions">
+      <button type="button" class="btn" data-close-dialog>{{ t('admin.actions.cancel') }}</button>
+      <button type="submit" class="btn btn-primary">{{ t('admin.actions.create') }}</button>
+    </div>
+  </form>
+</dialog>
 {% endblock %}

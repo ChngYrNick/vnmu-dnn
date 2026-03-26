@@ -1,0 +1,37 @@
+<header class="masthead">
+  <div class="page">
+    <a href="/" class="masthead-title">{{ t('title') }}</a>
+    <p class="masthead-sub">{{ t('meta.description') }}</p>
+  </div>
+</header>
+
+<div class="page">
+  <div class="dateline" preload preload-images="true">
+    <span>
+      <span class="lang-switch" role="radiogroup" aria-label="Language">
+        {% for item in supportedLangs %}
+          {% if item.code === i18n.resolvedLanguage %}
+            <span class="lang-switch-active" aria-current="true">{{ item.code }}</span>
+          {% else %}
+            <a href="#" class="lang-switch-link"
+              hx-post="/change-language" hx-vals='{"language":"{{ item.code }}"}'
+              hx-target="body">{{ item.code }}</a>
+          {% endif %}
+          {% if not loop.last %}<span class="lang-switch-sep">/</span>{% endif %}
+        {% endfor %}
+      </span>
+      {% if user.role === Roles.ADMIN %}
+        <a href="/admin" class="dateline-admin" hx-boost="false" preload="false">{{ t('nav.admin') }}</a>
+      {% endif %}
+    </span>
+    <span class="dateline-auth">
+      {% if user %}
+        <a href="/profile">{{ t('nav.profile') }}</a>
+        <a href="#" hx-post="/logout" hx-target="body">{{ t('nav.logout') }}</a>
+      {% else %}
+        <a href="/sign-in">{{ t('nav.signin') }}</a>
+        <a href="/sign-up">{{ t('nav.signup') }}</a>
+      {% endif %}
+    </span>
+  </div>
+</div>

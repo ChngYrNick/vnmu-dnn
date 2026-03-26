@@ -1,138 +1,98 @@
-{% extends "layouts/base.html" %} {% block content %}
+{% extends "layouts/base.html" %}
 
-<main hx-boost="true" preload preload-images="true" class="container mt-3">
-  <div class="row justify-content-center">
-    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
-      <div class="card shadow-sm border-0 mb-5">
-        <div class="card-body p-4 p-md-5">
-          <div class="d-flex flex-column">
-            <a
-              class="blog-header-logo text-body-emphasis text-decoration-none mb-2 mx-auto"
-              href="/"
-            >
-              <img
-                class="d-block"
-                style="height: 50px;"
-                height="50"
-                src="public/assets/images/logo.ico"
-                alt="Logo"
-              />
-            </a>
-            <h2 class="fw-bold text-center">
-              {{ t('pages.signUp.createAccount') }}
-            </h2>
-            <p class="text-muted text-center">
-              {{ t('pages.signUp.fillInfo') }}
-            </p>
+{% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
 
-            {% if error %}
-            <div
-              class="alert alert-danger"
-              style="padding: 0.375rem 0.75rem"
-              role="alert"
-            >
-              {{ error }}
-            </div>
-            {% endif %}
-          </div>
+<main id="main-content" preload preload-images="true">
+  <div class="form-card">
+    <h1 class="form-title">{{ t('pages.signUp.createAccount') }}</h1>
+    <p class="form-sub">{{ t('pages.signUp.fillInfo') }}</p>
 
-          <vnmu-form-container>
-            <form id="signupForm" action="/sign-up" method="post">
-              <div class="mb-3">
-                <label for="fullName" class="form-label"
-                  >{{ t('pages.signUp.fullName') }}</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="fullName"
-                  placeholder="{{ t('pages.signUp.enterFullName') }}"
-                  required
-                  minlength="2"
-                  maxlength="64"
-                  autocomplete="name"
-                  name="fullName"
-                />
-                <div class="invalid-feedback">
-                  {{ t('pages.signUp.errors.fullName') }}
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label"
-                  >{{ t('pages.signUp.email') }}</label
-                >
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  placeholder="{{ t('pages.signUp.enterEmail') }}"
-                  required
-                  name="email"
-                />
-                <div class="invalid-feedback">
-                  {{ t('pages.signUp.errors.email') }}
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label"
-                  >{{ t('pages.signUp.password') }}</label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  placeholder="{{ t('pages.signUp.enterPassword') }}"
-                  required
-                  minlength="8"
-                  maxlength="64"
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  autocomplete="new-password"
-                  name="password"
-                />
-                <div class="invalid-feedback">
-                  {{ t('pages.signUp.errors.password') }}
-                </div>
-              </div>
-
-              <div class="mb-4">
-                <label for="repeatPassword" class="form-label"
-                  >{{ t('pages.signUp.passwordRepeat') }}</label
-                >
-                <input
-                  type="password"
-                  class="form-control"
-                  id="repeatPassword"
-                  placeholder="{{ t('pages.signUp.enterPasswordRepeat') }}"
-                  required
-                  autocomplete="new-password"
-                  name="repeatPassword"
-                />
-                <div class="invalid-feedback">
-                  {{ t('pages.signUp.errors.passwordRepeat') }}
-                </div>
-              </div>
-
-              <div class="d-grid">
-                <button type="submit" class="btn btn-primary">
-                  {{ t('pages.signUp.signUp') }}
-                </button>
-              </div>
-
-              <div class="text-center mt-4">
-                <p class="mb-0">
-                  {{ t('pages.signUp.goSignIn') }}
-                  <a href="/sign-in" class="text-primary"
-                    >{{ t('pages.signUp.signIn') }}</a
-                  >
-                </p>
-              </div>
-            </form>
-          </vnmu-form-container>
-        </div>
-      </div>
+    {% if error %}
+    <div class="alert alert-error" role="alert">
+      {{ error }}
     </div>
+    {% endif %}
+
+    <vnmu-form-container>
+      <form id="signupForm" action="/sign-up" method="post">
+        <div class="field">
+          <label for="fullName">{{ t('pages.signUp.fullName') }}</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="{{ t('pages.signUp.enterFullName') }}"
+            value="{{ fullName }}"
+            required
+            aria-required="true"
+            minlength="2"
+            maxlength="64"
+            autocomplete="name"
+          />
+          <div class="field-error">{{ t('pages.signUp.errors.fullName') }}</div>
+        </div>
+
+        <div class="field">
+          <label for="email">{{ t('pages.signUp.email') }}</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="{{ t('pages.signUp.enterEmail') }}"
+            value="{{ email }}"
+            required
+            aria-required="true"
+          />
+          <div class="field-error">{{ t('pages.signUp.errors.email') }}</div>
+        </div>
+
+        <div class="field">
+          <label for="password">{{ t('pages.signUp.password') }}</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="{{ t('pages.signUp.enterPassword') }}"
+            required
+            aria-required="true"
+            minlength="8"
+            maxlength="64"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            autocomplete="new-password"
+          />
+          <div class="field-error">{{ t('pages.signUp.errors.password') }}</div>
+        </div>
+
+        <div class="field">
+          <label for="repeatPassword">{{ t('pages.signUp.passwordRepeat') }}</label>
+          <input
+            type="password"
+            id="repeatPassword"
+            name="repeatPassword"
+            placeholder="{{ t('pages.signUp.enterPasswordRepeat') }}"
+            required
+            aria-required="true"
+            autocomplete="new-password"
+          />
+          <div class="field-error">{{ t('pages.signUp.errors.passwordRepeat') }}</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          {{ t('pages.signUp.signUp') }}
+        </button>
+
+        <p class="form-footer">
+          {{ t('pages.signUp.goSignIn') }}
+          <a href="/sign-in">{{ t('pages.signUp.signIn') }}</a>
+        </p>
+      </form>
+    </vnmu-form-container>
   </div>
 </main>
+
+{% include "partials/bs-footer.html" %}
 {% endblock %}

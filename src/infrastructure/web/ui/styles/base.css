@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Broadsheet Design System — Shared Base
+   Imported by both main.css and admin.css
+   ========================================================================== */
+
+/* --- Reset --- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- Design Tokens --- */
+
+:root {
+  --bg: #f7f5f0;
+  --fg: #1c1c1c;
+  --fg-light: #5c5c5c;
+  --rule: #1c1c1c;
+  --rule-light: #c8c3b8;
+  --accent: #2454a0;
+  --accent-admin: #b33a3a;
+}
+
+/* --- Base --- */
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Georgia',
+    'Times New Roman', serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* --- Buttons --- */
+
+.btn {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: inherit;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--fg);
+    color: var(--bg);
+    text-decoration: none;
+  }
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  color: var(--accent);
+
+  &:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+}
+
+.btn-danger {
+  border-color: #a02424;
+  color: #a02424;
+
+  &:hover {
+    background: #a02424;
+    color: #fff;
+  }
+}
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+}
+
+/* --- Forms --- */
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--rule-light);
+  background: var(--bg);
+  color: var(--fg);
+  width: 100%;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: var(--accent);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+  color: var(--fg);
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field-error {
+  display: none;
+  font-size: 0.8rem;
+  color: #a02424;
+  margin-top: 0.25rem;
+}
+
+.field:has(:user-invalid) .field-error {
+  display: block;
+}
+
+/* --- Alerts --- */
+
+.alert {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.alert-error {
+  border-color: #a02424;
+  color: #a02424;
+}
+
+.alert-info {
+  border-color: var(--fg-light);
+  color: var(--fg-light);
+}
+
+/* --- HTMX --- */
+
+.htmx-indicator {
+  display: none;
+}
+
+:is(.htmx-request) .htmx-indicator,
+.htmx-request.htmx-indicator {
+  display: inline;
+}
+
+/* --- Focus --- */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* --- Utility --- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

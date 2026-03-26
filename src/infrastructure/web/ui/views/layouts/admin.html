@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ i18n.resolvedLanguage }}">
   <head>
-    <title>Admin Dashboard</title>
+    <title>{{ t('admin.title') }}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -12,45 +12,33 @@
     <script type="module" src="../../scripts/admin.js"></script>
   </head>
   <body>
-    <div class="alert alert-warning d-xs-flex d-sm-none" role="alert">
-      Not supported for mobile view
-    </div>
+    <div class="admin-layout">
+      <header class="admin-header">
+        <span class="admin-header-title">
+          <a href="/admin" hx-boost="true">{{ t('admin.title') }}</a>
+        </span>
+        <span class="admin-header-meta">
+          <a href="/">{{ t('admin.backToSite') }}</a>
+          <a href="#" hx-post="/logout" hx-target="body">{{ t('nav.logout') }}</a>
+        </span>
+      </header>
 
-    <header
-      class="d-none d-sm-flex navbar sticky-top bg-dark flex-sm-nowrap p-0 shadow"
-    >
-      <div class="navbar-brand py-2 px-3 col-sm-3 col-xl-2">
-        <a href="/" class="text-decoration-none link-light text-wrap">
-          VNMU DNN
-        </a>
-      </div>
-    </header>
+      <aside class="admin-sidebar">
+        <nav aria-label="{{ t('admin.title') }}" hx-boost="true">
+          {% for item in adminNav %}
+          <a
+            href="{{ item.nav }}"
+            aria-current="{{ 'page' if item.name === page else 'false' }}"
+          >
+            {{ t(item.translation) }}
+          </a>
+          {% endfor %}
+        </nav>
+      </aside>
 
-    <div class="container-fluid d-none d-sm-block">
-      <div class="row">
-        <div
-          hx-boost="true"
-          class="sidebar border border-right col-sm-3 col-xl-2 p-0 bg-body-tertiary"
-        >
-          <ul class="nav flex-column sidebar__sticky">
-            {% for item in adminNav %}
-
-            <li class="nav-item">
-              <a
-                class="nav-link gap-2 {% if item.name === page %}active{% endif %}"
-                href="{{ item.nav }}"
-              >
-                {{ item.name }}
-              </a>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-
-        <main class="col-sm-9 col-xl-10 p-4">
-          {% block content %}{% endblock %}
-        </main>
-      </div>
+      <main class="admin-main">
+        {% block content %}{% endblock %}
+      </main>
     </div>
   </body>
 </html>

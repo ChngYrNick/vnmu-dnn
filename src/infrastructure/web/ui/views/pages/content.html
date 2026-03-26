@@ -1,7 +1,18 @@
-{% extends "layouts/base.html" %} {% block content %} {% include
-"partials/header.html" %}
-<main class="container mt-3 flex-grow-1">
-  <section>{{ marked(content) | safe }}</section>
+{% extends "layouts/base.html" %}
+
+{% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
+
+<main id="main-content" preload preload-images="true">
+  <div class="page">
+    <section class="prose page-section">
+      {{ marked(content) | safe }}
+    </section>
+  </div>
 </main>
 
-{% include "partials/footer.html" %} {% endblock %}
+{% include "partials/bs-footer.html" %}
+{% endblock %}

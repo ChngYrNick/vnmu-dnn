@@ -1,97 +1,61 @@
-{% extends "layouts/admin.html" %} {% block content %}
-<section class="row justify-content-center mb-2" hx-boost="true">
-  <div class="col-md-10 col-lg-8">
-    <h2>Contacts</h2>
+{% extends "layouts/admin.html" %}
 
-    <form id="contactForm" class="mb-4" action="/admin/contacts" method="post">
-      <div class="row g-2">
-        <div class="col-md-3 col-sm-4">
-          <select
-            name="type"
-            id="contactType"
-            class="form-select form-select-sm"
-            required
-          >
-            <option value="" disabled selected>Select contact type</option>
-            <option value="phone">Phone</option>
-            <option value="email">Email</option>
-            <option value="fax">Fax</option>
-            <option value="geolocation">Geolocation</option>
-          </select>
-        </div>
-        <div class="col-md-8 col-sm-6">
-          <input
-            name="value"
-            type="text"
-            id="contactValue"
-            class="form-control form-control-sm"
-            placeholder="Enter contact value"
-            required
-          />
-        </div>
-        <div class="col-md-1 col-sm-2">
-          <button type="submit" class="btn btn-sm btn-outline-success w-100">
-            Add
-          </button>
-        </div>
-      </div>
-    </form>
-
-    <div id="contactsList">
-      <ul class="list-group list-group-sm">
-        {% for contact in data %}
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center py-2"
-        >
-          <div class="d-flex align-items-center">
-            {% if contact.type === 'phone' %}
-
-            <img
-              class="d-block"
-              height="15"
-              src="/public/assets/icons/phone.svg"
-              alt="phone"
-            />
-            {% endif %} {% if contact.type === 'fax' %}
-
-            <img
-              class="d-block"
-              height="15"
-              src="/public/assets/icons/printer.svg"
-              alt="printer"
-            />
-            {% endif %} {% if contact.type === 'email' %}
-
-            <img
-              class="d-block"
-              height="15"
-              src="/public/assets/icons/mail.svg"
-              alt="mail"
-            />
-            {% endif %} {% if contact.type === 'geolocation' %}
-
-            <img
-              class="d-block"
-              height="15"
-              src="/public/assets/icons/geo.svg"
-              alt="geolocation"
-            />
-            {% endif %}
-
-            <span class="flex-grow-1 small ms-2">{{ contact.value }}</span>
-          </div>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-danger"
-            hx-delete="/admin/contacts?contactId={{ contact.id }}"
-            hx-target="body"
-          >
-            Delete
-          </button>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
+{% block content %}
+<section hx-boost="true">
+  <div class="admin-page-header">
+    <h1>{{ t('admin.contacts.title') }}</h1>
   </div>
+
+  <form id="contactForm" action="/admin/contacts" method="post" class="admin-contact-form">
+    <div class="admin-contact-form-grid">
+      <div class="field">
+        <label for="contactType">{{ t('admin.fields.type') }}</label>
+        <select name="type" id="contactType" required>
+          <option value="" disabled selected>{{ t('admin.contacts.selectType') }}</option>
+          <option value="phone">{{ t('admin.contacts.phone') }}</option>
+          <option value="email">{{ t('admin.contacts.email') }}</option>
+          <option value="fax">{{ t('admin.contacts.fax') }}</option>
+          <option value="geolocation">{{ t('admin.contacts.geolocation') }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="contactValue">{{ t('admin.fields.value') }}</label>
+        <input name="value" type="text" id="contactValue" placeholder="{{ t('admin.contacts.enterValue') }}" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn-sm">
+        {{ t('admin.actions.add') }}
+      </button>
+    </div>
+  </form>
+
+  <ul class="admin-contact-list">
+    {% for contact in data %}
+    <li class="admin-contact-item">
+      <span class="admin-contact-item-info">
+        {% if contact.type === 'phone' %}
+        <img height="15" src="/public/assets/icons/phone.svg" alt="" aria-hidden="true" />
+        {% endif %}
+        {% if contact.type === 'fax' %}
+        <img height="15" src="/public/assets/icons/printer.svg" alt="" aria-hidden="true" />
+        {% endif %}
+        {% if contact.type === 'email' %}
+        <img height="15" src="/public/assets/icons/mail.svg" alt="" aria-hidden="true" />
+        {% endif %}
+        {% if contact.type === 'geolocation' %}
+        <img height="15" src="/public/assets/icons/geo.svg" alt="" aria-hidden="true" />
+        {% endif %}
+        {{ contact.value }}
+      </span>
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        hx-delete="/admin/contacts?contactId={{ contact.id }}"
+        hx-target="body"
+      >
+        {{ t('admin.actions.delete') }}
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
 </section>
 {% endblock %}

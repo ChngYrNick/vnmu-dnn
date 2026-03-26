@@ -1,36 +1,20 @@
-{% extends "layouts/base.html" %} {% block content %}
+{% extends "layouts/base.html" %}
 
-<main hx-boost="true" preload preload-images="true" class="container mt-3">
-  <div class="row justify-content-center">
-    <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 col-xxl-5">
-      <div class="card shadow-sm border-0 mb-5">
-        <div class="card-body p-4 p-md-5">
-          <div class="d-flex flex-column align-items-center">
-            <a
-              class="blog-header-logo text-body-emphasis text-decoration-none mb-2"
-              href="/"
-            >
-              <img
-                class="d-block"
-                style="height: 50px;"
-                height="50"
-                src="public/assets/images/logo.ico"
-                alt="Logo"
-              />
-            </a>
-            <h2 class="fw-bold">{{ title }}</h2>
-            <p class="text-muted">{{ description }}</p>
-          </div>
+{% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
 
-          <div class="d-grid">
-            <a href="/" class="btn btn-primary">
-              {{ t('pages.message.goHome') }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+<main id="main-content" preload preload-images="true">
+  <div class="centered-card">
+    <h1 class="centered-card-title">{{ title }}</h1>
+    <p class="centered-card-desc">{{ description }}</p>
+    <a href="/" class="btn btn-primary">
+      {{ t('pages.message.goHome') }}
+    </a>
   </div>
 </main>
 
+{% include "partials/bs-footer.html" %}
 {% endblock %}

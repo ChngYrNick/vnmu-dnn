@@ -236,7 +236,9 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.get('/sign-up', async (request, reply) => {
-    const { error } = request.query;
+    const { error, fullName, email } = request.query;
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
 
     return reply
       .header('Vary', 'Cookie')
@@ -244,12 +246,17 @@ const setupRoutes = async (fastify) => {
       .view('pages/sign-up.html', {
         page: PAGES.SignUp,
         error,
+        fullName,
+        email,
         title: request.i18n.t('nav.signup'),
+        data: { contacts },
       });
   });
 
   fastify.get('/sign-in', async (request, reply) => {
-    const { error } = request.query;
+    const { error, email } = request.query;
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
 
     return reply
       .header('Vary', 'Cookie')
@@ -257,7 +264,9 @@ const setupRoutes = async (fastify) => {
       .view('pages/sign-in.html', {
         page: PAGES.SignIn,
         error,
+        email,
         title: request.i18n.t('nav.signin'),
+        data: { contacts },
       });
   });
 
@@ -275,6 +284,9 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.get('/profile-update-success', async (request, reply) => {
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
@@ -284,10 +296,14 @@ const setupRoutes = async (fastify) => {
         description: request.t(
           'pages.message.profileUpdateSuccess.description',
         ),
+        data: { contacts },
       });
   });
 
   fastify.get('/sign-up-success', async (request, reply) => {
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
@@ -295,6 +311,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Message,
         title: request.t('pages.message.signUpSuccess.title'),
         description: request.t('pages.message.signUpSuccess.description'),
+        data: { contacts },
       });
   });
 
@@ -310,10 +327,12 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.post('/sign-in', async (request, reply) => {
+    const { email } = request.body;
     const result = signInSchema.safeParse(request.body);
     if (!result.success) {
       const params = new URLSearchParams({
         error: result.error.issues[0]?.message || 'Invalid input',
+        ...(email && { email }),
       });
       return reply.redirect(`/sign-in?${params.toString()}`);
     }
@@ -323,15 +342,21 @@ const setupRoutes = async (fastify) => {
       return reply.redirect('/');
     }
     const { description } = request.di.errorService.handle(error);
-    const params = new URLSearchParams({ error: description });
+    const params = new URLSearchParams({
+      error: description,
+      ...(email && { email }),
+    });
     return reply.redirect(`/sign-in?${params.toString()}`);
   });
 
   fastify.post('/sign-up', async (request, reply) => {
+    const { fullName, email } = request.body;
     const result = signUpSchema.safeParse(request.body);
     if (!result.success) {
       const params = new URLSearchParams({
         error: result.error.issues[0]?.message || 'Invalid input',
+        ...(fullName && { fullName }),
+        ...(email && { email }),
       });
       return reply.redirect(`/sign-up?${params.toString()}`);
     }
@@ -341,7 +366,11 @@ const setupRoutes = async (fastify) => {
       return reply.redirect('/sign-up-success');
     }
     const { description } = request.di.errorService.handle(error);
-    const params = new URLSearchParams({ error: description });
+    const params = new URLSearchParams({
+      error: description,
+      ...(fullName && { fullName }),
+      ...(email && { email }),
+    });
     return reply.redirect(`/sign-up?${params.toString()}`);
   });
 
