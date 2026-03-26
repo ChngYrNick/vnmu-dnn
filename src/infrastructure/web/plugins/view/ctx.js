@@ -1,6 +1,7 @@
 import { marked } from 'marked';
 import { Roles } from '../../../../domain/roles.js';
 import { ADMIN_PAGES, PAGES } from './pages.js';
+import { vite } from './vite.js';
 
 const nav = [
   { name: PAGES.Home, nav: '/', translation: 'nav.home' },
@@ -59,6 +60,7 @@ const ctx = {
   formatDate,
   truncate,
   striptags,
+  vite,
 };
 
 export { ctx };

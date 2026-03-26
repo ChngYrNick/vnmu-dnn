@@ -24,6 +24,7 @@ const init = async (fastify) => {
   const { queryLoaderService, setupRepo } = fastify.di;
 
   await queryLoaderService.init();
+  fastify.addHook('onClose', () => queryLoaderService.close());
 
   if (fastify.initDB) {
     await setupRepo.exec();

@@ -17,6 +17,7 @@ const setupDB = async (fastify) => {
     req.di.db = db;
     done();
   });
+  fastify.addHook('onClose', () => db.close());
 };
 
 export { setupDB };

@@ -1,9 +1,11 @@
 import path from 'node:path';
 import fs from 'node:fs/promises';
+import { watch } from 'node:fs';
 
 class QueryLoaderService {
   #store = new Map();
   #rootPath = '';
+  #watcher = null;
 
   constructor(rootPath) {
     this.#rootPath = rootPath;
@@ -11,6 +13,28 @@ class QueryLoaderService {
 
   async init() {
     await this.#load(this.#rootPath);
+
+    if (process.env.NODE_ENV !== 'production') {
+      this.#watch();
+    }
+  }
+
+  #watch() {
+    this.#watcher = watch(
+      this.#rootPath,
+      { recursive: true },
+      async (eventType, filename) => {
+        if (!filename || !filename.endsWith('.sql')) return;
+
+        const fullPath = path.join(this.#rootPath, filename);
+        try {
+          const content = await fs.readFile(fullPath, 'utf8');
+          this.#store.set(filename, content);
+        } catch {
+          this.#store.delete(filename);
+        }
+      },
+    );
   }
 
   async #load(dirPath) {
@@ -33,6 +57,10 @@ class QueryLoaderService {
 
   get(filePath) {
     return this.#store.get(filePath);
+  }
+
+  close() {
+    this.#watcher?.close();
   }
 }
 

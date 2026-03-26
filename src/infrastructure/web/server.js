@@ -8,6 +8,15 @@ const start = async () => {
 
   await init(fastify);
 
+  const shutdown = async () => {
+    fastify.log.info('Shutting down...');
+    await fastify.close();
+    process.exit(0);
+  };
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+
   fastify.listen({ port, host }, (err) => {
     if (err) {
       fastify.log.error(err);

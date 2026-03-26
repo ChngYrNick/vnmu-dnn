@@ -44,7 +44,7 @@ const setupPlugins = async (fastify) => {
 
   fastify.register(fastifyView, {
     engine: { nunjucks },
-    root: path.join(process.cwd(), 'dist/views'),
+    root: path.join(process.cwd(), 'src/infrastructure/web/ui/views'),
     production: process.env.NODE_ENV === 'production',
     defaultContext: {
       ...ctx,
