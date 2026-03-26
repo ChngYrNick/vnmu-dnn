@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 - Build: `npm run build`
-- Dev: `npm run dev`
-- Lint: `npx eslint src/**/*.js`
+- Lint: `npm run lint`
+- Format: `npm run format`
 - Type check: `npx tsc --noEmit`
 
 ### Docker Development
@@ -18,7 +18,7 @@ docker compose -f docker-compose.dev.yml down            # Stop services
 ### Individual Dev Servers (without Docker)
 ```bash
 npm run start:server:dev    # Backend with hot reload (port 3000, debugger on 9229)
-npm run start:ui:dev        # Vite frontend dev server
+npm run start:ui:dev        # Vite dev server with HMR
 ```
 
 ## Code Style
@@ -50,8 +50,9 @@ SQLite with better-sqlite3 (synchronous). Schema in `src/infrastructure/repos/se
 
 ### Web Layer
 - **Routes**: All routes defined in `src/infrastructure/web/setup/routes.js`
-- **Views**: Nunjucks templates in `src/infrastructure/web/ui/views/`
-- **Frontend**: HTMX for dynamic updates, Vite builds to `dist/`
+- **Views**: Nunjucks templates in `src/infrastructure/web/ui/views/` (served from source in both dev and prod)
+- **Frontend**: HTMX for dynamic updates, Vite for asset bundling
+- **Asset pipeline**: Templates use `{{ vite('scripts/main.js') | safe }}` helper. In dev, this injects Vite dev server script tags (HMR). In prod, it reads `dist/.vite/manifest.json` for hashed asset paths. See `src/infrastructure/web/plugins/view/vite.js`.
 
 ### i18n
 i18next with English (`en`) and Ukrainian (`uk`) locales in `src/infrastructure/web/locales/`. Access via `request.t()` in routes or `t()` helper in templates.
