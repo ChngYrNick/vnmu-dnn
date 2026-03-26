@@ -1,11 +1,13 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
+
 <main id="main-content" preload preload-images="true">
   <div class="form-card">
-    <a href="/" class="form-card-logo">
-      <img class="centered-card-logo" height="50" src="public/assets/images/logo.ico" alt="{{ t('title') }}" />
-    </a>
     <h1 class="form-title">{{ t('pages.signUp.createAccount') }}</h1>
     <p class="form-sub">{{ t('pages.signUp.fillInfo') }}</p>
 
@@ -89,4 +91,6 @@
     </vnmu-form-container>
   </div>
 </main>
+
+{% include "partials/bs-footer.html" %}
 {% endblock %}

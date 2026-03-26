@@ -237,6 +237,8 @@ const setupRoutes = async (fastify) => {
 
   fastify.get('/sign-up', async (request, reply) => {
     const { error } = request.query;
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
 
     return reply
       .header('Vary', 'Cookie')
@@ -245,11 +247,14 @@ const setupRoutes = async (fastify) => {
         page: PAGES.SignUp,
         error,
         title: request.i18n.t('nav.signup'),
+        data: { contacts },
       });
   });
 
   fastify.get('/sign-in', async (request, reply) => {
     const { error } = request.query;
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
 
     return reply
       .header('Vary', 'Cookie')
@@ -258,6 +263,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.SignIn,
         error,
         title: request.i18n.t('nav.signin'),
+        data: { contacts },
       });
   });
 
@@ -275,6 +281,9 @@ const setupRoutes = async (fastify) => {
   });
 
   fastify.get('/profile-update-success', async (request, reply) => {
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
@@ -284,10 +293,14 @@ const setupRoutes = async (fastify) => {
         description: request.t(
           'pages.message.profileUpdateSuccess.description',
         ),
+        data: { contacts },
       });
   });
 
   fastify.get('/sign-up-success', async (request, reply) => {
+    const contactsUseCase = new GetContactsUseCase(request.di);
+    const contacts = await contactsUseCase.exec();
+
     return reply
       .header('Vary', 'Cookie')
       .header('Cache-Control', 'private, max-age=300')
@@ -295,6 +308,7 @@ const setupRoutes = async (fastify) => {
         page: PAGES.Message,
         title: request.t('pages.message.signUpSuccess.title'),
         description: request.t('pages.message.signUpSuccess.description'),
+        data: { contacts },
       });
   });
 

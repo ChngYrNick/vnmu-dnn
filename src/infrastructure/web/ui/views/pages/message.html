@@ -1,11 +1,13 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
+{% include "partials/bs-skip-link.html" %}
+{% include "partials/bs-masthead.html" %}
+{% include "partials/bs-nav.html" %}
+{% include "partials/bs-mobile-nav.html" %}
+
 <main id="main-content" preload preload-images="true">
   <div class="centered-card">
-    <a href="/">
-      <img class="centered-card-logo" height="50" src="public/assets/images/logo.ico" alt="{{ t('title') }}" />
-    </a>
     <h1 class="centered-card-title">{{ title }}</h1>
     <p class="centered-card-desc">{{ description }}</p>
     <a href="/" class="btn btn-primary">
@@ -13,4 +15,6 @@
     </a>
   </div>
 </main>
+
+{% include "partials/bs-footer.html" %}
 {% endblock %}
