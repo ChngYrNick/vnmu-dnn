@@ -35,6 +35,11 @@ function vite(entrypoint) {
     for (const importKey of entry.imports) {
       const chunk = m[importKey];
       if (chunk) {
+        if (chunk.css) {
+          for (const cssFile of chunk.css) {
+            html += `<link rel="stylesheet" crossorigin href="/${cssFile}">\n`;
+          }
+        }
         html += `<link rel="modulepreload" crossorigin href="/${chunk.file}">\n`;
       }
     }
