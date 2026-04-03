@@ -810,7 +810,7 @@
 
   .article-featured h3 { font-size: 1.35rem; }
 
-  .form-card { margin: 1rem auto; padding: 1.5rem; }
+  .form-card { margin: 1rem auto; padding: 1.5rem; border: none; }
   .centered-card { margin: 2rem auto; }
 }
 
