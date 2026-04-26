@@ -9,7 +9,7 @@ server {
 
   # Let's Encrypt challenge
   location /.well-known/acme-challenge/ {
-    root /var/www/certbot;
+    root /var/www/letsencrypt;
   }
 
   # Redirect to HTTPS
